@@ -5,4 +5,13 @@
     <url>/2022/08/23/test/</url>
     <content><![CDATA[]]></content>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2022/08/23/HWS-Crypto/</url>
+    <content><![CDATA[<h2 id="hws-crypto"><a class="markdownIt-Anchor" href="#hws-crypto"></a> HWS-Crypto</h2>
+<h4 id="hws-easyrsa"><a class="markdownIt-Anchor" href="#hws-easyrsa"></a> HWS-easyRSA</h4>
+<h5 id="解题过程"><a class="markdownIt-Anchor" href="#解题过程"></a> 解题过程：</h5>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">m = <span class="number">31893593182018727625473530765941216190921866039118147474754069955393226712079257707838327486268599271803</span></span><br><span class="line">seed0 = <span class="number">25820280412859586557218124484272275594433027771091486422152141535682739897353623931875432576083022273940</span></span><br><span class="line">seed1 = <span class="number">24295465524789348024814588142969609603624462580932512051939198335014954252359986260009296537423802567677</span></span><br><span class="line">seed2 = <span class="number">14963686422550871447791815183480974143372785034397446416396172429864269108509521776424254168481536292904</span></span><br><span class="line"></span><br><span class="line">a = (seed2 - seed1) * gmpy2.invert(seed1 - seed0, m) % m</span><br><span class="line">b = (seed1 - a * seed0) % m</span><br><span class="line"></span><br><span class="line">MMI = <span class="keyword">lambda</span> A, m, s=<span class="number">1</span>, t=<span class="number">0</span>, N=<span class="number">0</span>: (m &lt; <span class="number">2</span> <span class="keyword">and</span> t % N <span class="keyword">or</span> MMI(m, A % m, t, s - A // m * t, N <span class="keyword">or</span> m), -<span class="number">1</span>)[m &lt; <span class="number">1</span>]  <span class="comment"># 逆元计算</span></span><br><span class="line">ani = MMI(a, m)</span><br><span class="line">seed = seed2</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    seed = (ani * (seed - b)) % m</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(seed))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
 </search>
