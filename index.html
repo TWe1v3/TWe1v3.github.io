@@ -132,6 +132,11 @@
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
   </nav>
 </div>
   <div class="links-of-author site-overview-item animated">
@@ -192,7 +197,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2022/08/23/HWS-Crypto/">
+    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2022/08/25/HWS-Crypto/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/twe1v3.gif">
@@ -210,7 +215,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/23/HWS-Crypto/" class="post-title-link" itemprop="url">未命名</a>
+          <a href="/2022/08/25/HWS-Crypto/" class="post-title-link" itemprop="url">HWS-Crypto</a>
         </h2>
 
         <div class="post-meta-container">
@@ -222,7 +227,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-08-23 09:53:21 / 修改时间：09:58:27" itemprop="dateCreated datePublished" datetime="2022-08-23T09:53:21+08:00">2022-08-23</time>
+      <time title="创建时间：2022-08-25 01:20:13 / 修改时间：01:22:12" itemprop="dateCreated datePublished" datetime="2022-08-25T01:20:13+08:00">2022-08-25</time>
     </span>
 
   
@@ -232,7 +237,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>771</span>
+      <span>757</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -250,9 +255,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <hr>
-<h2 id="hws-crypto"><a class="markdownIt-Anchor" href="#hws-crypto"></a> HWS-Crypto</h2>
-<h2 id="hws-crypto-2"><a class="markdownIt-Anchor" href="#hws-crypto-2"></a> HWS-Crypto</h2>
+          <h3 id="crypto"><a class="markdownIt-Anchor" href="#crypto"></a> Crypto</h3>
 <h4 id="hws-easyrsa"><a class="markdownIt-Anchor" href="#hws-easyrsa"></a> HWS-easyRSA</h4>
 <h5 id="解题过程"><a class="markdownIt-Anchor" href="#解题过程"></a> 解题过程：</h5>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">m = <span class="number">31893593182018727625473530765941216190921866039118147474754069955393226712079257707838327486268599271803</span></span><br><span class="line">seed0 = <span class="number">25820280412859586557218124484272275594433027771091486422152141535682739897353623931875432576083022273940</span></span><br><span class="line">seed1 = <span class="number">24295465524789348024814588142969609603624462580932512051939198335014954252359986260009296537423802567677</span></span><br><span class="line">seed2 = <span class="number">14963686422550871447791815183480974143372785034397446416396172429864269108509521776424254168481536292904</span></span><br><span class="line"></span><br><span class="line">a = (seed2 - seed1) * gmpy2.invert(seed1 - seed0, m) % m</span><br><span class="line">b = (seed1 - a * seed0) % m</span><br><span class="line"></span><br><span class="line">MMI = <span class="keyword">lambda</span> A, m, s=<span class="number">1</span>, t=<span class="number">0</span>, N=<span class="number">0</span>: (m &lt; <span class="number">2</span> <span class="keyword">and</span> t % N <span class="keyword">or</span> MMI(m, A % m, t, s - A // m * t, N <span class="keyword">or</span> m), -<span class="number">1</span>)[m &lt; <span class="number">1</span>]  <span class="comment"># 逆元计算</span></span><br><span class="line">ani = MMI(a, m)</span><br><span class="line">seed = seed2</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    seed = (ani * (seed - b)) % m</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(seed))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
