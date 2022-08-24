@@ -2712,7 +2712,10 @@ body {
   background-position: 50% 50%;
 }
 .content-wrap {
-  opacity: 0.4;
+  opacity: 0.1;
+}
+.main-inner {
+  opacity: 0.75;
 }
 .sidebar {
   opacity: 0.85;
