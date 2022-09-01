@@ -117,7 +117,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#crypto"><span class="nav-number">1.</span> <span class="nav-text"> Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hws-easyrsa"><span class="nav-number">1.1.</span> <span class="nav-text"> HWS-easyRSA</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 解题过程：</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Crypto"><span class="nav-number">1.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HWS-easyRSA"><span class="nav-number">1.1.</span> <span class="nav-text">HWS-easyRSA</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">解题过程：</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -283,9 +283,9 @@
     <div class="post-body" itemprop="articleBody">
         <p>这场比赛诶，参加的莫名其妙的，还没来得及复现，就做出来一个Crypto。qwq</p>
 <span id="more"></span>
-<h3 id="crypto"><a class="markdownIt-Anchor" href="#crypto"></a> Crypto</h3>
-<h4 id="hws-easyrsa"><a class="markdownIt-Anchor" href="#hws-easyrsa"></a> HWS-easyRSA</h4>
-<h5 id="解题过程"><a class="markdownIt-Anchor" href="#解题过程"></a> 解题过程：</h5>
+<h3 id="Crypto">Crypto</h3>
+<h4 id="HWS-easyRSA">HWS-easyRSA</h4>
+<h5 id="解题过程：">解题过程：</h5>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">m = <span class="number">31893593182018727625473530765941216190921866039118147474754069955393226712079257707838327486268599271803</span></span><br><span class="line">seed0 = <span class="number">25820280412859586557218124484272275594433027771091486422152141535682739897353623931875432576083022273940</span></span><br><span class="line">seed1 = <span class="number">24295465524789348024814588142969609603624462580932512051939198335014954252359986260009296537423802567677</span></span><br><span class="line">seed2 = <span class="number">14963686422550871447791815183480974143372785034397446416396172429864269108509521776424254168481536292904</span></span><br><span class="line"></span><br><span class="line">a = (seed2 - seed1) * gmpy2.invert(seed1 - seed0, m) % m</span><br><span class="line">b = (seed1 - a * seed0) % m</span><br><span class="line"></span><br><span class="line">MMI = <span class="keyword">lambda</span> A, m, s=<span class="number">1</span>, t=<span class="number">0</span>, N=<span class="number">0</span>: (m &lt; <span class="number">2</span> <span class="keyword">and</span> t % N <span class="keyword">or</span> MMI(m, A % m, t, s - A // m * t, N <span class="keyword">or</span> m), -<span class="number">1</span>)[m &lt; <span class="number">1</span>]  <span class="comment"># 逆元计算</span></span><br><span class="line">ani = MMI(a, m)</span><br><span class="line">seed = seed2</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    seed = (ani * (seed - b)) % m</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(seed))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
     </div>
@@ -390,7 +390,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"23e5507a0024d42137fc64fb4e206987493f4c62","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"86d8c38071d020e2e8b68e3708032258"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"80355aa1b174d1926079780262cdc80f1ca96516","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"86d8c38071d020e2e8b68e3708032258"}</script>
 <script src="/js/third-party/comments/gitalk.js"></script>
 
 
