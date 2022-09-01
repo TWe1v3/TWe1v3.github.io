@@ -3,7 +3,9 @@
   <entry>
     <title>网鼎杯青龙组初赛复现Writeup</title>
     <url>/2022/09/01/%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0Writeup/</url>
-    <content><![CDATA[<h1 id="crypto"><a class="markdownIt-Anchor" href="#crypto"></a> Crypto</h1>
+    <content><![CDATA[<p>​    这场比赛，在赛中及其坐牢，自己一直学的Web没派上什么用场，还是积蓄不够，倒是密码很有意思，赛后主要复现Crypto去了。qwq</p>
+<span id="more"></span>
+<h1 id="crypto"><a class="markdownIt-Anchor" href="#crypto"></a> Crypto</h1>
 <h2 id="crypto091"><a class="markdownIt-Anchor" href="#crypto091"></a> crypto091</h2>
 <p>根据题意，猜测一波sha256，上脚本爆破，赛后有好友说可以用hashcat，自己没弄出来，还是安心写脚本。</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="built_in">hash</span> = <span class="string">&#x27;c22a563acc2a587afbfaaaa6d67bc6e628872b00bd7e998873881f7c6fdc62fc&#x27;</span></span><br><span class="line">m = <span class="string">&#x27;86170&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>*<span class="number">8</span>)://<span class="number">0</span>-<span class="number">9</span>十位数填充八位，所以循环<span class="number">10</span>*<span class="number">8</span>次</span><br><span class="line">    phone_number = m + <span class="built_in">str</span>(i).zfill(<span class="number">8</span>)//匹配爆破的数</span><br><span class="line">    <span class="keyword">if</span> sha256(phone_number.encode()).hexdigest() == <span class="built_in">hash</span>:</span><br><span class="line">        //匹配填充后的电话号码<span class="built_in">hash</span>值</span><br><span class="line">        <span class="built_in">print</span>(phone_number)</span><br><span class="line">‘‘‘</span><br><span class="line"><span class="number">8617091733716</span></span><br><span class="line">’’’</span><br></pre></td></tr></table></figure>
@@ -11,8 +13,11 @@
 <p>先看题目给的out.txt</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Grasshopper#00:2066</span><br><span class="line">Grasshopper#01:a222</span><br><span class="line">Grasshopper#02:cbb1</span><br><span class="line">Grasshopper#03:dbb4</span><br><span class="line">Grasshopper#04:deb4</span><br><span class="line">Grasshopper#05:b1c5</span><br><span class="line">Grasshopper#06:33a4</span><br><span class="line">Grasshopper#07:c051</span><br><span class="line">Grasshopper#08:3b79</span><br><span class="line">Grasshopper#09:6bf8</span><br><span class="line">Grasshopper#10:2131</span><br><span class="line">Grasshopper#11:2c40</span><br><span class="line">Grasshopper#12:91ba</span><br><span class="line">Grasshopper#13:7b44</span><br><span class="line">Grasshopper#14:5f25</span><br><span class="line">Grasshopper#15:0208</span><br><span class="line">Grasshopper#16:7edb</span><br><span class="line">Grasshopper#17:62b5</span><br><span class="line">Grasshopper#18:cec5</span><br><span class="line">Grasshopper#19:5ab3</span><br><span class="line">Grasshopper#20:3c46</span><br><span class="line">Grasshopper#21:c272</span><br><span class="line">Grasshopper#22:714b</span><br><span class="line">Grasshopper#23:9e0b</span><br><span class="line">Grasshopper#24:48ee</span><br><span class="line">Grasshopper#25:44cc</span><br><span class="line">Grasshopper#26:05a0</span><br><span class="line">Grasshopper#27:3da3</span><br><span class="line">Grasshopper#28:11b1</span><br><span class="line">Grasshopper#29:259f</span><br><span class="line">Grasshopper#30:899d</span><br><span class="line">Grasshopper#31:a130</span><br><span class="line">Grasshopper#32:e58f</span><br><span class="line">Grasshopper#33:23f3</span><br><span class="line">Grasshopper#34:5829</span><br><span class="line">Grasshopper#35:6beb</span><br><span class="line">Grasshopper#36:3681</span><br><span class="line">Grasshopper#37:0054</span><br><span class="line">Grasshopper#38:a189</span><br><span class="line">Grasshopper#39:2765</span><br><span class="line">Grasshopper#40:c63d</span><br><span class="line">Grasshopper#41:bc68</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>赛事Writeup</category>
+      </categories>
       <tags>
-        <tag>赛事writeup</tag>
+        <tag>Crypto,CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -29,6 +34,7 @@
 <p>比赛类型：个人赛</p>
 <p>比赛交流QQ群：923945203</p>
 <p>个人赛奖励：总榜前10及各方向前三均可获得《从0到1：CTFer成长之路》一本 + 定制U盘（32G）一个</p>
+<span id="more"></span>
 <h2 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> Misc</h2>
 <h3 id="welcome-to-fxxking-destctf"><a class="markdownIt-Anchor" href="#welcome-to-fxxking-destctf"></a> Welcome to fxxking DestCTF</h3>
 <p>**题目描述：**关注公众号并回复：Give me the fxxking flag</p>
@@ -240,20 +246,28 @@
 </blockquote>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#Sage</span></span><br><span class="line">g = <span class="number">19</span></span><br><span class="line">p = <span class="number">335215034881592512312398694238485179340610060759881511231472142277527176340784432381542726029524727833039074808456839870641607412102746854257629226877248337002993023452385472058106944014653401647033456174126976474875859099023703472904735779212010820524934972736276889281087909166017427905825553503050645575935980580803899122224368875197728677516907272452047278523846912786938173456942568602502013001099009776563388736434564541041529106817380347284002060811645842312648498340150736573246893588079033524476111268686138924892091575797329915240849862827621736832883215569687974368499436632617425922744658912248644475097139485785819369867604176912652851123185884810544172785948158330991257118563772736929105360124222843930130347670027236797458715653361366862282591170630650344062377644570729478796795124594909835004189813214758026703689710017334501371279295621820181402191463184275851324378938021156631501330660825566054528793444353</span></span><br><span class="line">h = <span class="number">199533304296625406955683944856330940256037859126142372412254741689676902594083385071807594584589647225039650850524873289407540031812171301348304158895770989218721006018956756841251888659321582420167478909768740235321161096806581684857660007735707550914742749524818990843357217489433410647994417860374972468061110200554531819987204852047401539211300639165417994955609002932104372266583569468915607415521035920169948704261625320990186754910551780290421057403512785617970138903967874651050299914974180360347163879160470918945383706463326470519550909277678697788304151342226439850677611170439191913555562326538607106089620201074331099713506536192957054173076913374098400489398228161089007898192779738439912595619813699711049380213926849110877231503068464392648816891183318112570732792516076618174144968844351282497993164926346337121313644001762196098432060141494704659769545012678386821212213326455045335220435963683095439867976162</span></span><br><span class="line">d=discrete_log(h,mod(g,p))</span><br><span class="line"><span class="built_in">print</span>(d)</span><br><span class="line"></span><br><span class="line"><span class="comment">#627467212751652661100750674849894892358409405070345081253130721039787502632741519936253501608002590652971133</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#接着在本地环境运行以下代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span> n2s</span><br><span class="line"><span class="built_in">print</span>(n2s(<span class="number">627467212751652661100750674849894892358409405070345081253130721039787502632741519936253501608002590652971133</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#Dest0g3&#123;07ed2a6f-182f-a05d-c81e-1318af820a78&#125;</span></span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>赛事Writeup</category>
+      </categories>
       <tags>
-        <tag>赛事writeup</tag>
+        <tag>CTF, Crypto,Web,Misc</tag>
       </tags>
   </entry>
   <entry>
     <title>HWS-Crypto</title>
     <url>/2022/08/25/HWS-Crypto/</url>
-    <content><![CDATA[<h3 id="crypto"><a class="markdownIt-Anchor" href="#crypto"></a> Crypto</h3>
+    <content><![CDATA[<p>这场比赛诶，参加的莫名其妙的，还没来得及复现，就做出来一个Crypto。qwq</p>
+<span id="more"></span>
+<h3 id="crypto"><a class="markdownIt-Anchor" href="#crypto"></a> Crypto</h3>
 <h4 id="hws-easyrsa"><a class="markdownIt-Anchor" href="#hws-easyrsa"></a> HWS-easyRSA</h4>
 <h5 id="解题过程"><a class="markdownIt-Anchor" href="#解题过程"></a> 解题过程：</h5>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">m = <span class="number">31893593182018727625473530765941216190921866039118147474754069955393226712079257707838327486268599271803</span></span><br><span class="line">seed0 = <span class="number">25820280412859586557218124484272275594433027771091486422152141535682739897353623931875432576083022273940</span></span><br><span class="line">seed1 = <span class="number">24295465524789348024814588142969609603624462580932512051939198335014954252359986260009296537423802567677</span></span><br><span class="line">seed2 = <span class="number">14963686422550871447791815183480974143372785034397446416396172429864269108509521776424254168481536292904</span></span><br><span class="line"></span><br><span class="line">a = (seed2 - seed1) * gmpy2.invert(seed1 - seed0, m) % m</span><br><span class="line">b = (seed1 - a * seed0) % m</span><br><span class="line"></span><br><span class="line">MMI = <span class="keyword">lambda</span> A, m, s=<span class="number">1</span>, t=<span class="number">0</span>, N=<span class="number">0</span>: (m &lt; <span class="number">2</span> <span class="keyword">and</span> t % N <span class="keyword">or</span> MMI(m, A % m, t, s - A // m * t, N <span class="keyword">or</span> m), -<span class="number">1</span>)[m &lt; <span class="number">1</span>]  <span class="comment"># 逆元计算</span></span><br><span class="line">ani = MMI(a, m)</span><br><span class="line">seed = seed2</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    seed = (ani * (seed - b)) % m</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(seed))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>赛事Writeup</category>
+      </categories>
       <tags>
-        <tag>赛事writeup</tag>
+        <tag>Crypto</tag>
       </tags>
   </entry>
 </search>
