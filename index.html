@@ -128,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -188,6 +188,97 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2022/09/01/%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0Writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/twe1v3.gif">
+      <meta itemprop="name" content="TWe1v3">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TWe1v3">
+      <meta itemprop="description" content="TWe1v3的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | TWe1v3">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/09/01/%E7%BD%91%E9%BC%8E%E6%9D%AF%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0Writeup/" class="post-title-link" itemprop="url">网鼎杯青龙组初赛复现Writeup</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-09-01 14:02:10 / 修改时间：16:02:27" itemprop="dateCreated datePublished" datetime="2022-09-01T14:02:10+08:00">2022-09-01</time>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="crypto"><a class="markdownIt-Anchor" href="#crypto"></a> Crypto</h1>
+<h2 id="crypto091"><a class="markdownIt-Anchor" href="#crypto091"></a> crypto091</h2>
+<p>根据题意，猜测一波sha256，上脚本爆破，赛后有好友说可以用hashcat，自己没弄出来，还是安心写脚本。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="built_in">hash</span> = <span class="string">&#x27;c22a563acc2a587afbfaaaa6d67bc6e628872b00bd7e998873881f7c6fdc62fc&#x27;</span></span><br><span class="line">m = <span class="string">&#x27;86170&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>*<span class="number">8</span>)://<span class="number">0</span>-<span class="number">9</span>十位数填充八位，所以循环<span class="number">10</span>*<span class="number">8</span>次</span><br><span class="line">    phone_number = m + <span class="built_in">str</span>(i).zfill(<span class="number">8</span>)//匹配爆破的数</span><br><span class="line">    <span class="keyword">if</span> sha256(phone_number.encode()).hexdigest() == <span class="built_in">hash</span>:</span><br><span class="line">        //匹配填充后的电话号码<span class="built_in">hash</span>值</span><br><span class="line">        <span class="built_in">print</span>(phone_number)</span><br><span class="line">‘‘‘</span><br><span class="line"><span class="number">8617091733716</span></span><br><span class="line">’’’</span><br></pre></td></tr></table></figure>
+<h2 id="crypto405"><a class="markdownIt-Anchor" href="#crypto405"></a> crypto405</h2>
+<p>先看题目给的out.txt</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">Grasshopper#00:2066</span><br><span class="line">Grasshopper#01:a222</span><br><span class="line">Grasshopper#02:cbb1</span><br><span class="line">Grasshopper#03:dbb4</span><br><span class="line">Grasshopper#04:deb4</span><br><span class="line">Grasshopper#05:b1c5</span><br><span class="line">Grasshopper#06:33a4</span><br><span class="line">Grasshopper#07:c051</span><br><span class="line">Grasshopper#08:3b79</span><br><span class="line">Grasshopper#09:6bf8</span><br><span class="line">Grasshopper#10:2131</span><br><span class="line">Grasshopper#11:2c40</span><br><span class="line">Grasshopper#12:91ba</span><br><span class="line">Grasshopper#13:7b44</span><br><span class="line">Grasshopper#14:5f25</span><br><span class="line">Grasshopper#15:0208</span><br><span class="line">Grasshopper#16:7edb</span><br><span class="line">Grasshopper#17:62b5</span><br><span class="line">Grasshopper#18:cec5</span><br><span class="line">Grasshopper#19:5ab3</span><br><span class="line">Grasshopper#20:3c46</span><br><span class="line">Grasshopper#21:c272</span><br><span class="line">Grasshopper#22:714b</span><br><span class="line">Grasshopper#23:9e0b</span><br><span class="line">Grasshopper#24:48ee</span><br><span class="line">Grasshopper#25:44cc</span><br><span class="line">Grasshopper#26:05a0</span><br><span class="line">Grasshopper#27:3da3</span><br><span class="line">Grasshopper#28:11b1</span><br><span class="line">Grasshopper#29:259f</span><br><span class="line">Grasshopper#30:899d</span><br><span class="line">Grasshopper#31:a130</span><br><span class="line">Grasshopper#32:e58f</span><br><span class="line">Grasshopper#33:23f3</span><br><span class="line">Grasshopper#34:5829</span><br><span class="line">Grasshopper#35:6beb</span><br><span class="line">Grasshopper#36:3681</span><br><span class="line">Grasshopper#37:0054</span><br><span class="line">Grasshopper#38:a189</span><br><span class="line">Grasshopper#39:2765</span><br><span class="line">Grasshopper#40:c63d</span><br><span class="line">Grasshopper#41:bc68</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -590,6 +681,8 @@
     <div class="footer-inner">
 
 
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
 <div class="copyright">
   &copy; 
   <span itemprop="copyrightYear">2022</span>
@@ -604,15 +697,21 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">16k</span>
+    <span title="站点总字数">17k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">14 分钟</span>
+    <span title="站点阅读时长">15 分钟</span>
   </span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
 </div>
 
     </div>
