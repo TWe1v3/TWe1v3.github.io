@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>kali升级报错没有 Release 文件</title>
+    <url>/2022/09/06/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/</url>
+    <content><![CDATA[<p>写在前面，这是我在使用kali的过程中遇到的问题</p>
+<span id="more"></span>
+<h4 id="问题"><a class="markdownIt-Anchor" href="#问题"></a> 问题</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root@root:~# sudo apt update 命中:1 http://mirrors.ustc.edu.cn/kali kali-rolling InRelease 忽略:2 https://download.docker.com/linux/debian kali-rolling InRelease 错误:3 https://download.docker.com/linux/debian kali-rolling Release  404  Not Found [IP: 65.8.85.83 443] 正在读取软件包列表... 完成 E: 仓库 “https://download.docker.com/linux/debian kali-rolling Release” 没有 Release 文件。 N: 无法安全地用该源进行更新，所以默认禁用该源。 N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。</span><br></pre></td></tr></table></figure>
+<h4 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root@root:~# cd /etc/apt/sources.list.d</span><br><span class="line">root@root:/etc/apt/sources.list.d# ls</span><br><span class="line">docker.list</span><br><span class="line">root@root:/etc/apt/sources.list.d# rm docker.list </span><br><span class="line">root@root:/etc/apt/sources.list.d# apt-get update &amp;&amp; apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>好耶散花！QWQ</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SQL-增删改查</title>
     <url>/2022/09/02/SQL-%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/</url>
     <content><![CDATA[<p>Do u know Create and Drop Database, Create, Alter and Drop Tables, Select, Insert, Update, Delete Commands.</p>
@@ -294,8 +312,8 @@
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -528,8 +546,8 @@
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
+        <tag>CTF</tag>
         <tag>Web</tag>
         <tag>Misc</tag>
       </tags>
