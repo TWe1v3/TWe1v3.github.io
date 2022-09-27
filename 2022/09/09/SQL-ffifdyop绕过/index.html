@@ -27,19 +27,19 @@
 <meta property="og:site_name" content="TWe1v3">
 <meta property="og:description" content="当看到这个绕过并没法察觉的时候，我就知道我的SQL注入还没入门，在浏览其他师傅的blog中，知道这是绕过中的一个奇妙的字符串">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://twe1v3.github.io/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911164839623.png">
-<meta property="og:image" content="http://twe1v3.github.io/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165221183.png">
-<meta property="og:image" content="http://twe1v3.github.io/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165824467.png">
-<meta property="og:image" content="http://twe1v3.github.io/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170317691.png">
-<meta property="og:image" content="http://twe1v3.github.io/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170742947.png">
-<meta property="og:image" content="http://twe1v3.github.io/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911171036454.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911164839623.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165221183.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165824467.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170317691.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170742947.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911171036454.png">
 <meta property="article:published_time" content="2022-09-08T17:01:57.000Z">
 <meta property="article:modified_time" content="2022-09-12T09:55:00.751Z">
 <meta property="article:author" content="TWe1v3">
 <meta property="article:tag" content="SQL">
 <meta property="article:tag" content="绕过技巧">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://twe1v3.github.io/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911164839623.png">
+<meta name="twitter:image" content="http://twe1v3.github.io/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911164839623.png">
 
 
 <link rel="canonical" href="http://twe1v3.github.io/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/">
@@ -303,21 +303,21 @@
 <h3 id="例题解读"><a class="markdownIt-Anchor" href="#例题解读"></a> 例题解读：</h3>
 <h4 id="bjdctf-2020easy_md5"><a class="markdownIt-Anchor" href="#bjdctf-2020easy_md5"></a> [BJDCTF 2020]easy_md5</h4>
 <p>打开链接，看到输入框，第一时间就想到注入：</p>
-<p><img src="/./SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911164839623.png" alt="麻了"></p>
+<p><img src="/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911164839623.png" alt="麻了"></p>
 <p>试过诸多注入无果，抓了一下包，看到hint：</p>
-<p><img src="/./SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165221183.png" alt="麻了"></p>
+<p><img src="/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165221183.png" alt="麻了"></p>
 <p>看到hint，就知道是绕过MD5()。</p>
 <p>框内输入“ffifdyop”，成功绕过。</p>
-<p><img src="/./SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165824467.png" alt="麻了"></p>
+<p><img src="/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165824467.png" alt="麻了"></p>
 <p>查看源代码，这里有很多种绕过方式：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?a=QNKCDZO&amp;b=240610708</span><br><span class="line"></span><br><span class="line">?a=s878926199a&amp;b=s155964671a</span><br><span class="line"></span><br><span class="line">?a[]=1&amp;b[]=2</span><br></pre></td></tr></table></figure>
-<p><img src="/./SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170317691.png" alt="麻了"></p>
-<p><img src="/./SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170742947.png" alt="麻了"></p>
+<p><img src="/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170317691.png" alt="麻了"></p>
+<p><img src="/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170742947.png" alt="麻了"></p>
 <p>同理，POST双参数数组绕过。</p>
 <hr>
 <p>这里有其他师傅的顶级理解：</p>
 <p><em>弱类型比较变成了强类型比较了，这里就只能用php数组绕过，由于哈希函数无法处理php数组，在遇到数组时返回false，我们就可以利用false==false成立使条件成立</em></p>
-<p><img src="/./SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911171036454.png" alt="麻了"></p>
+<p><img src="/2022/09/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911171036454.png" alt="麻了"></p>
 <p>flag：NSSCTF{762d2772-8382-4ec4-9f9c-8354f7d0c995}</p>
 <h3 id="结"><a class="markdownIt-Anchor" href="#结"></a> 结</h3>
 <p>学到了新东西，这才是入门诶，呜呜呜，我好菜！！！</p>
