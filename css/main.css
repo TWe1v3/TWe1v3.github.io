@@ -2196,7 +2196,7 @@ header.header {
 }
 .event-list hr::after {
   background: #222;
-  color: #fff;
+  color: #ffc0cb;
   content: 'NOW';
   display: inline-block;
   font-weight: bold;
