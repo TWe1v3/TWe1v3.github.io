@@ -20,28 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"twe1v3.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="写在前面，这是我在使用kali的过程中遇到的问题">
+    <meta name="description" content="这场比赛诶，参加的莫名其妙的，还没来得及复现，就做出来一个Crypto。qwq">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kali升级报错没有 Release 文件">
-<meta property="og:url" content="http://twe1v3.github.io/2022/09/06/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/index.html">
+<meta property="og:title" content="HWS-Crypto">
+<meta property="og:url" content="http://twe1v3.github.io/2022/08/HWS-Crypto/index.html">
 <meta property="og:site_name" content="TWe1v3">
-<meta property="og:description" content="写在前面，这是我在使用kali的过程中遇到的问题">
+<meta property="og:description" content="这场比赛诶，参加的莫名其妙的，还没来得及复现，就做出来一个Crypto。qwq">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-09-05T17:34:32.000Z">
-<meta property="article:modified_time" content="2022-09-05T18:10:31.942Z">
+<meta property="article:published_time" content="2022-08-24T17:20:13.000Z">
+<meta property="article:modified_time" content="2022-09-02T08:19:29.747Z">
 <meta property="article:author" content="TWe1v3">
-<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Crypto">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://twe1v3.github.io/2022/09/06/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/">
+<link rel="canonical" href="http://twe1v3.github.io/2022/08/HWS-Crypto/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://twe1v3.github.io/2022/09/06/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/","path":"2022/09/06/kail升级报错：E 仓库 “httpsdownload.docker.comlinuxdebian kali-rolling Release” 没有 Release 文件。/","title":"kali升级报错没有 Release 文件"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://twe1v3.github.io/2022/08/HWS-Crypto/","path":"2022/08/HWS-Crypto/","title":"HWS-Crypto"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>kali升级报错没有 Release 文件 | TWe1v3</title>
+<title>HWS-Crypto | TWe1v3</title>
   
 
 
@@ -117,7 +117,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text"> 问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text"> 解决办法</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#crypto"><span class="nav-number">1.</span> <span class="nav-text"> Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hws-easyrsa"><span class="nav-number">1.1.</span> <span class="nav-text"> HWS-easyRSA</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 解题过程：</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -208,7 +208,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2022/09/06/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/">
+    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2022/08/HWS-Crypto/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/twe1v3.gif">
@@ -221,12 +221,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="kali升级报错没有 Release 文件 | TWe1v3">
+      <meta itemprop="name" content="HWS-Crypto | TWe1v3">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          kali升级报错没有 Release 文件
+          HWS-Crypto
         </h1>
 
         <div class="post-meta-container">
@@ -236,9 +236,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-09-06 01:34:32 / 修改时间：02:10:31" itemprop="dateCreated datePublished" datetime="2022-09-06T01:34:32+08:00">2022-09-06</time>
+      <time title="创建时间：2022-08-25 01:20:13" itemprop="dateCreated datePublished" datetime="2022-08-25T01:20:13+08:00">2022-08-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-02 16:19:29" itemprop="dateModified" datetime="2022-09-02T16:19:29+08:00">2022-09-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -246,7 +252,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+          <a href="/categories/%E8%B5%9B%E4%BA%8BWriteup/" itemprop="url" rel="index"><span itemprop="name">赛事Writeup</span></a>
         </span>
     </span>
 
@@ -257,7 +263,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>636</span>
+      <span>796</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -275,13 +281,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>写在前面，这是我在使用kali的过程中遇到的问题</p>
+        <p>这场比赛诶，参加的莫名其妙的，还没来得及复现，就做出来一个Crypto。qwq</p>
 <span id="more"></span>
-<h4 id="问题"><a class="markdownIt-Anchor" href="#问题"></a> 问题</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@root:~# sudo apt update 命中:1 http://mirrors.ustc.edu.cn/kali kali-rolling InRelease 忽略:2 https://download.docker.com/linux/debian kali-rolling InRelease 错误:3 https://download.docker.com/linux/debian kali-rolling Release  404  Not Found [IP: 65.8.85.83 443] 正在读取软件包列表... 完成 E: 仓库 “https://download.docker.com/linux/debian kali-rolling Release” 没有 Release 文件。 N: 无法安全地用该源进行更新，所以默认禁用该源。 N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。</span><br></pre></td></tr></table></figure>
-<h4 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@root:~# cd /etc/apt/sources.list.d</span><br><span class="line">root@root:/etc/apt/sources.list.d# ls</span><br><span class="line">docker.list</span><br><span class="line">root@root:/etc/apt/sources.list.d# rm docker.list </span><br><span class="line">root@root:/etc/apt/sources.list.d# apt-get update &amp;&amp; apt-get upgrade</span><br></pre></td></tr></table></figure>
-<p>好耶散花！QWQ</p>
+<h3 id="crypto"><a class="markdownIt-Anchor" href="#crypto"></a> Crypto</h3>
+<h4 id="hws-easyrsa"><a class="markdownIt-Anchor" href="#hws-easyrsa"></a> HWS-easyRSA</h4>
+<h5 id="解题过程"><a class="markdownIt-Anchor" href="#解题过程"></a> 解题过程：</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">m = <span class="number">31893593182018727625473530765941216190921866039118147474754069955393226712079257707838327486268599271803</span></span><br><span class="line">seed0 = <span class="number">25820280412859586557218124484272275594433027771091486422152141535682739897353623931875432576083022273940</span></span><br><span class="line">seed1 = <span class="number">24295465524789348024814588142969609603624462580932512051939198335014954252359986260009296537423802567677</span></span><br><span class="line">seed2 = <span class="number">14963686422550871447791815183480974143372785034397446416396172429864269108509521776424254168481536292904</span></span><br><span class="line"></span><br><span class="line">a = (seed2 - seed1) * gmpy2.invert(seed1 - seed0, m) % m</span><br><span class="line">b = (seed1 - a * seed0) % m</span><br><span class="line"></span><br><span class="line">MMI = <span class="keyword">lambda</span> A, m, s=<span class="number">1</span>, t=<span class="number">0</span>, N=<span class="number">0</span>: (m &lt; <span class="number">2</span> <span class="keyword">and</span> t % N <span class="keyword">or</span> MMI(m, A % m, t, s - A // m * t, N <span class="keyword">or</span> m), -<span class="number">1</span>)[m &lt; <span class="number">1</span>]  <span class="comment"># 逆元计算</span></span><br><span class="line">ani = MMI(a, m)</span><br><span class="line">seed = seed2</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>):</span><br><span class="line">    seed = (ani * (seed - b)) % m</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(seed))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -291,20 +296,17 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/09/02/SQL-%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/" rel="prev" title="SQL-增删改查">
-                  <i class="fa fa-chevron-left"></i> SQL-增删改查
-                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/09/06/%E7%BE%8A%E5%9F%8E%E6%9D%AF2022-Writeup/" rel="next" title="羊城杯2022-Writeup">
-                  羊城杯2022-Writeup <i class="fa fa-chevron-right"></i>
+                <a href="/2022/08/Dest0g3-520%E8%BF%8E%E6%96%B0%E8%B5%9B/" rel="next" title="Dest0g3 520迎新赛">
+                  Dest0g3 520迎新赛 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -387,7 +389,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"80355aa1b174d1926079780262cdc80f1ca96516","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"12a185fd7a6d86387ee3316708c07f2c"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"80355aa1b174d1926079780262cdc80f1ca96516","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"5a6f0c8c15208a7a31dd8d73ef04a50e"}</script>
 <script src="/js/third-party/comments/gitalk.js"></script>
 
 
