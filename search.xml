@@ -9,6 +9,14 @@
 ]]></content>
   </entry>
   <entry>
+    <title>文件头标准编码</title>
+    <url>/2022/11/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E5%A4%B4%E6%A0%87%E5%87%86%E7%BC%96%E7%A0%81/</url>
+    <content><![CDATA[<p>一些礼物</p>
+<span id="more"></span>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">JPEG (jpg)，文件头：FF D8 FF</span><br><span class="line">PNG (png)，文件头：89 50 4E 47     【参考：png文件头详解】89 50 4e 47 0d 0a 1a 0a</span><br><span class="line">GIF (gif)，文件头：47 49 46 38</span><br><span class="line">Windows Bitmap (bmp)，文件头：42 4D [参考：bmp文件格式详解]42 4D 36 0C 30 00 00 00 00 00 36 00 00 00 28 00 00 00 56 05 00 00 00 03 00 00 01 00 18 00 00 00 00 00 00 04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</span><br><span class="line">python反编译文件pyc的头：03 F3 0D 0A  </span><br><span class="line">pyd的文件头：4D 5A 90 00</span><br><span class="line">ZIP Archive (zip)，文件头：50 4B 03 04 ascii码部分是PK，可以直接根据PK判断是zip文件</span><br><span class="line">doc文件rar文件: 52 61 72 21</span><br><span class="line">7z文件头：37 7A BC AF 27 1C</span><br><span class="line">MS Word/Excel (xls.or.doc)，文件头：D0CF11E0</span><br><span class="line">CAD (dwg)，文件头：41433130</span><br><span class="line">Adobe Photoshop (psd)，文件头：38425053</span><br><span class="line">Rich Text Format (rtf)，文件头：7B5C727466</span><br><span class="line">XML (xml)，文件头：3C3F786D6C</span><br><span class="line">HTML (html)，文件头：68746D6C3E</span><br><span class="line">Email [thorough only] (eml)，文件头：44656C69766572792D646174653A</span><br><span class="line">Outlook Express (dbx)，文件头：CFAD12FEC5FD746F</span><br><span class="line">Outlook (pst)，文件头：2142444E</span><br><span class="line">MS Access (mdb)，文件头：5374616E64617264204A</span><br><span class="line">WordPerfect (wpd)，文件头：FF575043</span><br><span class="line">Postscript (eps.or.ps)，文件头：252150532D41646F6265</span><br><span class="line">Adobe Acrobat (pdf)，文件头：255044462D312E</span><br><span class="line">Quicken (qdf)，文件头：AC9EBD8F</span><br><span class="line">Windows Password (pwl)，文件头：E3828596</span><br><span class="line">RAR Archive (rar)，文件头：52617221</span><br><span class="line">Wave (wav)，文件头：57415645</span><br><span class="line">AVI (avi)，文件头：41564920</span><br><span class="line">Real Audio (ram)，文件头：2E7261FD</span><br><span class="line">Real Media (rm)，文件头：2E524D46</span><br><span class="line">MPEG (mpg)，文件头：000001BA</span><br><span class="line">MPEG (mpg)，文件头：000001B3</span><br><span class="line">Quicktime (mov)，文件头：6D6F6F76</span><br><span class="line">Windows Media (asf)，文件头：3026B2758E66CF11</span><br><span class="line">MIDI (mid)，文件头：4D546864</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
     <title>PHP反序列化</title>
     <url>/2022/11/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<p>PHP反序列化的学习总结，还有实践总结嗷QWQ</p>
