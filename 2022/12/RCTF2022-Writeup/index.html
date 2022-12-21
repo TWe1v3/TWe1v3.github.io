@@ -20,28 +20,33 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"twe1v3.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="写在前面，这是我在使用kali的过程中遇到的问题">
+    <meta name="description" content="RCTF2022-Writeup ​                                                                              ------------------------------------TWe1v3  misc  ez_alient 使用zsteg扫描alien.tmp获得一串base64编码  解码得到：pwd&#x3D;“N">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kali升级报错没有 Release 文件">
-<meta property="og:url" content="http://twe1v3.github.io/2022/09/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/index.html">
+<meta property="og:title" content="TWe1v3">
+<meta property="og:url" content="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/index.html">
 <meta property="og:site_name" content="TWe1v3">
-<meta property="og:description" content="写在前面，这是我在使用kali的过程中遇到的问题">
+<meta property="og:description" content="RCTF2022-Writeup ​                                                                              ------------------------------------TWe1v3  misc  ez_alient 使用zsteg扫描alien.tmp获得一串base64编码  解码得到：pwd&#x3D;“N">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-09-05T17:34:32.000Z">
-<meta property="article:modified_time" content="2022-09-05T18:10:31.942Z">
+<meta property="og:image" content="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/image-20221210144522995.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/image-20221221212245026.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/image-20221221213006594.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/image-20221221212640499.png">
+<meta property="og:image" content="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/image-20221221212807233.png">
+<meta property="article:published_time" content="2022-12-10T06:45:12.505Z">
+<meta property="article:modified_time" content="2022-12-21T13:36:57.331Z">
 <meta property="article:author" content="TWe1v3">
-<meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/image-20221210144522995.png">
 
 
-<link rel="canonical" href="http://twe1v3.github.io/2022/09/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/">
+<link rel="canonical" href="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://twe1v3.github.io/2022/09/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/","path":"2022/09/kail升级报错：E 仓库 “httpsdownload.docker.comlinuxdebian kali-rolling Release” 没有 Release 文件。/","title":"kali升级报错没有 Release 文件"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://twe1v3.github.io/2022/12/RCTF2022-Writeup/","path":"2022/12/RCTF2022-Writeup/","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>kali升级报错没有 Release 文件 | TWe1v3</title>
+<title> | TWe1v3</title>
   
 
 
@@ -117,7 +122,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text"> 问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text"> 解决办法</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rctf2022-writeup"><span class="nav-number">1.</span> <span class="nav-text"> RCTF2022-Writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#misc"><span class="nav-number">1.1.</span> <span class="nav-text"> misc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ez_alient"><span class="nav-number">1.1.1.</span> <span class="nav-text"> ez_alient</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web"><span class="nav-number">1.2.</span> <span class="nav-text"> Web</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -208,7 +213,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2022/09/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/">
+    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2022/12/RCTF2022-Writeup/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/twe1v3.gif">
@@ -221,12 +226,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="kali升级报错没有 Release 文件 | TWe1v3">
+      <meta itemprop="name" content=" | TWe1v3">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          kali升级报错没有 Release 文件
+          
         </h1>
 
         <div class="post-meta-container">
@@ -236,18 +241,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-09-06 01:34:32 / 修改时间：02:10:31" itemprop="dateCreated datePublished" datetime="2022-09-06T01:34:32+08:00">2022-09-06</time>
+      <time title="创建时间：2022-12-10 14:45:12" itemprop="dateCreated datePublished" datetime="2022-12-10T14:45:12+08:00">2022-12-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
+        <i class="far fa-calendar-check"></i>
       </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-12-21 21:36:57" itemprop="dateModified" datetime="2022-12-21T21:36:57+08:00">2022-12-21</time>
     </span>
 
   
@@ -257,7 +259,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>636</span>
+      <span>853</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -275,13 +277,75 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>写在前面，这是我在使用kali的过程中遇到的问题</p>
-<span id="more"></span>
-<h4 id="问题"><a class="markdownIt-Anchor" href="#问题"></a> 问题</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@root:~# sudo apt update 命中:1 http://mirrors.ustc.edu.cn/kali kali-rolling InRelease 忽略:2 https://download.docker.com/linux/debian kali-rolling InRelease 错误:3 https://download.docker.com/linux/debian kali-rolling Release  404  Not Found [IP: 65.8.85.83 443] 正在读取软件包列表... 完成 E: 仓库 “https://download.docker.com/linux/debian kali-rolling Release” 没有 Release 文件。 N: 无法安全地用该源进行更新，所以默认禁用该源。 N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。</span><br></pre></td></tr></table></figure>
-<h4 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h4>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@root:~# cd /etc/apt/sources.list.d</span><br><span class="line">root@root:/etc/apt/sources.list.d# ls</span><br><span class="line">docker.list</span><br><span class="line">root@root:/etc/apt/sources.list.d# rm docker.list </span><br><span class="line">root@root:/etc/apt/sources.list.d# apt-get update &amp;&amp; apt-get upgrade</span><br></pre></td></tr></table></figure>
-<p>好耶散花！QWQ</p>
+        <h1 id="rctf2022-writeup"><a class="markdownIt-Anchor" href="#rctf2022-writeup"></a> RCTF2022-Writeup</h1>
+<p>​                                                                              ------------------------------------TWe1v3</p>
+<h2 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> misc</h2>
+<h3 id="ez_alient"><a class="markdownIt-Anchor" href="#ez_alient"></a> ez_alient</h3>
+<p>使用zsteg扫描alien.tmp获得一串base64编码</p>
+<p><img src="/2022/12/RCTF2022-Writeup/image-20221210144522995.png" alt="01"></p>
+<p>解码得到：pwd=“N0bOdy_l0ves_Me”</p>
+<p>解压alien_invasion.zip，获得alien_invasion文件，使用file指令识别得知是PE32+ executable (console) x86-64, for MS Windows，使用PyInstaller Extractor对文件进行反编译，注意这里的系统python版本一定得是3.8的，不然反编译不完全。</p>
+<p><img src="/2022/12/RCTF2022-Writeup/image-20221221212245026.png" alt="image-20221221212245026"></p>
+<p><img src="/2022/12/RCTF2022-Writeup/image-20221221213006594.png" alt="image-20221221213006594"></p>
+<p>使用010editor打开alien_invasion.pyc，能够看到有这提示</p>
+<p><img src="/2022/12/RCTF2022-Writeup/image-20221221212640499.png" alt="image-20221221212640499"></p>
+<p>从alien_invasion.pyc得到一串base64编码VTJreE0yNWpNdz09，解码为：Si13nc3</p>
+<p><img src="/2022/12/RCTF2022-Writeup/image-20221221212807233.png" alt="image-20221221212807233"></p>
+<p>打开PYZ-00.pyz_extracted文件夹，根据alien_invasion.pyc中的指示pyc文件中获得相关base64编码，统计为：</p>
+<table>
+<thead>
+<tr>
+<th>字符串</th>
+<th>解码</th>
+<th>pyc文件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s = b’VTJreE0yNWpNdz09’</td>
+<td>Si13nc3</td>
+<td>alien_invasion.pyc</td>
+</tr>
+<tr>
+<td>a = b’TVRVPQ==’</td>
+<td>15</td>
+<td>alien.pyc</td>
+</tr>
+<tr>
+<td>l = b’Tm5WMA==’</td>
+<td>6ut</td>
+<td>settings.pyc</td>
+</tr>
+<tr>
+<td>m = b’YURBeFpHbHVPUT09   VDI0PQ==    VTJreE0yNVVNWGs9’</td>
+<td>h01din9_On_Si13nT1y</td>
+<td>ship.pyc</td>
+</tr>
+<tr>
+<td>a = b’YmtWMlJYST0=’</td>
+<td>nEvEr</td>
+<td>bullet.pyc</td>
+</tr>
+<tr>
+<td>t = b’ZFhBPQ==’</td>
+<td>up</td>
+<td>game_stats.pyc</td>
+</tr>
+<tr>
+<td>k = b’T1dsMmFXNDU=’</td>
+<td>9ivin9</td>
+<td>button.pyc</td>
+</tr>
+<tr>
+<td>m = b’SmlZPQ==’</td>
+<td>&amp;&amp;</td>
+<td>scoreboard.pyc</td>
+</tr>
+</tbody>
+</table>
+<p>简单拼接可得flag：</p>
+<p>RCTF{Si13nc3_15_nEvEr_9ivin9_up_&amp;&amp;_6ut_h01din9_On_Si13nT1y}</p>
+<h2 id="web"><a class="markdownIt-Anchor" href="#web"></a> Web</h2>
 
     </div>
 
@@ -290,22 +354,16 @@
     
 
     <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"># Linux</a>
-          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/09/SQL-%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/" rel="prev" title="SQL-增删改查">
-                  <i class="fa fa-chevron-left"></i> SQL-增删改查
+                <a href="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/" rel="prev" title="HTTP请求走私">
+                  <i class="fa fa-chevron-left"></i> HTTP请求走私
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/09/%E7%BE%8A%E5%9F%8E%E6%9D%AF2022-Writeup/" rel="next" title="羊城杯2022-Writeup">
-                  羊城杯2022-Writeup <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -317,6 +375,7 @@
 
 
 
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -387,7 +446,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"80355aa1b174d1926079780262cdc80f1ca96516","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"7737099a2b4aa38d87ebd21e40e86dc8"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"80355aa1b174d1926079780262cdc80f1ca96516","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"62d72e0be7cff83c840542668a35c757"}</script>
 <script src="/js/third-party/comments/gitalk.js"></script>
 
 
