@@ -319,7 +319,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/12/RCTF2022-Writeup/" class="post-title-link" itemprop="url">未命名</a>
+          <a href="/2022/12/RCTF2022-Writeup/" class="post-title-link" itemprop="url">RCTF2022-Writeup</a>
         </h2>
 
         <div class="post-meta-container">
@@ -337,7 +337,16 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-12-21 21:36:57" itemprop="dateModified" datetime="2022-12-21T21:36:57+08:00">2022-12-21</time>
+      <time title="修改时间：2022-12-21 22:01:33" itemprop="dateModified" datetime="2022-12-21T22:01:33+08:00">2022-12-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%B5%9B%E4%BA%8BWriteup/" itemprop="url" rel="index"><span itemprop="name">赛事Writeup</span></a>
+        </span>
     </span>
 
   
@@ -347,7 +356,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>853</span>
+      <span>880</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -365,76 +374,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="rctf2022-writeup"><a class="markdownIt-Anchor" href="#rctf2022-writeup"></a> RCTF2022-Writeup</h1>
-<p>​                                                                              ------------------------------------TWe1v3</p>
-<h2 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> misc</h2>
-<h3 id="ez_alient"><a class="markdownIt-Anchor" href="#ez_alient"></a> ez_alient</h3>
-<p>使用zsteg扫描alien.tmp获得一串base64编码</p>
-<p><img src="/2022/12/RCTF2022-Writeup/image-20221210144522995.png" alt="01"></p>
-<p>解码得到：pwd=“N0bOdy_l0ves_Me”</p>
-<p>解压alien_invasion.zip，获得alien_invasion文件，使用file指令识别得知是PE32+ executable (console) x86-64, for MS Windows，使用PyInstaller Extractor对文件进行反编译，注意这里的系统python版本一定得是3.8的，不然反编译不完全。</p>
-<p><img src="/2022/12/RCTF2022-Writeup/image-20221221212245026.png" alt="image-20221221212245026"></p>
-<p><img src="/2022/12/RCTF2022-Writeup/image-20221221213006594.png" alt="image-20221221213006594"></p>
-<p>使用010editor打开alien_invasion.pyc，能够看到有这提示</p>
-<p><img src="/2022/12/RCTF2022-Writeup/image-20221221212640499.png" alt="image-20221221212640499"></p>
-<p>从alien_invasion.pyc得到一串base64编码VTJreE0yNWpNdz09，解码为：Si13nc3</p>
-<p><img src="/2022/12/RCTF2022-Writeup/image-20221221212807233.png" alt="image-20221221212807233"></p>
-<p>打开PYZ-00.pyz_extracted文件夹，根据alien_invasion.pyc中的指示pyc文件中获得相关base64编码，统计为：</p>
-<table>
-<thead>
-<tr>
-<th>字符串</th>
-<th>解码</th>
-<th>pyc文件</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>s = b’VTJreE0yNWpNdz09’</td>
-<td>Si13nc3</td>
-<td>alien_invasion.pyc</td>
-</tr>
-<tr>
-<td>a = b’TVRVPQ==’</td>
-<td>15</td>
-<td>alien.pyc</td>
-</tr>
-<tr>
-<td>l = b’Tm5WMA==’</td>
-<td>6ut</td>
-<td>settings.pyc</td>
-</tr>
-<tr>
-<td>m = b’YURBeFpHbHVPUT09   VDI0PQ==    VTJreE0yNVVNWGs9’</td>
-<td>h01din9_On_Si13nT1y</td>
-<td>ship.pyc</td>
-</tr>
-<tr>
-<td>a = b’YmtWMlJYST0=’</td>
-<td>nEvEr</td>
-<td>bullet.pyc</td>
-</tr>
-<tr>
-<td>t = b’ZFhBPQ==’</td>
-<td>up</td>
-<td>game_stats.pyc</td>
-</tr>
-<tr>
-<td>k = b’T1dsMmFXNDU=’</td>
-<td>9ivin9</td>
-<td>button.pyc</td>
-</tr>
-<tr>
-<td>m = b’SmlZPQ==’</td>
-<td>&amp;&amp;</td>
-<td>scoreboard.pyc</td>
-</tr>
-</tbody>
-</table>
-<p>简单拼接可得flag：</p>
-<p>RCTF{Si13nc3_15_nEvEr_9ivin9_up_&amp;&amp;_6ut_h01din9_On_Si13nT1y}</p>
-<h2 id="web"><a class="markdownIt-Anchor" href="#web"></a> Web</h2>
-
+          <p>部分为比赛中的解题过程，部分为赛后复现题解QAQ</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/12/RCTF2022-Writeup/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -595,9 +543,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-11-01 14:31:59 / 修改时间：14:36:26" itemprop="dateCreated datePublished" datetime="2022-11-01T14:31:59+08:00">2022-11-01</time>
+      <time title="创建时间：2022-11-01 14:31:59" itemprop="dateCreated datePublished" datetime="2022-11-01T14:31:59+08:00">2022-11-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-12-21 21:47:59" itemprop="dateModified" datetime="2022-12-21T21:47:59+08:00">2022-12-21</time>
     </span>
 
   
@@ -625,7 +579,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>一些礼物</p>
+          <p>tips</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/11/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E5%A4%B4%E6%A0%87%E5%87%86%E7%BC%96%E7%A0%81/#more" rel="contents">

