@@ -1,12 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>2023启动计划</title>
+    <url>/2023/01/%E6%96%B0%E5%B9%B4%E5%90%AF%E5%8A%A8%E8%AE%A1%E5%88%92/</url>
+    <content><![CDATA[<p>[<strong>置顶</strong>]</p>
+<p>写个计划，没动力的时候来看一下</p>
+<span id="more"></span>
+<p>2023启动计划，每日一题，题目内容不限，BiliBili按时打卡</p>
+<h2 id="why"><a class="markdownIt-Anchor" href="#why"></a> Why</h2>
+<p><strong>为什么突然要弄这样一个形式化的东西？</strong></p>
+<p>这样确实很形式化，但是在这短短的几月里我认识到自己并不能很好的将所想转化为所做！</p>
+<p><strong><code>拖延</code></strong> \<code>“等会儿就去”</code>\<code>有空就整</code>\<code>下次一定</code>\<code>“这周有考试，可以玩几天”</code>\</p>
+<p><strong><code>自大</code></strong> 、<strong><code>浮躁</code></strong>、<strong><code>不踏实</code></strong>、<strong><code>空想主义</code></strong>\<code>&quot;我会的真多&quot;</code>\<code>&quot;我真牛*&quot;</code>\</p>
+<p>所以想逼自己一把，把自己按在板凳上，电脑前，好好地、踏实地、学有所成的、去拼搏一把。</p>
+<blockquote>
+<p><em><strong>#拒绝自我感动</strong></em></p>
+<p><em><strong>#拒绝装模作样</strong></em></p>
+<p><em><strong>#拒绝违背初心</strong></em></p>
+<p><em><strong>#拒绝不切实际</strong></em></p>
+<p><em><strong>#拒绝放纵自己</strong></em></p>
+</blockquote>
+<p>2023，焕然一新？还是一成不变？</p>
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello</title>
     <url>/2022/09/Hello/</url>
     <content><![CDATA[<p>你不喜欢wlop么？</p>
 <span id="more"></span>
 <p><img src="/2022/09/Hello/wlop04.jpg" alt="wlop04"></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Web--Writeup</title>
+    <url>/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/</url>
+    <content><![CDATA[<p>这是每日一题打卡计划的Web部分，主要为Writeup和对题目的简略思考QAQ</p>
+<span id="more"></span>
+<h1 id="day001"><a class="markdownIt-Anchor" href="#day001"></a> DAY–001</h1>
+<h2 id="easyphp"><a class="markdownIt-Anchor" href="#easyphp"></a> easyphp[*]</h2>
+<p>这里选择的第一题是攻防世界里江苏工匠杯的一道web题</p>
+<h3 id="解题过程"><a class="markdownIt-Anchor" href="#解题过程"></a> 解题过程</h3>
+<p>获取容器，访问链接，能够直接获取题目主要源码</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$key1</span> = <span class="number">0</span>;</span><br><span class="line"><span class="variable">$key2</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="variable">$b</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;b&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$a</span>) &amp;&amp; <span class="title function_ invoke__">intval</span>(<span class="variable">$a</span>) &gt; <span class="number">6000000</span> &amp;&amp; <span class="title function_ invoke__">strlen</span>(<span class="variable">$a</span>) &lt;= <span class="number">3</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$b</span>) &amp;&amp; <span class="string">&#x27;8b184b&#x27;</span> === <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>),-<span class="number">6</span>,<span class="number">6</span>))&#123;</span><br><span class="line">        <span class="variable">$key1</span> = <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;Emmm...再想想&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;Emmm...&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$c</span>=(<span class="keyword">array</span>)<span class="title function_ invoke__">json_decode</span>(@<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]);</span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">is_array</span>(<span class="variable">$c</span>) &amp;&amp; !<span class="title function_ invoke__">is_numeric</span>(@<span class="variable">$c</span>[<span class="string">&quot;m&quot;</span>]) &amp;&amp; <span class="variable">$c</span>[<span class="string">&quot;m&quot;</span>] &gt; <span class="number">2022</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">is_array</span>(@<span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">count</span>(<span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>]) == <span class="number">2</span> &amp;&amp; <span class="title function_ invoke__">is_array</span>(<span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>][<span class="number">0</span>]))&#123;</span><br><span class="line">        <span class="variable">$d</span> = <span class="title function_ invoke__">array_search</span>(<span class="string">&quot;DGGJ&quot;</span>, <span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>]);</span><br><span class="line">        <span class="variable">$d</span> === <span class="literal">false</span>?<span class="keyword">die</span>(<span class="string">&quot;no...&quot;</span>):<span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>] <span class="keyword">as</span> <span class="variable">$key</span>=&gt;<span class="variable">$val</span>)&#123;</span><br><span class="line">            <span class="variable">$val</span>===<span class="string">&quot;DGGJ&quot;</span>?<span class="keyword">die</span>(<span class="string">&quot;no......&quot;</span>):<span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable">$key2</span> = <span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;no hack&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;no&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$key1</span> &amp;&amp; <span class="variable">$key2</span>)&#123;</span><br><span class="line">    <span class="keyword">include</span> <span class="string">&quot;Hgfks.php&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;You&#x27;re right&quot;</span>.<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>首先找到直观的<code>$flag</code>，发现获取条件是需要<code>$key1 &amp;&amp; $key2</code>,同时包含&quot;Hgfks.php&quot;</p>
+<p>接下来回到源码主体，找<code>$key1 &amp;&amp; $key2</code>的条件。能够看到都需要等于1。</p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20221231003448624.png" alt="$key1 &amp;&amp; $key2"></p>
+<p>首先来看$key1被赋值为1的条件</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$a</span>) &amp;&amp; <span class="title function_ invoke__">intval</span>(<span class="variable">$a</span>) &gt; <span class="number">6000000</span> &amp;&amp; <span class="title function_ invoke__">strlen</span>(<span class="variable">$a</span>) &lt;= <span class="number">3</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$b</span>) &amp;&amp; <span class="string">&#x27;8b184b&#x27;</span> === <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>),-<span class="number">6</span>,<span class="number">6</span>))&#123;</span><br><span class="line">        <span class="variable">$key1</span> = <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;Emmm...再想想&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;Emmm...&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里是对a和b的一些条件限制，首先<code>intval($a)</code>这里没有对a进行限制，默认a是10进制数，主要是后面的<code>&gt; 6000000 &amp;&amp; strlen($a) &lt;= 3</code>,大于6e6且长度小于3，这里可以直接用科学记数法直接bypass，a=7e7即可。</p>
+<p>接下来看对b的限制，<code>isset($b) &amp;&amp; '8b184b' === substr(md5($b),-6,6)</code>不为空，且md5值的后六位为<em>8b184b</em>，这里可以上一个hash爆破的脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line">md5 = <span class="string">&quot;8b184b&quot;</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    m = random.randint(<span class="number">10</span> ** <span class="number">11</span>, <span class="number">10</span> ** <span class="number">12</span> - <span class="number">1</span>)</span><br><span class="line">    m = <span class="built_in">str</span>(m)</span><br><span class="line">    MD5 = hashlib.md5()</span><br><span class="line">    MD5.update(m.encode(encoding=<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">    flag = MD5.hexdigest()</span><br><span class="line">    <span class="keyword">if</span> flag[-<span class="number">6</span>:] == md5:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;碰撞成功：&quot;</span> + flag)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;明文为:&quot;</span> + m)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;waiting------&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里爆破出来是</p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20221231004718483.png" alt="b-hash爆破"></p>
+<p>所以，b=368400238809</p>
+<p>至此，key1=1的条件都满足，做个测试</p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20221231005004490.png" alt="test"></p>
+<p>接下来看key2=1的条件:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$c</span>=(<span class="keyword">array</span>)<span class="title function_ invoke__">json_decode</span>(@<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]);</span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">is_array</span>(<span class="variable">$c</span>) &amp;&amp; !<span class="title function_ invoke__">is_numeric</span>(@<span class="variable">$c</span>[<span class="string">&quot;m&quot;</span>]) &amp;&amp; <span class="variable">$c</span>[<span class="string">&quot;m&quot;</span>] &gt; <span class="number">2022</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">is_array</span>(@<span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>]) &amp;&amp; <span class="title function_ invoke__">count</span>(<span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>]) == <span class="number">2</span> &amp;&amp; <span class="title function_ invoke__">is_array</span>(<span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>][<span class="number">0</span>]))&#123;</span><br><span class="line">        <span class="variable">$d</span> = <span class="title function_ invoke__">array_search</span>(<span class="string">&quot;DGGJ&quot;</span>, <span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>]);</span><br><span class="line">        <span class="variable">$d</span> === <span class="literal">false</span>?<span class="keyword">die</span>(<span class="string">&quot;no...&quot;</span>):<span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="variable">$c</span>[<span class="string">&quot;n&quot;</span>] <span class="keyword">as</span> <span class="variable">$key</span>=&gt;<span class="variable">$val</span>)&#123;</span><br><span class="line">            <span class="variable">$val</span>===<span class="string">&quot;DGGJ&quot;</span>?<span class="keyword">die</span>(<span class="string">&quot;no......&quot;</span>):<span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable">$key2</span> = <span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;no hack&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;no&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先看对c的条件限制<code>is_array($c) </code>\<code>$c=(array)json_decode(@$_GET['c'])</code>,c为数组类型，且是双数组同时c在GET请求前会被json编码一次。。</p>
+<p>对m的限制<code>!is_numeric(@$c[&quot;m&quot;]) &amp;&amp; $c[&quot;m&quot;] &gt; 2022</code>,来看一下</p>
+<p><code>!is_numeric()</code>函数的限制特点，限制返回的数不为数字和数字字符串。且m的值还得被解析为大于2022的整数。在php中字符串和与数字相比较是会被强制转化为整型，所以这里可以用“2023TWe1v3”来进行比较，会被转化为“2023”与“2022”相比较，满足m的条件了。</p>
+<p>**小tip—&gt;这里做个test：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">show_source</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$m</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;m&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(!<span class="title function_ invoke__">is_numeric</span>(<span class="variable">$m</span>) &amp;&amp; <span class="variable">$m</span> &gt; <span class="number">123</span>)&#123;</span><br><span class="line">    <span class="keyword">echo</span>(<span class="string">&quot;u are right!&quot;</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span>(<span class="string">&quot;u are false~&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>m=1234   false</code></p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20221231012150363.png" alt="m=1234"></p>
+<p><code>m=1234a  true</code></p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20221231012307478.png" alt="image-20221231012307478"></p>
+<p>【回归正题】</p>
+<p>对n的限制<code>if(is_array(@$c[&quot;n&quot;]) &amp;&amp; count($c[&quot;n&quot;]) == 2 &amp;&amp; is_array($c[&quot;n&quot;][0]))</code>,变量n必须为数组且有两个。</p>
+<p>往下跟<code>array_search(&quot;DGGJ&quot;, $c[&quot;n&quot;])</code>这里的array_search()是在数组变量n中匹配“DGGJ”，匹配到返回TRUE，反之返回FALSE。同理和弱类型比较相近似，在php中字符串和与数字相比较是会被强制转化为整型，“DGGJ”转化为整形就是0，所以到这儿就可以完成了</p>
+<h3 id="构建最后的payload"><a class="markdownIt-Anchor" href="#构建最后的payload"></a> 构建最后的<strong>payload</strong>：</h3>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">?a=<span class="number">7e7</span>&amp;b=<span class="number">368400238809</span>&amp;c=&#123;<span class="string">&quot;m&quot;</span>:<span class="string">&quot;2023TWe1v3&quot;</span>,<span class="string">&quot;n&quot;</span>:[[<span class="number">0</span>],<span class="number">0</span>]&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20221231013604850.png" alt="image-20221231013604850"></p>
+]]></content>
+      <categories>
+        <category>每日一题</category>
+      </categories>
+      <tags>
+        <tag>每日一题</tag>
+        <tag>web</tag>
+      </tags>
   </entry>
   <entry>
     <title>RCTF2022-Writeup</title>
@@ -1811,8 +1890,8 @@ private：私有的</p>
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -2045,8 +2124,8 @@ private：私有的</p>
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
+        <tag>CTF</tag>
         <tag>Web</tag>
         <tag>Misc</tag>
       </tags>
