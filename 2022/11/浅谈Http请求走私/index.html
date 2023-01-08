@@ -141,7 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%85%E8%B0%88http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81"><span class="nav-number">1.</span> <span class="nav-text"> 浅谈HTTP请求走私</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.1.</span> <span class="nav-text"> 产生原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.2.</span> <span class="nav-text"> 前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http11%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text"> HTTP&#x2F;1.1的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#keep-alive"><span class="nav-number">1.2.1.1.</span> <span class="nav-text"> Keep-Alive</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%AF%E6%8C%81pipeline"><span class="nav-number">1.2.1.2.</span> <span class="nav-text"> 支持pipeline</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8Ekeep-alive%E6%A8%A1%E5%BC%8F%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E8%AF%B7%E6%B1%82%E6%89%80%E5%BE%97%E5%88%B0%E7%9A%84%E5%93%8D%E5%BA%94%E6%95%B0%E6%8D%AE%E5%B7%B2%E7%BB%8F%E6%8E%A5%E6%94%B6%E5%AE%8C%E6%88%90"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 对于Keep-Alive模式，如何判断请求所得到的响应数据已经接收完成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#conent-length"><span class="nav-number">1.2.2.1.</span> <span class="nav-text"> Conent-Length</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#transfer-encoding"><span class="nav-number">1.2.2.2.</span> <span class="nav-text"> Transfer-Encoding</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%9D%97%E7%BC%96%E7%A0%81transfer-encoding-chunked"><span class="nav-number">1.2.3.</span> <span class="nav-text"> 分块编码（Transfer-Encoding: chunked）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D%E8%B5%B0%E7%A7%81%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text"> 几种走私类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cl-te"><span class="nav-number">1.3.1.</span> <span class="nav-text"> CL-TE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#te-cl"><span class="nav-number">1.3.2.</span> <span class="nav-text"> TE-CL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#te-te"><span class="nav-number">1.3.3.</span> <span class="nav-text"> TE-TE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.4.</span> <span class="nav-text"> 利用HTTP请求走私漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bypass%E5%89%8D%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81"><span class="nav-number">1.4.1.</span> <span class="nav-text"> Bypass前端服务器安全验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%89%8D%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9%E8%AF%B7%E6%B1%82%E7%9A%84%E9%87%8D%E5%86%99%E6%83%85%E5%86%B5"><span class="nav-number">1.4.2.</span> <span class="nav-text"> 获取前端服务器对请求的重写情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E7%9A%84cookie"><span class="nav-number">1.4.3.</span> <span class="nav-text"> 获取其他用户的cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http-header%E5%AF%BC%E8%87%B4%E7%9A%84xss"><span class="nav-number">1.4.4.</span> <span class="nav-text"> HTTP header导致的XSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E9%87%8D%E5%AE%9A%E5%90%91%E8%BD%AC%E5%8F%98%E4%B8%BA%E4%BB%BB%E6%84%8F%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">1.4.5.</span> <span class="nav-text"> 将重定向转变为任意重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%8A%95%E6%AF%92"><span class="nav-number">1.4.6.</span> <span class="nav-text"> 缓存投毒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97"><span class="nav-number">1.4.7.</span> <span class="nav-text"> 缓存欺骗</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">浅谈HTTP请求走私</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.1.</span> <span class="nav-text">产生原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.2.</span> <span class="nav-text">前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-1-1%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.1.</span> <span class="nav-text">HTTP&#x2F;1.1的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Keep-Alive"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Keep-Alive</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%AF%E6%8C%81pipeline"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">支持pipeline</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8EKeep-Alive%E6%A8%A1%E5%BC%8F%EF%BC%8C%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E8%AF%B7%E6%B1%82%E6%89%80%E5%BE%97%E5%88%B0%E7%9A%84%E5%93%8D%E5%BA%94%E6%95%B0%E6%8D%AE%E5%B7%B2%E7%BB%8F%E6%8E%A5%E6%94%B6%E5%AE%8C%E6%88%90"><span class="nav-number">1.2.2.</span> <span class="nav-text">对于Keep-Alive模式，如何判断请求所得到的响应数据已经接收完成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Conent-Length"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Conent-Length</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transfer-Encoding"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">Transfer-Encoding</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%9D%97%E7%BC%96%E7%A0%81%EF%BC%88Transfer-Encoding-chunked%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">分块编码（Transfer-Encoding: chunked）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D%E8%B5%B0%E7%A7%81%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">几种走私类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CL-TE"><span class="nav-number">1.3.1.</span> <span class="nav-text">CL-TE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TE-CL"><span class="nav-number">1.3.2.</span> <span class="nav-text">TE-CL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TE-TE"><span class="nav-number">1.3.3.</span> <span class="nav-text">TE-TE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8HTTP%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.4.</span> <span class="nav-text">利用HTTP请求走私漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bypass%E5%89%8D%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81"><span class="nav-number">1.4.1.</span> <span class="nav-text">Bypass前端服务器安全验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%89%8D%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%B9%E8%AF%B7%E6%B1%82%E7%9A%84%E9%87%8D%E5%86%99%E6%83%85%E5%86%B5"><span class="nav-number">1.4.2.</span> <span class="nav-text">获取前端服务器对请求的重写情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E7%9A%84cookie"><span class="nav-number">1.4.3.</span> <span class="nav-text">获取其他用户的cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-header%E5%AF%BC%E8%87%B4%E7%9A%84XSS"><span class="nav-number">1.4.4.</span> <span class="nav-text">HTTP header导致的XSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E9%87%8D%E5%AE%9A%E5%90%91%E8%BD%AC%E5%8F%98%E4%B8%BA%E4%BB%BB%E6%84%8F%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">1.4.5.</span> <span class="nav-text">将重定向转变为任意重定向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%8A%95%E6%AF%92"><span class="nav-number">1.4.6.</span> <span class="nav-text">缓存投毒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97"><span class="nav-number">1.4.7.</span> <span class="nav-text">缓存欺骗</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -307,7 +307,7 @@
     <div class="post-body" itemprop="articleBody">
         <p>这是一些关于HTTP请求走私的一些学习笔记和总结，也有一些借鉴，Copy啦！QwQ~<code>====</code></p>
 <span id="more"></span>
-<h1 id="浅谈http请求走私"><a class="markdownIt-Anchor" href="#浅谈http请求走私"></a> 浅谈HTTP请求走私</h1>
+<h1>浅谈HTTP请求走私</h1>
 <hr>
 <p>​                                                                                                                                                        <strong>--------------TWe1v3</strong></p>
 <p>本文主要针对HTTP/1.1协议的请求走私做一些讲解，不涉及HTTP/2.0、HTTP/3.0的相关技术。不过这里可以说一下HTTP和HTTPS的一些差别：</p>
@@ -321,7 +321,7 @@
 <li>HTTP响应比HTTPS快，因为HTTPS还需要TSL握手，所以HTTPS更耗费服务器资源</li>
 </ul>
 </blockquote>
-<h2 id="产生原因"><a class="markdownIt-Anchor" href="#产生原因"></a> 产生原因</h2>
+<h2 id="产生原因">产生原因</h2>
 <p>当今的 Web 应用程序经常在用户和最终应用程序逻辑之间采用 HTTP 服务器链。用户将请求发送到 前端服务器（有时称为负载平衡器或反向代理），此服务器将请求转发到一个或多个后端服务器。 这种类型的架构在现代基于云的应用程序中越来越普遍，在某些情况下是不可避免的。</p>
 <p>当前端服务器将 HTTP 请求转发到后端服务器时，它通常会通过同一后端网络发送多个请求 连接，因为这更加高效和高性能。协议非常简单：HTTP请求一个接一个地发送，并且 接收服务器解析 HTTP 请求标头，以确定一个请求的结束位置和下一个请求的开始位置：</p>
 <p><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/image-20221126132239777.png" alt="image-20221126132239777"></p>
@@ -330,19 +330,19 @@
 <p>现在的Web应用程序经常在用户和最终的应用程序之间使用HTTP服务器链。用户将请求发送到前端服务器（有时称为负载平衡器或反向代理，也可能是WAF），并且该服务器将请求转发到一个或多个后端服务器。</p>
 </blockquote>
 <p><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/image-20221126132324467.png" alt="image-20221126132324467"></p>
-<h2 id="前置知识"><a class="markdownIt-Anchor" href="#前置知识"></a> 前置知识</h2>
-<h3 id="http11的特性"><a class="markdownIt-Anchor" href="#http11的特性"></a> HTTP/1.1的特性</h3>
-<h4 id="keep-alive"><a class="markdownIt-Anchor" href="#keep-alive"></a> Keep-Alive</h4>
+<h2 id="前置知识">前置知识</h2>
+<h3 id="HTTP-1-1的特性">HTTP/1.1的特性</h3>
+<h4 id="Keep-Alive">Keep-Alive</h4>
 <p>Keep-Alive（又称持久连接），在<code>HTTP/1.1</code>中，默认使用启用Keep-Alive，Keep-Alive功能使客户端到服务器端的连接持续有效，同一对客户/服务器之间的后续请求和响应可以通过这个连接发送。</p>
-<h4 id="支持pipeline"><a class="markdownIt-Anchor" href="#支持pipeline"></a> 支持pipeline</h4>
+<h4 id="支持pipeline">支持pipeline</h4>
 <p><code>HTTP/1.1</code>允许在持久连接上可选地使用请求管道（意味pipeline是依赖于持久连接的，而不是独立的）。pipeline请求管道可以在响应到达之前，将多条请求放入队列，但对于pipeline的请求顺序和响应顺序是相对应的。</p>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200721172714.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200721172714-166930312604254.png" alt="img"></a></p>
-<h3 id="对于keep-alive模式如何判断请求所得到的响应数据已经接收完成"><a class="markdownIt-Anchor" href="#对于keep-alive模式如何判断请求所得到的响应数据已经接收完成"></a> 对于Keep-Alive模式，如何判断请求所得到的响应数据已经接收完成</h3>
-<h4 id="conent-length"><a class="markdownIt-Anchor" href="#conent-length"></a> Conent-Length</h4>
+<h3 id="对于Keep-Alive模式，如何判断请求所得到的响应数据已经接收完成">对于Keep-Alive模式，如何判断请求所得到的响应数据已经接收完成</h3>
+<h4 id="Conent-Length">Conent-Length</h4>
 <p>Conent-Length表示实体内容长度，当客户端向服务器请求一个静态页面或者一张图片时，服务器可以很清楚的知道内容大小，然后通过Content-length消息首部字段告诉客户端 需要接收多少数据。</p>
-<h4 id="transfer-encoding"><a class="markdownIt-Anchor" href="#transfer-encoding"></a> Transfer-Encoding</h4>
+<h4 id="Transfer-Encoding">Transfer-Encoding</h4>
 <p>分块编码，数据分解成一系列数据块，并以一个或多个块发送，这样服务器可以发送数据而不需要预先知道发送内容的总大小。</p>
-<h3 id="分块编码transfer-encoding-chunked"><a class="markdownIt-Anchor" href="#分块编码transfer-encoding-chunked"></a> 分块编码（Transfer-Encoding: chunked）</h3>
+<h3 id="分块编码（Transfer-Encoding-chunked）">分块编码（Transfer-Encoding: chunked）</h3>
 <ol>
 <li>在头部加入 Transfer-Encoding: chunked 之后，就代表这个报文采用了分块编码。这时，报文中的实体需要改为用一系列分块来传输。</li>
 <li>每个分块包含十六进制的长度值和数据，长度值独占一行，长度不包括它结尾的 CRLF(\r\n)，也不包括分块数据结尾的 CRLF(\r\n)。</li>
@@ -350,8 +350,8 @@
 </ol>
 <p>例：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: text/plain</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">25\r\n</span><br><span class="line">This is the data in the first chunk\r\n</span><br><span class="line"></span><br><span class="line">1C\r\n</span><br><span class="line">and this is the second one\r\n</span><br><span class="line"></span><br><span class="line">3\r\n</span><br><span class="line">con\r\n</span><br><span class="line"></span><br><span class="line">0\r\n</span><br><span class="line">\r\n</span><br></pre></td></tr></table></figure>
-<h2 id="几种走私类型"><a class="markdownIt-Anchor" href="#几种走私类型"></a> 几种走私类型</h2>
-<h3 id="cl-te"><a class="markdownIt-Anchor" href="#cl-te"></a> CL-TE</h3>
+<h2 id="几种走私类型">几种走私类型</h2>
+<h3 id="CL-TE">CL-TE</h3>
 <p>前端服务器使用Content-Length头，而后端服务器使用Transfer-Encoding头。</p>
 <p>发送两次请求，当第二次请求时出现HTTP方式错误，则存在走私问题。实验截图：</p>
 <p><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/image-20221126110216153.png" alt="image-20221126110216153"></p>
@@ -373,7 +373,7 @@
 <li>注意<br>
 由于前端服务器处理Content-Length，需要把我们所有的内容都发送到后端服务器中去，那这个Content-Length可以用Brupsuite自动计算。</li>
 </ul>
-<h3 id="te-cl"><a class="markdownIt-Anchor" href="#te-cl"></a> TE-CL</h3>
+<h3 id="TE-CL">TE-CL</h3>
 <p>前端服务器使用Transfer-Encoding头，而后端服务器使用Content-Length头。</p>
 <p>简单判断payload</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: ac361f181f029323806b3eea0007002e.web-security-academy.net</span><br><span class="line">Content-Length: 3</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">G</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
@@ -385,15 +385,15 @@
 <li>注意<br>
 需要注意的是走私的请求中，Content-Length一定要少于后面请求中的长度，否则后台会Timeout出现错误。</li>
 </ul>
-<h3 id="te-te"><a class="markdownIt-Anchor" href="#te-te"></a> TE-TE</h3>
+<h3 id="TE-TE">TE-TE</h3>
 <p>前端服务器和后端服务器都支持Transfer-Encoding标头，但是可以通过以某种方式混淆标头来诱导其中一台服务器不对其进行处理。</p>
 <p>混淆的方式：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Transfer-Encoding: xchunked</span><br><span class="line"></span><br><span class="line">Transfer-Encoding : chunked</span><br><span class="line"></span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Transfer-Encoding: x</span><br><span class="line"></span><br><span class="line">Transfer-Encoding:[tab]chunked</span><br><span class="line"></span><br><span class="line">[space]Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">X: X[\n]Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">Transfer-Encoding</span><br><span class="line">: chunked</span><br></pre></td></tr></table></figure>
 <p>简单判断payload</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: ac261f3a1eb0e24580730eed00d70071.web-security-academy.net</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-length: 4</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Transfer-encoding: cow</span><br><span class="line"></span><br><span class="line">5c</span><br><span class="line">GPOST / HTTP/1.1</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Content-Length: 15</span><br><span class="line"></span><br><span class="line">x=1</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200721203309.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200721203309.png" alt="img"></a></p>
-<h2 id="利用http请求走私漏洞"><a class="markdownIt-Anchor" href="#利用http请求走私漏洞"></a> 利用HTTP请求走私漏洞</h2>
-<h3 id="bypass前端服务器安全验证"><a class="markdownIt-Anchor" href="#bypass前端服务器安全验证"></a> Bypass前端服务器安全验证</h3>
+<h2 id="利用HTTP请求走私漏洞">利用HTTP请求走私漏洞</h2>
+<h3 id="Bypass前端服务器安全验证">Bypass前端服务器安全验证</h3>
 <p><strong>场景</strong>：前端服务器对某些页面添加了访问限制，比如实验中对admin页面控制在只能是后端服务器才能访问，此时可以通过HTTP走私漏洞来绕过这个限制。</p>
 <ul>
 <li>CL-TE</li>
@@ -411,7 +411,7 @@
 </ul>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200721223313.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200721223313.png" alt="img"></a></p>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200721223504.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200721223504.png" alt="img"></a></p>
-<h3 id="获取前端服务器对请求的重写情况"><a class="markdownIt-Anchor" href="#获取前端服务器对请求的重写情况"></a> 获取前端服务器对请求的重写情况</h3>
+<h3 id="获取前端服务器对请求的重写情况">获取前端服务器对请求的重写情况</h3>
 <p><strong>场景</strong>：前端服务器通常在请求添加到其他请求头之前，先对请求进行一些重写，然后再转发给后端服务器。一般是添加一些HTTP HEADER。可以通过HTTP走私请求来获取到这些重写内容。</p>
 <p>但走私的前提需具备一些条件：</p>
 <ul>
@@ -429,14 +429,14 @@
 <p>于是加入走私的请求，再尝试访问/admin发现成功</p>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200724151656.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200724151656.png" alt="img"></a></p>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200724152230.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200724152230.png" alt="img"></a></p>
-<h3 id="获取其他用户的cookie"><a class="markdownIt-Anchor" href="#获取其他用户的cookie"></a> 获取其他用户的cookie</h3>
+<h3 id="获取其他用户的cookie">获取其他用户的cookie</h3>
 <p>参考上一个实验，这个实验也是通过获取HTTP HEADER来获取其他用户的Cookie。</p>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200724164032.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200724164032.png" alt="img"></a></p>
-<h3 id="http-header导致的xss"><a class="markdownIt-Anchor" href="#http-header导致的xss"></a> HTTP header导致的XSS</h3>
+<h3 id="HTTP-header导致的XSS">HTTP header导致的XSS</h3>
 <p><strong>场景</strong>：通常情况下，HTTP HEADER导致的XSS是不好利用的，但是通过HTTP走私请求，我们能够控制HTTP HEADER，进而就可以利用这类HTTP头导致的XSS。</p>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200724164602.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200724164602.png" alt="img"></a></p>
 <p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/Dsysf/images/master/20200724164644.png"><img src="/2022/11/%E6%B5%85%E8%B0%88Http%E8%AF%B7%E6%B1%82%E8%B5%B0%E7%A7%81/20200724164644.png" alt="img"></a></p>
-<h3 id="将重定向转变为任意重定向"><a class="markdownIt-Anchor" href="#将重定向转变为任意重定向"></a> 将重定向转变为任意重定向</h3>
+<h3 id="将重定向转变为任意重定向">将重定向转变为任意重定向</h3>
 <p><strong>场景</strong>：许多应用程序执行现场重定向，并将主机名从请求的Host标头放入重定向URL。</p>
 <p>示例：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET /home HTTP/1.1</span><br><span class="line">Host: normal-website.com</span><br><span class="line"></span><br><span class="line">HTTP/1.1 301 Moved Permanently</span><br><span class="line">Location: https://normal-website.com/home/</span><br></pre></td></tr></table></figure>
@@ -444,7 +444,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: vulnerable-website.com</span><br><span class="line">Content-Length: 54</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line"></span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">GET /home HTTP/1.1</span><br><span class="line">Host: attacker-website.com</span><br><span class="line">Foo: X</span><br></pre></td></tr></table></figure>
 <p>走私的请求将触发重定向到攻击者的网站，这将影响后端服务器处理的下一个用户的请求。例如：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /home HTTP/1.1</span><br><span class="line">Host: attacker-website.com</span><br><span class="line">Foo: XGET /scripts/include.js HTTP/1.1</span><br><span class="line">Host: vulnerable-website.com</span><br><span class="line"></span><br><span class="line">HTTP/1.1 301 Moved Permanently</span><br><span class="line">Location: https://attacker-website.com/home/</span><br></pre></td></tr></table></figure>
-<h3 id="缓存投毒"><a class="markdownIt-Anchor" href="#缓存投毒"></a> 缓存投毒</h3>
+<h3 id="缓存投毒">缓存投毒</h3>
 <ul>
 <li>构造一个页面中写入恶意的内容，比如写入alert(document.cookie)</li>
 <li>发送请求走私的内容</li>
@@ -454,7 +454,7 @@
 <li>再寻找到一个可用缓存的js页面（可用导致xss的js）访问。页面会跳转到恶意页面中，并且将恶意内容缓存到服务器上。</li>
 <li>打开主页 ⇒ 导致xss</li>
 </ul>
-<h3 id="缓存欺骗"><a class="markdownIt-Anchor" href="#缓存欺骗"></a> 缓存欺骗</h3>
+<h3 id="缓存欺骗">缓存欺骗</h3>
 <p>缓存欺骗：在Web缓存欺骗中，攻击者使应用程序将一些属于另一个用户的敏感内容存储在缓存中，然后攻击者从缓存中检索此内容。</p>
 <ul>
 <li>寻找一个存在隐私的页面，比如这里的my-account，并且页面返回的内容是可以被缓存的</li>
@@ -525,7 +525,7 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">180k</span>
+    <span title="站点总字数">179k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
