@@ -38,10 +38,10 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Web--Writeup</title>
+    <title>【每日一题】--Writeup</title>
     <url>/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/</url>
     <content><![CDATA[<p>【每日一题】</p>
-<p>这是每日一题打卡计划的Web部分，主要为Writeup和对题目的简略思考QAQ</p>
+<p>这是每日一题打卡计划的Writeup，主要为Writeup和对题目的简略思考QAQ</p>
 <span id="more"></span>
 <h1 id="day001"><a class="markdownIt-Anchor" href="#day001"></a> DAY–001</h1>
 <h2 id="easyphp"><a class="markdownIt-Anchor" href="#easyphp"></a> easyphp[*]</h2>
@@ -90,13 +90,38 @@
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">echo</span>(<span class="string">&quot;123&quot;</span>);@<span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;TW&#x27;</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20221231212014794.png" alt="ez_upload"></p>
 <p>结：这题纯面向新生，没有什么知识点的考察，一句话木马的编写，RCE命令执行。</p>
+<h1 id="day003"><a class="markdownIt-Anchor" href="#day003"></a> DAY–003</h1>
+<h2 id="xctf2016cat"><a class="markdownIt-Anchor" href="#xctf2016cat"></a> [XCTF2016]Cat   [**+]</h2>
+<h3 id="解题过程-3"><a class="markdownIt-Anchor" href="#解题过程-3"></a> 解题过程</h3>
+<p>首先能够测试到这儿有一个curl能够ping通本地127.0.0.1</p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20230108224940559.png" alt="Cat-01"></p>
+<p>就以为是拼接命令执行，试了半天都没回显</p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20230108225730225.png" alt="Cat-02"></p>
+<p>开始手动fuzz（ps：）不想用bp哈哈哈）</p>
+<p>不停的输入测试可以发现能够解析十六进制的ASCII码值</p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20230108235444601.png" alt="Cat03"></p>
+<p>可以试试超出ASCII编码范围看看解析是否报错<code>%80</code></p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20230109002835753.png" alt="Cat04"></p>
+<p>简单看一下报错回显，发现在报错回显泄露了数据库的绝对路径，使用<code>@+绝对路径</code>可以直接访问，访问一下：</p>
+<p><img src="/2023/01/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/TWe1v3%27s%20blog/Hexo/blog/source/_posts/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-Web/image-20230109004055212.png" alt="Cat-05"></p>
+<p>能够在大量报错回显中发现flag</p>
+<h3 id="构建最后的payload-2"><a class="markdownIt-Anchor" href="#构建最后的payload-2"></a> 构建最后的<strong>payload</strong>：</h3>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">?url=@/opt/api/database.sqlite3</span><br></pre></td></tr></table></figure>
+<h1 id="day004"><a class="markdownIt-Anchor" href="#day004"></a> DAY–004</h1>
+<h2 id="wdctf4-1"><a class="markdownIt-Anchor" href="#wdctf4-1"></a> [WDCTF]4-1 [*]</h2>
+<h3 id="解题过程-4"><a class="markdownIt-Anchor" href="#解题过程-4"></a> 解题过程</h3>
+<p><code>binwalk -e ./</code>分离出图片中的压缩包，解压后根据tips.txt提示第二张比第一张图片多一些东西，可大概推断出这是盲水印隐写，github上找BlindWaterMark-master，运行脚本即可。</p>
+<h1 id="day005"><a class="markdownIt-Anchor" href="#day005"></a> DAY–005</h1>
+<p>【略】</p>
+<h1 id="day006"><a class="markdownIt-Anchor" href="#day006"></a> DAY–006</h1>
+<p>【略】</p>
 ]]></content>
       <categories>
         <category>每日一题</category>
       </categories>
       <tags>
-        <tag>每日一题</tag>
         <tag>web</tag>
+        <tag>每日一题</tag>
       </tags>
   </entry>
   <entry>
