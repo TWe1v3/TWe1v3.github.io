@@ -122,6 +122,7 @@
       <tags>
         <tag>每日一题</tag>
         <tag>web</tag>
+        <tag>Writeup</tag>
       </tags>
   </entry>
   <entry>
@@ -215,8 +216,8 @@
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
       </tags>
   </entry>
   <entry>
@@ -1401,8 +1402,8 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
         <tag>Re</tag>
         <tag>Pwn</tag>
       </tags>
@@ -1608,11 +1609,11 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
         <tag>Pwn</tag>
-        <tag>Reverse</tag>
         <tag>Writeup</tag>
+        <tag>Reverse</tag>
       </tags>
   </entry>
   <entry>
@@ -1927,8 +1928,8 @@ private：私有的</p>
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -2161,10 +2162,10 @@ private：私有的</p>
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
