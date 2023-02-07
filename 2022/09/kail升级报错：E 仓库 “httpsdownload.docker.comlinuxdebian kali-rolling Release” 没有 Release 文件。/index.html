@@ -144,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text"> 问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text"> 解决办法</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -288,9 +288,9 @@
     <div class="post-body" itemprop="articleBody">
         <p>写在前面，这是我在使用kali的过程中遇到的问题</p>
 <span id="more"></span>
-<h4 id="问题"><a class="markdownIt-Anchor" href="#问题"></a> 问题</h4>
+<h4 id="问题">问题</h4>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@root:~# sudo apt update 命中:1 http://mirrors.ustc.edu.cn/kali kali-rolling InRelease 忽略:2 https://download.docker.com/linux/debian kali-rolling InRelease 错误:3 https://download.docker.com/linux/debian kali-rolling Release  404  Not Found [IP: 65.8.85.83 443] 正在读取软件包列表... 完成 E: 仓库 “https://download.docker.com/linux/debian kali-rolling Release” 没有 Release 文件。 N: 无法安全地用该源进行更新，所以默认禁用该源。 N: 参见 apt-secure(8) 手册以了解仓库创建和用户配置方面的细节。</span><br></pre></td></tr></table></figure>
-<h4 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h4>
+<h4 id="解决办法">解决办法</h4>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@root:~# cd /etc/apt/sources.list.d</span><br><span class="line">root@root:/etc/apt/sources.list.d# ls</span><br><span class="line">docker.list</span><br><span class="line">root@root:/etc/apt/sources.list.d# rm docker.list </span><br><span class="line">root@root:/etc/apt/sources.list.d# apt-get update &amp;&amp; apt-get upgrade</span><br></pre></td></tr></table></figure>
 <p>好耶散花！QWQ</p>
 
