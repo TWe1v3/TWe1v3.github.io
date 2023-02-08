@@ -321,7 +321,7 @@
 <p>框内输入“ffifdyop”，成功绕过。</p>
 <p><img src="/2022/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911165824467.png" alt="麻了"></p>
 <p>查看源代码，这里有很多种绕过方式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?a=QNKCDZO&amp;b=240610708</span><br><span class="line"></span><br><span class="line">?a=s878926199a&amp;b=s155964671a</span><br><span class="line"></span><br><span class="line">?a[]=1&amp;b[]=2</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?<span class="attribute">a</span>=QNKCDZO&amp;b=240610708</span><br><span class="line"></span><br><span class="line">?<span class="attribute">a</span>=s878926199a&amp;b=s155964671a</span><br><span class="line"></span><br><span class="line">?a[]=1&amp;b[]=2</span><br></pre></td></tr></table></figure>
 <p><img src="/2022/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170317691.png" alt="麻了"></p>
 <p><img src="/2022/09/SQL-ffifdyop%E7%BB%95%E8%BF%87/image-20220911170742947.png" alt="麻了"></p>
 <p>同理，POST双参数数组绕过。</p>
