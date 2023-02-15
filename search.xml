@@ -352,9 +352,9 @@
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -588,8 +588,8 @@
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
       </tags>
   </entry>
   <entry>
@@ -1832,9 +1832,9 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
-        <tag>Misc</tag>
         <tag>Re</tag>
+        <tag>Misc</tag>
+        <tag>Web</tag>
         <tag>Pwn</tag>
       </tags>
   </entry>
@@ -2039,10 +2039,10 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
-        <tag>Writeup</tag>
+        <tag>Web</tag>
         <tag>Pwn</tag>
+        <tag>Writeup</tag>
         <tag>Reverse</tag>
       </tags>
   </entry>
@@ -2571,10 +2571,10 @@ private：私有的</p>
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
