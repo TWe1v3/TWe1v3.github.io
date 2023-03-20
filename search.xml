@@ -493,8 +493,8 @@
       </categories>
       <tags>
         <tag>Writeup</tag>
-        <tag>web</tag>
         <tag>每日一题</tag>
+        <tag>web</tag>
       </tags>
   </entry>
   <entry>
@@ -2571,8 +2571,8 @@ private：私有的</p>
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
+        <tag>CTF</tag>
         <tag>Web</tag>
         <tag>Misc</tag>
       </tags>
