@@ -38,6 +38,246 @@
 ]]></content>
   </entry>
   <entry>
+    <title>红明谷CTF-2023--个人Writeup</title>
+    <url>/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/</url>
+    <content><![CDATA[<p>这比赛还是蛮可惜的，差一道题没交上，痛失一个线下面基师傅们的机会T_T</p>
+<span id="more"></span>
+<h1 id="红明谷ctf-2023个人writeup"><a class="markdownIt-Anchor" href="#红明谷ctf-2023个人writeup"></a> 红明谷CTF-2023–个人Writeup</h1>
+<h2 id="web"><a class="markdownIt-Anchor" href="#web"></a> WEB</h2>
+<h3 id="点击签到"><a class="markdownIt-Anchor" href="#点击签到"></a> <strong>点击签到</strong></h3>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNb7ZTAnAjZDBoIJjTbXPbRr.png" alt="img"></p>
+<p>连续点击即可获取flag：</p>
+<p>flag{1efe5dac-692a-47b8-b32d-ff737af384a7}</p>
+<h3 id="dreamer"><a class="markdownIt-Anchor" href="#dreamer"></a> <strong>Dreamer</strong></h3>
+<p>访问管理员目录/admin</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">uername:</span>wangjn</span><br><span class="line"><span class="symbol">password:</span><span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<p>栏目文章管理处，创建顶级栏目</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNYE_JFyU4ZHAJBLMRufmflv.png" alt="img"></p>
+<p>设置栏目</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNbbkAAlSd9Ck689zHiaRd0Y.png" alt="img"></p>
+<p>目录穿越，任意文章读取</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNZ6rF3cihNPxqj3BB9URFMi.png" alt="img"></p>
+<p>主页访问栏目flag</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNZze8YHvN5DKLGTRJBPDVm8.png" alt="img"></p>
+<p>flag{9dce33c6-3a2b-4235-a35c-86401e8df9b2}</p>
+<h3 id="dreamer_revenge"><a class="markdownIt-Anchor" href="#dreamer_revenge"></a> <strong>Dreamer_revenge</strong></h3>
+<p>访问管理员目录/admin</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">uername:</span>wangjn</span><br><span class="line"><span class="symbol">password:</span><span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<p>直接构造一个主题包，里面修改路径，可读所有文件</p>
+<p>找到dreamer_cms-Previous_Releases_4.1.3/src/main/resources/db/dreamer-cms/templates文件夹</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVK0kkKZba5NW6nHDH9C2-KU.png" alt="img"></p>
+<p>修改default_v2文件夹下的theme.json文件的themePath</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVJTRkCC9aZCC4bp7TQCxwRh.png" alt="img"></p>
+<p>改为…/…/…/…/…/…/…/…/…/…/…/…/…/…/，然后将default_v2压缩成zip包即可</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNaf4wAPc-RJk7v3y1mmM8dR.png" alt="img"><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNYGfhQ5x9pFzqL0JOhu8dx5.png" alt="img"></p>
+<p>启用新主题，找flag的路径：</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNYFNzsBlCNP1YeVPzLL4qsF.png" alt="img"></p>
+<p>flag路径：  /proc/1/environ</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAABY8QiNbnbUIWuPNI97f9mschRuvL.png" alt="img"></p>
+<p>flag{bfd78316-a136-45e7-b04b-35af29af8313}</p>
+<h2 id="misc"><a class="markdownIt-Anchor" href="#misc"></a> Misc</h2>
+<h3 id="hacker"><a class="markdownIt-Anchor" href="#hacker"></a> <strong>hacker</strong></h3>
+<p>打开看见流量包</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVLzFwbzAY5Kl4g6AwutqxD3.png" alt="img"></p>
+<p>提取http流量url解密并审查shell.php，发现是dnslog注入</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVIzEeKyaWhDZ78kVncHWfjU.png" alt="img"></p>
+<p>通过审计上面代码发现是将数据和admin的md5后的密码异或后再短域名拼接后发送</p>
+<p>发现SQL注入泄露admin密码的MD5</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVLJ7DaaXwNNr6dos9E5bTSG.png" alt="img"></p>
+<p>再看DNS流量包</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVIy72j6btJP45aLNlzzGhDO.png" alt="img"></p>
+<p>写脚本辅助解密</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">enc_data = <span class="string">b&quot;&quot;</span></span><br><span class="line">enc_data += binascii.unhexlify(<span class="string">b&#x27;7b357226771575227a7372237677702573611f372570317b76727720762066&#x27;</span>)</span><br><span class="line">key = <span class="string">&quot;8a3e684c923b763d252cf1e8734a7a29&quot;</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    dec_data = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i, byte <span class="keyword">in</span> <span class="built_in">enumerate</span>(enc_data):</span><br><span class="line">        dec_data += <span class="built_in">bytes</span>([byte ^ <span class="built_in">ord</span>(key[(i+k) % <span class="built_in">len</span>(key)])])</span><br><span class="line">    <span class="built_in">print</span>(dec_data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>脚本解出部分flag，但部分包数据不可解密</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVJhzg5K3F5JDqgVLQrYJIVy.png" alt="img"></p>
+<p>其中报文有部分错误，通过爆破发现在3段满62字符长数据后都添加6就可以得到真实密文为</p>
+<p>ACCAGTAAAACG{AATTCAACAACATGCTGC4CTACA-AACAAAAACAAT-TCATCAACAAAR-AACAACTGGTGA-TTCTTCTCATGATGAAA4AACTTCTTCTGCTGC}</p>
+<p>魔改这个DNA解密脚本<a href="https://github.com/karma9874/DNA-Cipher-Script-CTF">karma9874/DNA-Cipher-Script-CTF: A simple script to decode the genome DNA binary sequence (CTF Challenge) (github.com)</a></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> mapping = &#123; <span class="string">&#x27;AAA&#x27;</span>: <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;AAC&#x27;</span>: <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;AAG&#x27;</span>: <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;AAT&#x27;</span>: <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;ACA&#x27;</span>: <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;ACC&#x27;</span>: <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;ACG&#x27;</span>: <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;ACT&#x27;</span>: <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;AGA&#x27;</span>: <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;AGC&#x27;</span>: <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;AGG&#x27;</span>: <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;AGT&#x27;</span>: <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;ATA&#x27;</span>: <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;ATC&#x27;</span>: <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;ATG&#x27;</span>: <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;ATT&#x27;</span>: <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;CAA&#x27;</span>: <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;CAC&#x27;</span>: <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;CAG&#x27;</span>: <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;CAT&#x27;</span>: <span class="string">&#x27;t&#x27;</span>, <span class="string">&#x27;CCA&#x27;</span>: <span class="string">&#x27;u&#x27;</span>, <span class="string">&#x27;CCC&#x27;</span>: <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;CCG&#x27;</span>: <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;CCT&#x27;</span>: <span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;CGA&#x27;</span>: <span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;CGC&#x27;</span>: <span class="string">&#x27;z&#x27;</span>, <span class="string">&#x27;CGG&#x27;</span>: <span class="string">&#x27;A&#x27;</span>, <span class="string">&#x27;CGT&#x27;</span>: <span class="string">&#x27;B&#x27;</span>, <span class="string">&#x27;CTA&#x27;</span>: <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;CTC&#x27;</span>: <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;CTG&#x27;</span>: <span class="string">&#x27;E&#x27;</span>, <span class="string">&#x27;CTT&#x27;</span>: <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;GAA&#x27;</span>: <span class="string">&#x27;G&#x27;</span>, <span class="string">&#x27;GAC&#x27;</span>: <span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;GAG&#x27;</span>: <span class="string">&#x27;I&#x27;</span>, <span class="string">&#x27;GAT&#x27;</span>: <span class="string">&#x27;J&#x27;</span>, <span class="string">&#x27;GCA&#x27;</span>: <span class="string">&#x27;K&#x27;</span>, <span class="string">&#x27;GCC&#x27;</span>: <span class="string">&#x27;L&#x27;</span>, <span class="string">&#x27;GCG&#x27;</span>: <span class="string">&#x27;M&#x27;</span>, <span class="string">&#x27;GCT&#x27;</span>: <span class="string">&#x27;N&#x27;</span>, <span class="string">&#x27;GGA&#x27;</span>: <span class="string">&#x27;O&#x27;</span>, <span class="string">&#x27;GGC&#x27;</span>: <span class="string">&#x27;P&#x27;</span>, <span class="string">&#x27;GGG&#x27;</span>: <span class="string">&#x27;Q&#x27;</span>, <span class="string">&#x27;GGT&#x27;</span>: <span class="string">&#x27;R&#x27;</span>, <span class="string">&#x27;GTA&#x27;</span>: <span class="string">&#x27;S&#x27;</span>, <span class="string">&#x27;GTC&#x27;</span>: <span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;GTG&#x27;</span>: <span class="string">&#x27;U&#x27;</span>, <span class="string">&#x27;GTT&#x27;</span>: <span class="string">&#x27;V&#x27;</span>, <span class="string">&#x27;TAA&#x27;</span>: <span class="string">&#x27;W&#x27;</span>, <span class="string">&#x27;TAC&#x27;</span>: <span class="string">&#x27;X&#x27;</span>, <span class="string">&#x27;TAG&#x27;</span>: <span class="string">&#x27;Y&#x27;</span>, <span class="string">&#x27;TAT&#x27;</span>: <span class="string">&#x27;Z&#x27;</span>, <span class="string">&#x27;TCA&#x27;</span>: <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;TCC&#x27;</span>: <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;TCG&#x27;</span>: <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;TCT&#x27;</span>: <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;TGA&#x27;</span>: <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;TGC&#x27;</span>: <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;TGG&#x27;</span>: <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;TGT&#x27;</span>: <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;TTA&#x27;</span>: <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;TTC&#x27;</span>: <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;TTG&#x27;</span>: <span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;TTT&#x27;</span>: <span class="string">&#x27;.&#x27;</span> &#125;</span><br><span class="line"><span class="keyword">const</span> data = <span class="string">&quot;ACCAGTAAAACG&#123;AATTCAACAACATGCTGC4CTACA-AACAAAAACAAT-TCATCAACAAAR-AACAACTGGTGA-TTCTTCTCATGATGAAA4AACTTCTTCTGCTGC&#125;&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> flags = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> ra <span class="keyword">of</span> [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;G&quot;</span>, <span class="string">&quot;T&quot;</span>]) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> rb <span class="keyword">of</span> [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;C&quot;</span>, <span class="string">&quot;G&quot;</span>, <span class="string">&quot;T&quot;</span>]) &#123;</span><br><span class="line">    <span class="keyword">const</span> tmp = data.<span class="title function_">replaceAll</span>(<span class="string">&quot;4&quot;</span>, ra).<span class="title function_">replaceAll</span>(<span class="string">&quot;R&quot;</span>, rb);</span><br><span class="line">    <span class="keyword">const</span> groups = tmp.<span class="title function_">split</span>(<span class="regexp">/-|\&#123;|\&#125;/</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> datum <span class="keyword">of</span> groups) &#123;</span><br><span class="line">      <span class="keyword">const</span> slices = [...(datum.<span class="title function_">matchAll</span>(<span class="regexp">/[A-Z0-9]&#123;3&#125;/g</span>))]</span><br><span class="line">      <span class="keyword">let</span> flag_slice = <span class="string">&quot;&quot;</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">const</span> slice <span class="keyword">of</span> slices) &#123;</span><br><span class="line">        flag_slice += mapping[slice[<span class="number">0</span>]];</span><br><span class="line">      &#125;</span><br><span class="line">      flags.<span class="title function_">push</span>(flag_slice);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> flag = flags.<span class="title function_">join</span>(<span class="string">&quot;-&quot;</span>).<span class="title function_">replace</span>(<span class="regexp">/flag-/</span>, <span class="string">&quot;flag&#123;&quot;</span>).<span class="title function_">replace</span>(<span class="regexp">/-$/</span>, <span class="string">&quot;&#125;&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">new</span> <span class="title class_">RegExp</span>(<span class="regexp">/flag\&#123;[a-f0-9\-]+\&#125;/</span>).<span class="title function_">test</span>(flag)) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(flag);</span><br><span class="line">    &#125;</span><br><span class="line">    flags = [];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">flag</span>&#123;d1ee664e-babd-<span class="number">11</span>ea-bb75-<span class="number">00155</span>db0066&#125;</span><br><span class="line"><span class="attribute">flag</span>&#123;d1ee664e-babd-<span class="number">11</span>eb-bb75-<span class="number">00155</span>db0066&#125;</span><br><span class="line"><span class="attribute">flag</span>&#123;d1ee664e-babd-<span class="number">11</span>ec-bb75-<span class="number">00155</span>db0066&#125;</span><br><span class="line"><span class="attribute">flag</span>&#123;d1ee664e-babd-<span class="number">11</span>ed-bb75-<span class="number">00155</span>db0066&#125;</span><br></pre></td></tr></table></figure>
+<p>爆破出来四个flag，依次提交，最后正确flag为：</p>
+<p>flag{d1ee664e-babd-11ed-bb75-00155db0066}</p>
+<h3 id="阿尼亚"><a class="markdownIt-Anchor" href="#阿尼亚"></a> <strong>阿尼亚</strong></h3>
+<p>打开发现</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVJUzn7bcutMjqxqdiKNgEhJ.png" alt="img"></p>
+<p>图片名为netpixeljihad，猜测为pixeljihad加密，需要密码</p>
+<p>010打开图片十六进制，在文件尾发现字符</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVIYpMRRvChGX5WNRvnxT2FS.png" alt="img"></p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">6333383363333963633338326333616263333865633261616332613363326261633262636333623263326235633261356332623563333834633262316333613063333832633361623061</span><br></pre></td></tr></table></figure>
+<p>cyberchef开梭2次hex后直接爆破</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVIztk02uANMJ7V5Z-SD9MLY.png" alt="img"></p>
+<p>找到密码为简答的编码，解密</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVIApSOOUNtGkINauMcg8Pq1.png" alt="img"></p>
+<p>得到压缩包密码</p>
+<p>解压flag压缩包</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVLi2GUdGHhPxbcTTSj5sK8Z.png" alt="img"></p>
+<p>密文为两种字符，尝试01，错误</p>
+<p>dcode.fr开梭，发现为十位密码</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/AgAAEQXTVVKA4dnNXOxNNqN6Znt9M9L5.png" alt="img"></p>
+<p>得到flag</p>
+<h3 id="x光的秘密"><a class="markdownIt-Anchor" href="#x光的秘密"></a> X光的秘密</h3>
+<p>PS逐帧查看图片发现最后三帧图片一样的，编写脚本按帧导出：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pydicom</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">dcm = pydicom.dcmread(<span class="string">&#x27;task.dcm&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i, image <span class="keyword">in</span> <span class="built_in">enumerate</span>(dcm.pixel_array):</span><br><span class="line">    img = Image.fromarray(image)</span><br><span class="line">    img.save(<span class="string">f&#x27;Xray_<span class="subst">&#123;i&#125;</span>.png&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>或者在线网站直接DCM转PNG也可以（<a href="https://products.aspose.app/imaging/zh-hans/conversion/dcm-to-png/%EF%BC%89">https://products.aspose.app/imaging/zh-hans/conversion/dcm-to-png/）</a></p>
+<p>然后，思路不知道怎么往下走的时候提取了最后三帧图片的RGB值，发现都是只有一个通道，编写脚本将三张图片的RGB通道提出来重新组成一张新的图片：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">img1 = cv2.imread(<span class="string">&#x27;task.dcm_p18.png&#x27;</span>)</span><br><span class="line">r_channel = img1[:, :, <span class="number">0</span>]</span><br><span class="line">img2 = cv2.imread(<span class="string">&#x27;task.dcm_p19.png&#x27;</span>)</span><br><span class="line">g_channel = img2[:, :, <span class="number">1</span>]</span><br><span class="line">img3 = cv2.imread(<span class="string">&#x27;task.dcm_p20.png&#x27;</span>)</span><br><span class="line">b_channel = img3[:, :, <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">new_img = np.zeros_like(img1)</span><br><span class="line">new_img[:, :, <span class="number">0</span>] = b_channel</span><br><span class="line">new_img[:, :, <span class="number">1</span>] = g_channel</span><br><span class="line">new_img[:, :, <span class="number">2</span>] = r_channel</span><br><span class="line"></span><br><span class="line">cv2.imwrite(<span class="string">&#x27;flag123.png&#x27;</span>, new_img)</span><br></pre></td></tr></table></figure>
+<p><code>zsteg</code>查看LSB隐写：</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/image-20230419221919826.png" alt="image-20230419221919826"></p>
+<p>提取出</p>
+<p><img src="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/image-20230419222237979.png" alt="image-20230419222237979"></p>
+<p>获取flag：</p>
+<p>flag{43159cf6-ff7f-47fc-a199-d14df05b9975}</p>
+]]></content>
+      <categories>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>Misc</tag>
+        <tag>Web</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浅谈如何利用Neo-reGeorg+Proxifier做跳板机</title>
+    <url>/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/</url>
+    <content><![CDATA[<p>突发奇想的内网穿透学习外加好大哥的指导，主要是老大哥的手把手指导！！非常感谢Orz。</p>
+<span id="more"></span>
+<h1 id="浅谈如何利用neo-regeorgproxifier做跳板机"><a class="markdownIt-Anchor" href="#浅谈如何利用neo-regeorgproxifier做跳板机"></a> 浅谈如何利用Neo-reGeorg+Proxifier做跳板机</h1>
+<h2 id="regeorgsocksproxy工作原理"><a class="markdownIt-Anchor" href="#regeorgsocksproxy工作原理"></a> reGeorgSocksProxy工作原理</h2>
+<p>在渗透过程中，进入到内网之后，由于防火墙的存在，致使我们无法直接从外网主机直接访问到内网主机，发起链接，因此就需要设置端口反弹，如果要对内网中的其他主机进行渗透攻击，就需要通过内网的代理，来对其他主机进行渗透攻击。</p>
+<p>例如这里我们发现了一个内网的靶机，但是没法直接链接，就可以通过<code>Neo-reGeorg+Proxifier</code>构建的内网代理隧道<code>Tunnel.php</code>做一个跳板，使用代理主机的内网流量访问其他内网主机，以此来做到一个初步横向和攻击隐藏。</p>
+<p><strong>原理图：</strong></p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230413220538532.png" alt></p>
+<h3 id="简述neo-regeorg"><a class="markdownIt-Anchor" href="#简述neo-regeorg"></a> 简述Neo-reGeorg</h3>
+<p><code>Neo-reGeorg</code> 是<code>reGeorg</code>的重构版，其目的是：</p>
+<ul>
+<li>提高可用性，避免特征检测</li>
+<li>提高 tunnel 连接安全性</li>
+<li>提高传输内容保密性</li>
+<li>应对更多的网络环境场景下使用</li>
+</ul>
+<p>主要是把内网服务器的端口通过 <code>http/https</code> 隧道转发到本机，形成一个回路。用于目标服务器在内网或做了端口策略的情况下连接目标服务器内部开放端口。它利用<code> webshell</code> 建立一个 <code>socks</code> 代理进行内网穿透，服务器必须支持<code>php</code>、<code>aspx</code>、<code>ashx</code>、<code>jsp</code>、<code>go</code>这些 web 程序中的一种。</p>
+<p><code>reGeorgSocksProxy</code>由服务端和客户端两部分组成。服务端有<code>php</code>、<code>aspx</code>、<code>ashx</code>、<code>jsp</code>、<code>go</code>等多个版本，客户端则由python编写。其工作原理可简单描述为python客户端在本地监听一个端口，提供socks服务，并将数据通过<code>http/https</code>协议发送到服务端上，并从服务端上用socket实现转发。</p>
+<h2 id="实验模拟拓扑"><a class="markdownIt-Anchor" href="#实验模拟拓扑"></a> 实验模拟拓扑</h2>
+<p>拓扑图如下：</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/%E5%AE%9E%E9%AA%8C%E6%8B%93%E6%89%91%E5%9B%BE1.png" alt="实验拓扑图1"></p>
+<p>由于内容仅供讲解笔记使用，IP皆为举例IP，是无效地址，具体搭建参考拓扑图。</p>
+<p>**外网渗透主机：**192.0.0.1</p>
+<p>**目标主机：**外网vmnet0网卡模拟，IP地址为192.0.0.1，内网vmnet8模拟，内网地址为192.0.253.123</p>
+<p>**内网主机：**网卡为vmnet8模式，IP地址为192.0.253.123，可与目标主机192.0.253.123实现网络互通，但不对外网暴露。通过以上方式模拟内网结构。</p>
+<h3 id="主机配置"><a class="markdownIt-Anchor" href="#主机配置"></a> 主机配置</h3>
+<h4 id="1-渗透主机生成shell脚本"><a class="markdownIt-Anchor" href="#1-渗透主机生成shell脚本"></a> 1、渗透主机生成shell脚本</h4>
+<p>在Neo-reGeorg目录下打开powershell窗口，执行脚本：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">python neoreg.py generate -k TWe1v3</span><br></pre></td></tr></table></figure>
+<p>图为Neo-reGeorg脚本执行：</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230421170513920.png" alt="image-20230421170513920"></p>
+<h4 id="2-内网代理主机配置"><a class="markdownIt-Anchor" href="#2-内网代理主机配置"></a> 2、内网代理主机配置</h4>
+<p>这需要在内网主机中考虑启动一个web服务，我这里直接安装phpstudy，详细安装使用教程请自行google，当然其他的方法也可以。只要能启动web服务用于上传tunnel.php文件就行。</p>
+<p>访问上传成功的tunnel.php:</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230421173359868.png" alt="image-20230421173359868"></p>
+<p>直接将生成的webshell脚本放到phpstudy的根目录即可，我这里更改了一下webshell给的访问成功的输出。</p>
+<h4 id="3-配置渗透主机代理规则profile-proxification-rules"><a class="markdownIt-Anchor" href="#3-配置渗透主机代理规则profile-proxification-rules"></a> 3、配置渗透主机代理规则：<code>Profile-proxification Rules</code></h4>
+<p>代理规则其实就相当于指定那个软件的流量经过代理，哪些不经过代理，一般情况下我们需要使用浏览器访问内网的网页，所以就需要给浏览器配置经过代理，其他不需要代理的软件就这设为direct模式（不经过代理）</p>
+<p>127.0.0.1 为socks5 ，python脚本为direct</p>
+<h4 id="3-流量互通"><a class="markdownIt-Anchor" href="#3-流量互通"></a> 3、流量互通</h4>
+<p><a href="http://xn--neoreg-2y7im02o05mm1tsw8bw3sqxa.py">运行渗透主机的neoreg.py</a><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230421201640081.png" alt="image-20230421201640081"></p>
+<p>这里需要设置一下渗透主机的代理，使用Proxifier代理：</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230425020828636.png" alt="image-20230425020828636"></p>
+<p>设置1080端口。</p>
+<h3 id="通过代理连接目标主机3389端口"><a class="markdownIt-Anchor" href="#通过代理连接目标主机3389端口"></a> 通过代理，连接目标主机3389端口</h3>
+<h4 id="1-远程桌面登录"><a class="markdownIt-Anchor" href="#1-远程桌面登录"></a> 1、远程桌面登录。</h4>
+<p>打开本地远程桌面，右击mstsc.exe用Proxifier中的<code>Proxy SOCKS 5 127.0.0.1</code>打开。</p>
+]]></content>
+      <categories>
+        <category>渗透学习</category>
+      </categories>
+      <tags>
+        <tag>技术学习</tag>
+        <tag>渗透</tag>
+        <tag>代理</tag>
+        <tag>内网</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浅谈DNS Rebinding</title>
+    <url>/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/</url>
+    <content><![CDATA[<p>为啥突然要总结一下这个很老的知识点，我也不知道，可能太菜了，闲下来总得学点什么~</p>
+<span id="more"></span>
+<h1 id="dns-rebinding"><a class="markdownIt-Anchor" href="#dns-rebinding"></a> DNS Rebinding</h1>
+<h2 id="0x01-攻击简介"><a class="markdownIt-Anchor" href="#0x01-攻击简介"></a> 0x01 攻击简介</h2>
+<p><strong>DNS Rebinding</strong>也叫做DNS重绑定攻击或者DNS重定向攻击。在这种攻击中，恶意网页会导致访问者运行客户端脚本，攻击网络上其他地方的计算机。</p>
+<p>在介绍DNS Rebinding攻击机制之前我们先了解一下Web同源策略，</p>
+<h3 id="web同源策略"><a class="markdownIt-Anchor" href="#web同源策略"></a> Web同源策略</h3>
+<p><strong>同源策略</strong>（英语：Same-origin policy）是指在Web浏览器中，允许某个网页脚本访问另一个网页的数据，但前提是这两个网页必须有相同的URL、主机名和端口号，一旦两个网站满足上述条件，这两个网站就被认定为具有相同来源。此策略可防止某个网页上的恶意脚本通过该页面的文档对象模型访问另一网页上的敏感数据，比如<code>XSS，XXE，SSRF</code>等基于网页上的恶意脚本攻击。</p>
+<p>**同源的定义：**如果两个 URL 的 协议、域名、端口都相同的话，则这两个 URL 是<em>同源</em>。</p>
+<p>同源策略对Web应用程序具有特殊意义，因为Web应用程序广泛依赖于HTTP cookie来维持用户会话(session)，所以必须将不相关网站严格分隔，以防止丢失数据泄露。</p>
+<p>值得注意的是同源策略仅适用于脚本，这意味着某网站可以通过相应的HTML标签访问不同来源网站上的图像、CSS和动态加载 脚本等资源。而跨站请求伪造(CSRF)就是利用同源策略不适用于HTML标签的缺陷。</p>
+<p><strong>所以从理论上来讲，同源策略是能够有效的保证：客户端脚本只能访问为脚本提供服务的同一主机上的内容。</strong></p>
+<p>至此如何绕过Web同源策略也成了众多hacker研究的地方。</p>
+<h2 id="0x02-攻击原理"><a class="markdownIt-Anchor" href="#0x02-攻击原理"></a> 0x02 攻击原理：</h2>
+<p>这里说一下利用的TTL是什么：</p>
+<blockquote>
+<p>TTL是英语Time-To-Live的简称，意思为一条域名解析记录在DNS服务器中的存留时间。当各地的DNS服务器接受到解析请求时，就会向域名指定的NS服务器发出解析请求从而获得解析记录；在获得这个记录之后，记录会在DNS服务器中保存一段时间，这段时间内如果再接到这个域名的解析请求，DNS服务器将不再向NS服务器发出请求，而是直接返回刚才获得的记录；而这个记录在DNS服务器上保留的时间，就是TTL值。</p>
+</blockquote>
+<p><strong>即TTL的数值越小，修改记录后所受的影响生效越快。</strong></p>
+<p>这里我们可以来构造一个DNS 重绑定的案例：</p>
+<p>例如，要在192.168.32.10和127.0.0.1之间切换，我们可以将他们编码为dwords，使用<a href="https://lock.cmpxchg8b.com/rebinder.html">rbndr</a>工具：</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="number">7</span>f000001<span class="selector-class">.c0a8200a</span><span class="selector-class">.rbndr</span>.us</span><br></pre></td></tr></table></figure>
+<p>接下来，我们测试一下：</p>
+<figure class="highlight dns"><table><tr><td class="code"><pre><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">192.168.32.10</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">192.168.32.10</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span>                                                   </span><br></pre></td></tr></table></figure>
+<p>由此就达到了一个DNS 重绑定的效果。</p>
+<h2 id="0x03-攻击机制"><a class="markdownIt-Anchor" href="#0x03-攻击机制"></a> 0x03 攻击机制</h2>
+<p>攻击者无法控制名称服务器的载体，所有解析主机名（或 IP 地址，仍然是有效主机名）的请求都被重定向到由攻击者控制和操作的备用名称服务器。例如，如果我们有一个网址为 <a href="http://www.example-a.com">www.example-a.com</a> 的网站，并且我们想要访问私有内部域邮件服务器或只能通过该特定私有 IP 地址访问的其他服务，则可以使用 DNS 重新绑定攻击来伪造这些地址之一。</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/image-20230404221756020.png" alt="image-20230404221756020"></p>
+<h2 id="0x04-攻击示例"><a class="markdownIt-Anchor" href="#0x04-攻击示例"></a> 0x04 攻击示例</h2>
+<ol>
+<li>攻击者注册一个域名，例如 IP 地址为 1.3.5.7 的 <a href="http://www.evil.com">www.evil.com</a>，将其委托给自己的 DNS 服务器（1.3.5.4），并使用钓鱼链接或电子邮件获取 HTTP 流量。</li>
+<li>DNS 服务器没有发送正常的 TTL 记录，而是发送了一个非常短的 TTL 记录（例如，1 秒），防止条目 [<a href="http://www.evil.com">www.evil.com</a>, 1.3.5.7] 的 DNS 响应被缓存在受害者的（192.168.1.10 ) 浏览器。</li>
+<li>对手的服务器首先用包含服务器 IP 地址 (1.3.5.7) 的<code>JavaScript</code> 等恶意脚本响应受害者。</li>
+<li>对手使用 <code>XMLHttpRequest (XHR)</code> 将 HTTP 请求或 HTTPS 请求直接发送到对手的服务器并加载响应。</li>
+<li>恶意脚本允许对手将主机名重新绑定到防火墙后面的目标服务器的 IP 地址 (192.168.1.2)。</li>
+<li>然后服务器响应对手的真实目标，即与受害者（192.168.1.10）同域的内部主机IP（192.168.1.2）。</li>
+<li>由于同一个名称解析为这两个 IP 地址，浏览器会将这两个 IP 地址（1.3.5.7 和 192.168.1.2）置于同一安全区域并允许信息在地址之间流动。</li>
+<li>此外，攻击者可以通过发送多个短期IP地址来实现扫描和访问受害者本地网络（192.168.XX）中的所有内部主机。</li>
+</ol>
+<h2 id="0x05-攻击危害"><a class="markdownIt-Anchor" href="#0x05-攻击危害"></a> 0x05 攻击危害</h2>
+<p>DNS Rebinding可以通过让受害者的Web浏览器访问专用IP地址的机器并将结果返回给攻击者来破坏专用网络。 它也可以用于使用受害者机器发送垃圾邮件，分布式拒绝服务攻击（DDOS）或其他恶意活动，也就是我们常听说的肉机和僵尸机。</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/DDOS.png" alt="DDOS"></p>
+<h3 id="0x04-1-通过-dns-重新绑定攻击进行网络渗透测试"><a class="markdownIt-Anchor" href="#0x04-1-通过-dns-重新绑定攻击进行网络渗透测试"></a> 0x04-1 通过 DNS 重新绑定攻击进行网络渗透测试：</h3>
+<p>在某些情况下，用户会被诱骗使用这些网（例如，私人电子邮件服务器）创建网络钓鱼网站。由于发送到被劫持 URL 的所有流量现在都被发送回原始服务器，因此它变得完全混乱并迫使用户安装网络钓鱼页面。 以此来达到获取用户信息或者是用户权限的作用。</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220923151414-1024x576.jpg" alt="网络钓鱼"></p>
+<h2 id="0x06-将dns-rebinding应用到实际漏洞挖掘"><a class="markdownIt-Anchor" href="#0x06-将dns-rebinding应用到实际漏洞挖掘"></a> 0x06 将DNS Rebinding应用到实际漏洞挖掘</h2>
+<h3 id="cve-2022-4096"><a class="markdownIt-Anchor" href="#cve-2022-4096"></a> <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-4096">CVE-2022-4096</a></h3>
+<blockquote>
+<p>漏洞描述：1.8.2 之前的 GitHub 存储库 appsmithorg/appsmith 中的服务器端请求伪造 (SSRF)</p>
+<p>复现链接：<a href="https://infosecwriteups.com/ssrf-via-dns-rebinding-cve-2022-4096-b7bf75928bb2">https://infosecwriteups.com/ssrf-via-dns-rebinding-cve-2022-4096-b7bf75928bb2</a></p>
+</blockquote>
+<h3 id="cve-2023-26492"><a class="markdownIt-Anchor" href="#cve-2023-26492"></a> CVE-2023-26492</h3>
+<blockquote>
+<p>漏洞描述：Directus 是用于管理 SQL 数据库内容的实时 API 和应用程序仪表板。当从远程 Web 服务器导入文件（POST 到 <code>/files/import</code>）时，Directus 容易受到服务器端请求伪造 (SSRF) 的攻击。攻击者可以通过执行 DNS 重新绑定攻击并查看来自内部服务器的敏感数据或执行本地端口扫描来绕过安全控制。攻击者可以利用此漏洞访问高度敏感的内部服务器并窃取敏感信息。此问题已在版本 9.23.0 中修复。</p>
+<p>CVE链接：<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-26492">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-26492</a></p>
+</blockquote>
+<h3 id="cve-2022-43548"><a class="markdownIt-Anchor" href="#cve-2022-43548"></a> CVE-2022-43548</h3>
+<blockquote>
+<p>漏洞描述：由于 IsAllowedHost 检查不充分，Node.js 版本 &lt;14.21.1、&lt;16.18.1、&lt;18.12.1、&lt;19.0.1 中存在操作系统命令注入漏洞，该漏洞很容易被绕过，因为 IsIPAddress 没有正确检查 IP在发出允许重新绑定攻击的 DBS 请求之前地址无效。<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32212">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32212</a> 中针对此问题的修复不完整，这个新的 CVE 是为了完成修复。</p>
+<p>CVE链接：<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-43548">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-43548</a></p>
+</blockquote>
+<p>针对<code>CVE-2022-43548</code>和<code>CVE-2023-26492</code>后续会有完整的复现过程文章，期待一下~</p>
+<h2 id="0x07-参考链接"><a class="markdownIt-Anchor" href="#0x07-参考链接"></a> 0x07 参考链接</h2>
+<blockquote>
+<p>[Web同源策略] <a href="https://zh.wikipedia.org/wiki/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5">https://zh.wikipedia.org/wiki/同源策略</a>)</p>
+<p>[DNS Rebinding] (<a href="https://en.wikipedia.org/wiki/DNS_rebinding">https://en.wikipedia.org/wiki/DNS_rebinding</a>)</p>
+<p>[CVE-2022-4096] (<a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-4096">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-4096</a>)</p>
+<p>[DNS Rebinding Attacks Explained]  (<a href="https://danielmiessler.com/blog/dns-rebinding-explained/">https://danielmiessler.com/blog/dns-rebinding-explained/</a>)</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术分享</category>
+      </categories>
+      <tags>
+        <tag>DNS rebinding</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pyjail-学习总结【CV】</title>
     <url>/2023/02/pyjail-%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%E3%80%90CV%E3%80%91/</url>
     <content><![CDATA[<p>01、什么是pyjail？02、怎么学pyjail？03、去哪学pyjail？</p>
@@ -352,9 +592,9 @@
         <category>赛事Writeup</category>
       </categories>
       <tags>
-        <tag>CTF</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -588,8 +828,8 @@
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
       </tags>
   </entry>
   <entry>
@@ -1832,9 +2072,9 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
-        <tag>Misc</tag>
         <tag>Re</tag>
+        <tag>Misc</tag>
+        <tag>Web</tag>
         <tag>Pwn</tag>
       </tags>
   </entry>
@@ -2039,8 +2279,8 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
         <tag>Pwn</tag>
         <tag>Writeup</tag>
         <tag>Reverse</tag>
@@ -2572,9 +2812,9 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Crypto</tag>
-        <tag>CTF</tag>
-        <tag>Web</tag>
         <tag>Misc</tag>
+        <tag>Web</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>

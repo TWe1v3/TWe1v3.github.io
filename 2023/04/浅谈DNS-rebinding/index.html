@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"twe1v3.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="为啥突然要总结一下这个很老的知识点，我也不知道，可能太菜了，闲下来总得学点什么~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈DNS Rebinding">
+<meta property="og:url" content="http://twe1v3.github.io/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/index.html">
+<meta property="og:site_name" content="TWe1v3">
+<meta property="og:description" content="为啥突然要总结一下这个很老的知识点，我也不知道，可能太菜了，闲下来总得学点什么~">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://twe1v3.github.io/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/image-20230404221756020.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/DDOS.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220923151414-1024x576.jpg">
+<meta property="article:published_time" content="2023-04-02T10:39:16.000Z">
+<meta property="article:modified_time" content="2023-04-05T01:49:07.846Z">
+<meta property="article:author" content="TWe1v3">
+<meta property="article:tag" content="DNS rebinding">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://twe1v3.github.io/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/image-20230404221756020.png">
+
+
+<link rel="canonical" href="http://twe1v3.github.io/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://twe1v3.github.io/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/","path":"2023/04/浅谈DNS-rebinding/","title":"浅谈DNS Rebinding"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>浅谈DNS Rebinding | TWe1v3</title>
+  
+
+
+
+
+
+<script src="/lib/fireworks.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">TWe1v3</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>文章标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>文章分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于TWe1v3</a></li><li class="menu-item menu-item-friendlink"><a href="/friendlink/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dns-rebinding"><span class="nav-number">1.</span> <span class="nav-text"> DNS Rebinding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-%E6%94%BB%E5%87%BB%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text"> 0x01 攻击简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text"> Web同源策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text"> 0x02 攻击原理：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-%E6%94%BB%E5%87%BB%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text"> 0x03 攻击机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-%E6%94%BB%E5%87%BB%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text"> 0x04 攻击示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-%E6%94%BB%E5%87%BB%E5%8D%B1%E5%AE%B3"><span class="nav-number">1.5.</span> <span class="nav-text"> 0x05 攻击危害</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-1-%E9%80%9A%E8%BF%87-dns-%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E6%94%BB%E5%87%BB%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"><span class="nav-number">1.5.1.</span> <span class="nav-text"> 0x04-1 通过 DNS 重新绑定攻击进行网络渗透测试：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x06-%E5%B0%86dns-rebinding%E5%BA%94%E7%94%A8%E5%88%B0%E5%AE%9E%E9%99%85%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="nav-number">1.6.</span> <span class="nav-text"> 0x06 将DNS Rebinding应用到实际漏洞挖掘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cve-2022-4096"><span class="nav-number">1.6.1.</span> <span class="nav-text"> CVE-2022-4096</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cve-2023-26492"><span class="nav-number">1.6.2.</span> <span class="nav-text"> CVE-2023-26492</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cve-2022-43548"><span class="nav-number">1.6.3.</span> <span class="nav-text"> CVE-2022-43548</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x07-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">1.7.</span> <span class="nav-text"> 0x07 参考链接</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="TWe1v3"
+      src="/images/twe1v3.gif">
+  <p class="site-author-name" itemprop="name">TWe1v3</p>
+  <div class="site-description" itemprop="description">TWe1v3的博客</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/TWe1v3" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;TWe1v3" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:twe1v3@qq.com" title="E-Mail → mailto:twe1v3@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/twe1v3.gif">
+      <meta itemprop="name" content="TWe1v3">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TWe1v3">
+      <meta itemprop="description" content="TWe1v3的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="浅谈DNS Rebinding | TWe1v3">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浅谈DNS Rebinding
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-02 18:39:16" itemprop="dateCreated datePublished" datetime="2023-04-02T18:39:16+08:00">2023-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-04-05 09:49:07" itemprop="dateModified" datetime="2023-04-05T09:49:07+08:00">2023-04-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" itemprop="url" rel="index"><span itemprop="name">技术分享</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>为啥突然要总结一下这个很老的知识点，我也不知道，可能太菜了，闲下来总得学点什么~</p>
+<span id="more"></span>
+<h1 id="dns-rebinding"><a class="markdownIt-Anchor" href="#dns-rebinding"></a> DNS Rebinding</h1>
+<h2 id="0x01-攻击简介"><a class="markdownIt-Anchor" href="#0x01-攻击简介"></a> 0x01 攻击简介</h2>
+<p><strong>DNS Rebinding</strong>也叫做DNS重绑定攻击或者DNS重定向攻击。在这种攻击中，恶意网页会导致访问者运行客户端脚本，攻击网络上其他地方的计算机。</p>
+<p>在介绍DNS Rebinding攻击机制之前我们先了解一下Web同源策略，</p>
+<h3 id="web同源策略"><a class="markdownIt-Anchor" href="#web同源策略"></a> Web同源策略</h3>
+<p><strong>同源策略</strong>（英语：Same-origin policy）是指在Web浏览器中，允许某个网页脚本访问另一个网页的数据，但前提是这两个网页必须有相同的URL、主机名和端口号，一旦两个网站满足上述条件，这两个网站就被认定为具有相同来源。此策略可防止某个网页上的恶意脚本通过该页面的文档对象模型访问另一网页上的敏感数据，比如<code>XSS，XXE，SSRF</code>等基于网页上的恶意脚本攻击。</p>
+<p>**同源的定义：**如果两个 URL 的 协议、域名、端口都相同的话，则这两个 URL 是<em>同源</em>。</p>
+<p>同源策略对Web应用程序具有特殊意义，因为Web应用程序广泛依赖于HTTP cookie来维持用户会话(session)，所以必须将不相关网站严格分隔，以防止丢失数据泄露。</p>
+<p>值得注意的是同源策略仅适用于脚本，这意味着某网站可以通过相应的HTML标签访问不同来源网站上的图像、CSS和动态加载 脚本等资源。而跨站请求伪造(CSRF)就是利用同源策略不适用于HTML标签的缺陷。</p>
+<p><strong>所以从理论上来讲，同源策略是能够有效的保证：客户端脚本只能访问为脚本提供服务的同一主机上的内容。</strong></p>
+<p>至此如何绕过Web同源策略也成了众多hacker研究的地方。</p>
+<h2 id="0x02-攻击原理"><a class="markdownIt-Anchor" href="#0x02-攻击原理"></a> 0x02 攻击原理：</h2>
+<p>这里说一下利用的TTL是什么：</p>
+<blockquote>
+<p>TTL是英语Time-To-Live的简称，意思为一条域名解析记录在DNS服务器中的存留时间。当各地的DNS服务器接受到解析请求时，就会向域名指定的NS服务器发出解析请求从而获得解析记录；在获得这个记录之后，记录会在DNS服务器中保存一段时间，这段时间内如果再接到这个域名的解析请求，DNS服务器将不再向NS服务器发出请求，而是直接返回刚才获得的记录；而这个记录在DNS服务器上保留的时间，就是TTL值。</p>
+</blockquote>
+<p><strong>即TTL的数值越小，修改记录后所受的影响生效越快。</strong></p>
+<p>这里我们可以来构造一个DNS 重绑定的案例：</p>
+<p>例如，要在192.168.32.10和127.0.0.1之间切换，我们可以将他们编码为dwords，使用<a target="_blank" rel="noopener" href="https://lock.cmpxchg8b.com/rebinder.html">rbndr</a>工具：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7</span>f000001<span class="selector-class">.c0a8200a</span><span class="selector-class">.rbndr</span>.us</span><br></pre></td></tr></table></figure>
+<p>接下来，我们测试一下：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">192.168.32.10</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">192.168.32.10</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span>                                                   </span><br></pre></td></tr></table></figure>
+<p>由此就达到了一个DNS 重绑定的效果。</p>
+<h2 id="0x03-攻击机制"><a class="markdownIt-Anchor" href="#0x03-攻击机制"></a> 0x03 攻击机制</h2>
+<p>攻击者无法控制名称服务器的载体，所有解析主机名（或 IP 地址，仍然是有效主机名）的请求都被重定向到由攻击者控制和操作的备用名称服务器。例如，如果我们有一个网址为 <a target="_blank" rel="noopener" href="http://www.example-a.com">www.example-a.com</a> 的网站，并且我们想要访问私有内部域邮件服务器或只能通过该特定私有 IP 地址访问的其他服务，则可以使用 DNS 重新绑定攻击来伪造这些地址之一。</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/image-20230404221756020.png" alt="image-20230404221756020"></p>
+<h2 id="0x04-攻击示例"><a class="markdownIt-Anchor" href="#0x04-攻击示例"></a> 0x04 攻击示例</h2>
+<ol>
+<li>攻击者注册一个域名，例如 IP 地址为 1.3.5.7 的 <a target="_blank" rel="noopener" href="http://www.evil.com">www.evil.com</a>，将其委托给自己的 DNS 服务器（1.3.5.4），并使用钓鱼链接或电子邮件获取 HTTP 流量。</li>
+<li>DNS 服务器没有发送正常的 TTL 记录，而是发送了一个非常短的 TTL 记录（例如，1 秒），防止条目 [<a target="_blank" rel="noopener" href="http://www.evil.com">www.evil.com</a>, 1.3.5.7] 的 DNS 响应被缓存在受害者的（192.168.1.10 ) 浏览器。</li>
+<li>对手的服务器首先用包含服务器 IP 地址 (1.3.5.7) 的<code>JavaScript</code> 等恶意脚本响应受害者。</li>
+<li>对手使用 <code>XMLHttpRequest (XHR)</code> 将 HTTP 请求或 HTTPS 请求直接发送到对手的服务器并加载响应。</li>
+<li>恶意脚本允许对手将主机名重新绑定到防火墙后面的目标服务器的 IP 地址 (192.168.1.2)。</li>
+<li>然后服务器响应对手的真实目标，即与受害者（192.168.1.10）同域的内部主机IP（192.168.1.2）。</li>
+<li>由于同一个名称解析为这两个 IP 地址，浏览器会将这两个 IP 地址（1.3.5.7 和 192.168.1.2）置于同一安全区域并允许信息在地址之间流动。</li>
+<li>此外，攻击者可以通过发送多个短期IP地址来实现扫描和访问受害者本地网络（192.168.XX）中的所有内部主机。</li>
+</ol>
+<h2 id="0x05-攻击危害"><a class="markdownIt-Anchor" href="#0x05-攻击危害"></a> 0x05 攻击危害</h2>
+<p>DNS Rebinding可以通过让受害者的Web浏览器访问专用IP地址的机器并将结果返回给攻击者来破坏专用网络。 它也可以用于使用受害者机器发送垃圾邮件，分布式拒绝服务攻击（DDOS）或其他恶意活动，也就是我们常听说的肉机和僵尸机。</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/DDOS.png" alt="DDOS"></p>
+<h3 id="0x04-1-通过-dns-重新绑定攻击进行网络渗透测试"><a class="markdownIt-Anchor" href="#0x04-1-通过-dns-重新绑定攻击进行网络渗透测试"></a> 0x04-1 通过 DNS 重新绑定攻击进行网络渗透测试：</h3>
+<p>在某些情况下，用户会被诱骗使用这些网（例如，私人电子邮件服务器）创建网络钓鱼网站。由于发送到被劫持 URL 的所有流量现在都被发送回原始服务器，因此它变得完全混乱并迫使用户安装网络钓鱼页面。 以此来达到获取用户信息或者是用户权限的作用。</p>
+<p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220923151414-1024x576.jpg" alt="网络钓鱼"></p>
+<h2 id="0x06-将dns-rebinding应用到实际漏洞挖掘"><a class="markdownIt-Anchor" href="#0x06-将dns-rebinding应用到实际漏洞挖掘"></a> 0x06 将DNS Rebinding应用到实际漏洞挖掘</h2>
+<h3 id="cve-2022-4096"><a class="markdownIt-Anchor" href="#cve-2022-4096"></a> <a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-4096">CVE-2022-4096</a></h3>
+<blockquote>
+<p>漏洞描述：1.8.2 之前的 GitHub 存储库 appsmithorg/appsmith 中的服务器端请求伪造 (SSRF)</p>
+<p>复现链接：<a target="_blank" rel="noopener" href="https://infosecwriteups.com/ssrf-via-dns-rebinding-cve-2022-4096-b7bf75928bb2">https://infosecwriteups.com/ssrf-via-dns-rebinding-cve-2022-4096-b7bf75928bb2</a></p>
+</blockquote>
+<h3 id="cve-2023-26492"><a class="markdownIt-Anchor" href="#cve-2023-26492"></a> CVE-2023-26492</h3>
+<blockquote>
+<p>漏洞描述：Directus 是用于管理 SQL 数据库内容的实时 API 和应用程序仪表板。当从远程 Web 服务器导入文件（POST 到 <code>/files/import</code>）时，Directus 容易受到服务器端请求伪造 (SSRF) 的攻击。攻击者可以通过执行 DNS 重新绑定攻击并查看来自内部服务器的敏感数据或执行本地端口扫描来绕过安全控制。攻击者可以利用此漏洞访问高度敏感的内部服务器并窃取敏感信息。此问题已在版本 9.23.0 中修复。</p>
+<p>CVE链接：<a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-26492">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-26492</a></p>
+</blockquote>
+<h3 id="cve-2022-43548"><a class="markdownIt-Anchor" href="#cve-2022-43548"></a> CVE-2022-43548</h3>
+<blockquote>
+<p>漏洞描述：由于 IsAllowedHost 检查不充分，Node.js 版本 &lt;14.21.1、&lt;16.18.1、&lt;18.12.1、&lt;19.0.1 中存在操作系统命令注入漏洞，该漏洞很容易被绕过，因为 IsIPAddress 没有正确检查 IP在发出允许重新绑定攻击的 DBS 请求之前地址无效。<a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32212">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32212</a> 中针对此问题的修复不完整，这个新的 CVE 是为了完成修复。</p>
+<p>CVE链接：<a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-43548">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-43548</a></p>
+</blockquote>
+<p>针对<code>CVE-2022-43548</code>和<code>CVE-2023-26492</code>后续会有完整的复现过程文章，期待一下~</p>
+<h2 id="0x07-参考链接"><a class="markdownIt-Anchor" href="#0x07-参考链接"></a> 0x07 参考链接</h2>
+<blockquote>
+<p>[Web同源策略] <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5">https://zh.wikipedia.org/wiki/同源策略</a>)</p>
+<p>[DNS Rebinding] (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/DNS_rebinding">https://en.wikipedia.org/wiki/DNS_rebinding</a>)</p>
+<p>[CVE-2022-4096] (<a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-4096">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-4096</a>)</p>
+<p>[DNS Rebinding Attacks Explained]  (<a target="_blank" rel="noopener" href="https://danielmiessler.com/blog/dns-rebinding-explained/">https://danielmiessler.com/blog/dns-rebinding-explained/</a>)</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DNS-rebinding/" rel="tag"># DNS rebinding</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/pyjail-%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%E3%80%90CV%E3%80%91/" rel="prev" title="pyjail-学习总结【CV】">
+                  <i class="fa fa-chevron-left"></i> pyjail-学习总结【CV】
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/" rel="next" title="浅谈如何利用Neo-reGeorg+Proxifier做跳板机">
+                  浅谈如何利用Neo-reGeorg+Proxifier做跳板机 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TWe1v3</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">235k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:34</span>
+  </span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+    </div>
+  </footer>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.1.3/mermaid.min.js","integrity":"sha256-TIYL00Rhw/8WaoUhYTLX9SKIEFdXxg+yMWSLVUbhiLg="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.0/katex.min.css" integrity="sha256-uik/hNqHWZldXh/0K35nqOSCff9F61/ZOFReqNOBgB0=" crossorigin="anonymous">
+  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.0/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
+  <script src="/js/third-party/math/katex.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"80355aa1b174d1926079780262cdc80f1ca96516","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"b8bd55fc3c5c46320c672a1afd12035e"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+
+<script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>
