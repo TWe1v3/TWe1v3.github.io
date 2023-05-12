@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"twe1v3.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta property="og:type" content="article">
+<meta property="og:title" content="Docker与K8S学习-1安装和配置">
+<meta property="og:url" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="TWe1v3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/hutao2-16839208384154.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230509122142527.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230512033234457.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230512034345692.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230512232424025.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230512232543441.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513015901872.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513021215073.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513024522287.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513030659678.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513032748974.png">
+<meta property="article:published_time" content="2023-05-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-12T19:47:21.032Z">
+<meta property="article:author" content="TWe1v3">
+<meta property="article:tag" content="技术学习">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="K8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/hutao2-16839208384154.png">
+
+
+<link rel="canonical" href="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/","path":"2023/05/Docker与K8S学习-1安装和配置/","title":"Docker与K8S学习-1安装和配置"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker与K8S学习-1安装和配置 | TWe1v3</title>
+  
+
+
+
+
+
+<script src="/lib/fireworks.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">TWe1v3</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>文章标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>文章分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于TWe1v3</a></li><li class="menu-item menu-item-friendlink"><a href="/friendlink/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker%E4%B8%8Ek8s%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text"> Docker与K8s学习-1安装和配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8D%A2%E6%BA%90"><span class="nav-number">1.1.</span> <span class="nav-text"> 换源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apt%E6%8D%A2%E6%BA%90"><span class="nav-number">1.1.1.</span> <span class="nav-text"> apt换源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E5%A4%87%E4%BB%BD%E5%8E%9F%E6%9D%A5%E7%9A%84%E6%BA%90"><span class="nav-number">1.1.1.1.</span> <span class="nav-text"> 1.备份原来的源：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22%E6%89%93%E5%BC%80etcaptsourceslist%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.1.2.</span> <span class="nav-text"> 2.2.打开&#x2F;etc&#x2F;apt&#x2F;sources.list文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E6%9B%B4%E6%96%B0"><span class="nav-number">1.1.1.3.</span> <span class="nav-text"> 3.更新</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pip%E6%8D%A2%E6%BA%90"><span class="nav-number">1.1.2.</span> <span class="nav-text"> pip换源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E5%9C%A8%E6%A0%B9%E7%9B%AE%E5%BD%95%E4%B8%8B%E5%88%9B%E5%BB%BA%E4%BF%AE%E6%94%B9~pippipconfpip%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.2.1.</span> <span class="nav-text"> 1.在根目录下创建&#x2F;修改～&#x2F;.pip&#x2F;pip.confpip配置文件；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E6%96%B0%E5%A2%9E%E4%BF%AE%E6%94%B9%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.2.2.</span> <span class="nav-text"> 2.进入文件新增&#x2F;修改内容；</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker"><span class="nav-number">1.2.</span> <span class="nav-text"> Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 下载安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 检查是否安装成功</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker%E6%8D%A2%E6%BA%90"><span class="nav-number">1.2.3.</span> <span class="nav-text"> docker换源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E5%88%9B%E5%BB%BA%E6%88%96%E4%BF%AE%E6%94%B9-etcdockerdaemonjson-%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.3.1.</span> <span class="nav-text"> 1.创建或修改 &#x2F;etc&#x2F;docker&#x2F;daemon.json 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E6%8F%92%E5%85%A5%E6%BA%90%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.2.3.2.</span> <span class="nav-text"> 2.插入源连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E6%9F%A5%E7%9C%8B%E6%98%AF%E5%90%A6%E6%8D%A2%E6%BA%90%E6%88%90%E5%8A%9F"><span class="nav-number">1.2.3.3.</span> <span class="nav-text"> 3.查看是否换源成功</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E5%90%AFdocker%E5%B9%B6%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8"><span class="nav-number">1.2.3.4.</span> <span class="nav-text"> 重启docker，并设置开机启动</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k8s"><span class="nav-number">1.3.</span> <span class="nav-text"> K8S</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85k8s"><span class="nav-number">1.3.1.</span> <span class="nav-text"> 本地安装K8S</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker%E5%AE%B9%E5%99%A8%E4%B8%AD%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85k8s"><span class="nav-number">1.4.</span> <span class="nav-text"> Docker容器中配置安装K8S</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker%E6%8B%89%E5%8F%96ubuntu%E5%AE%B9%E5%99%A8"><span class="nav-number">1.4.1.</span> <span class="nav-text"> docker拉取ubuntu容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%B9%B6%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8"><span class="nav-number">1.4.2.</span> <span class="nav-text"> 启动并进入容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%AE%89%E8%A3%85k8s"><span class="nav-number">1.4.3.</span> <span class="nav-text"> 配置安装K8s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%8C%E6%88%90%E5%90%8E%E4%BF%9D%E5%AD%98%E9%85%8D%E7%BD%AE%E9%80%80%E5%87%BA%E5%AE%B9%E5%99%A8"><span class="nav-number">1.4.4.</span> <span class="nav-text"> 下载完成后，保存配置退出容器：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E6%96%B9%E6%B3%95%E4%B8%80-%E5%B0%86kubernetes%E5%AE%B9%E5%99%A8%E6%89%93%E5%8C%85%E4%B8%BAdocker%E9%95%9C%E5%83%8F"><span class="nav-number">1.5.</span> <span class="nav-text"> 打包方法一、将Kubernetes容器打包为Docker镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E6%96%B9%E6%B3%95%E4%BA%8C-%E4%BD%BF%E7%94%A8dockerfile%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9D%A5%E5%B0%81%E8%A3%85k8s%E7%9A%84docker%E9%95%9C%E5%83%8F"><span class="nav-number">1.6.</span> <span class="nav-text"> 打包方法二、使用Dockerfile的方式来封装K8s的docker镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E5%86%99dockerfile"><span class="nav-number">1.6.1.</span> <span class="nav-text"> 编写Dockerfile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BAdocker%E9%95%9C%E5%83%8F"><span class="nav-number">1.6.2.</span> <span class="nav-text"> 构建Docker镜像</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="TWe1v3"
+      src="/images/twe1v3.gif">
+  <p class="site-author-name" itemprop="name">TWe1v3</p>
+  <div class="site-description" itemprop="description">TWe1v3的博客</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/TWe1v3" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;TWe1v3" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:twe1v3@qq.com" title="E-Mail → mailto:twe1v3@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/twe1v3.gif">
+      <meta itemprop="name" content="TWe1v3">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TWe1v3">
+      <meta itemprop="description" content="TWe1v3的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Docker与K8S学习-1安装和配置 | TWe1v3">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker与K8S学习-1安装和配置
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-05-13 00:00:00 / 修改时间：03:47:21" itemprop="dateCreated datePublished" datetime="2023-05-13T00:00:00+08:00">2023-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">技术学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/hutao2-16839208384154.png" alt="hutao2"></p>
+<span id="more"></span>
+<h1 id="docker与k8s学习-1安装和配置"><a class="markdownIt-Anchor" href="#docker与k8s学习-1安装和配置"></a> Docker与K8s学习-1安装和配置</h1>
+<h2 id="换源"><a class="markdownIt-Anchor" href="#换源"></a> 换源</h2>
+<h3 id="apt换源"><a class="markdownIt-Anchor" href="#apt换源"></a> apt换源</h3>
+<h4 id="1备份原来的源"><a class="markdownIt-Anchor" href="#1备份原来的源"></a> 1.备份原来的源：</h4>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp <span class="regexp">/etc/</span>apt<span class="regexp">/sources.list /</span>etc<span class="regexp">/apt/</span>sources.list.bak</span><br></pre></td></tr></table></figure>
+<h4 id="22打开etcaptsourceslist文件"><a class="markdownIt-Anchor" href="#22打开etcaptsourceslist文件"></a> 2.2.打开/etc/apt/sources.list文件</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+<p>国内apt源，这里以阿里源和清华源为例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#添加阿里源</span></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line"><span class="comment">#添加清华源</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-updates main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-backports main restricted universe multiverse</span></span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse</span><br><span class="line"><span class="comment"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ focal-security main restricted universe multiverse multiverse</span></span><br></pre></td></tr></table></figure>
+<p>添加至/etc/apt/sources.list文件中并保存。</p>
+<h4 id="3更新"><a class="markdownIt-Anchor" href="#3更新"></a> 3.更新</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo apt-get update</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo apt-get upgrade</span></span><br></pre></td></tr></table></figure>
+<h3 id="pip换源"><a class="markdownIt-Anchor" href="#pip换源"></a> pip换源</h3>
+<h4 id="1在根目录下创建修改~pippipconfpip配置文件"><a class="markdownIt-Anchor" href="#1在根目录下创建修改~pippipconfpip配置文件"></a> 1.在根目录下创建/修改<code>～/.pip/pip.conf</code>pip配置文件；</h4>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch ～<span class="regexp">/.pip/</span>pip.conf</span><br></pre></td></tr></table></figure>
+<h4 id="2进入文件新增修改内容"><a class="markdownIt-Anchor" href="#2进入文件新增修改内容"></a> 2.进入文件新增/修改内容；</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line">[install]</span><br><span class="line">trusted-host = https://pypi.tuna.tsinghua.edu.cn</span><br></pre></td></tr></table></figure>
+<h2 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> Docker</h2>
+<h3 id="下载安装"><a class="markdownIt-Anchor" href="#下载安装"></a> 下载安装</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo apt install docker.io</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo pip install docker-compose</span></span><br></pre></td></tr></table></figure>
+<h3 id="检查是否安装成功"><a class="markdownIt-Anchor" href="#检查是否安装成功"></a> 检查是否安装成功</h3>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo docker version</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230509122142527.png" alt="image-20230509122142527"></p>
+<h3 id="docker换源"><a class="markdownIt-Anchor" href="#docker换源"></a> docker换源</h3>
+<h4 id="1创建或修改-etcdockerdaemonjson-文件"><a class="markdownIt-Anchor" href="#1创建或修改-etcdockerdaemonjson-文件"></a> 1.创建或修改 /etc/docker/daemon.json 文件</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano  /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
+<h4 id="2插入源连接"><a class="markdownIt-Anchor" href="#2插入源连接"></a> 2.插入源连接</h4>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;registry-mirrors&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;https://registry.hub.docker.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://hub-mirror.c.163.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;https://docker.mirrors.ustc.edu.cn&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;https://registry.docker-cn.com&quot;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="3查看是否换源成功"><a class="markdownIt-Anchor" href="#3查看是否换源成功"></a> 3.查看是否换源成功</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">docker info</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230512033234457.png" alt="image-20230512033234457"></p>
+<h4 id="重启docker并设置开机启动"><a class="markdownIt-Anchor" href="#重启docker并设置开机启动"></a> 重启docker，并设置开机启动</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart docker</span><br><span class="line"></span><br><span class="line">systemcd <span class="built_in">enable</span> docker</span><br><span class="line"></span><br><span class="line">systemcd start docker</span><br></pre></td></tr></table></figure>
+<h2 id="k8s"><a class="markdownIt-Anchor" href="#k8s"></a> K8S</h2>
+<h3 id="本地安装k8s"><a class="markdownIt-Anchor" href="#本地安装k8s"></a> 本地安装K8S</h3>
+<p>执行以下命令安装 https 工具以及 k8s</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update &amp;&amp; apt-get install -y apt-transport-https curl</span><br><span class="line">apt-get install -y kubelet kubeadm kubectl --allow-unauthenticated</span><br></pre></td></tr></table></figure>
+<p>执行过程中可能出现报错</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">No apt package <span class="string">&quot;kubeadm&quot;</span>, but there is a snap with that name.</span><br><span class="line">Try <span class="string">&quot;snap install kubeadm&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">No apt package <span class="string">&quot;kubectl&quot;</span>, but there is a snap with that name.</span><br><span class="line">Try <span class="string">&quot;snap install kubectl&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">No apt package <span class="string">&quot;kubelet&quot;</span>, but there is a snap with that name.</span><br><span class="line">Try <span class="string">&quot;snap install kubelet&quot;</span></span><br></pre></td></tr></table></figure>
+<p>这是使用的源里没有这个库，找一个有这个库的源添加上去即可：</p>
+<p>获取aliyun的key</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add</span><br></pre></td></tr></table></figure>
+<p>打开<code>/etc/apt/sources.list</code>文件，添加源链接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main</span><br></pre></td></tr></table></figure>
+<p>再次执行安装命令</p>
+<p>最后查看是否安装成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeadm init</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230512034345692.png" alt="image-20230512034345692"></p>
+<p>（到这里，docker和K8s的本地安装工作已经全部完成，接下来就是配置镜像了）</p>
+<h2 id="docker容器中配置安装k8s"><a class="markdownIt-Anchor" href="#docker容器中配置安装k8s"></a> Docker容器中配置安装K8S</h2>
+<h3 id="docker拉取ubuntu容器"><a class="markdownIt-Anchor" href="#docker拉取ubuntu容器"></a> docker拉取ubuntu容器</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230512232424025.png" alt="image-20230512232424025"></p>
+<h3 id="启动并进入容器"><a class="markdownIt-Anchor" href="#启动并进入容器"></a> 启动并进入容器</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230512232543441.png" alt="image-20230512232543441"></p>
+<h3 id="配置安装k8s"><a class="markdownIt-Anchor" href="#配置安装k8s"></a> 配置安装K8s</h3>
+<p>依次执行下面的安装命令，途中遇到的软件库的版本过高或过低，先卸载重装即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install -y apt-transport-https curl</span><br><span class="line">curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add - <span class="comment">#获取aliyun的源的key</span></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">EOF &gt;/etc/apt/sources.list.d/kubernetes.list</span></span><br><span class="line"><span class="string">deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main</span></span><br><span class="line"><span class="string">EOF</span> <span class="comment">#将被源配置写到配置文件中</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y kubectl kubeadm kubelet <span class="comment">#安装最新版本</span></span><br></pre></td></tr></table></figure>
+<p>安装过程需要时间较久，可以看点其他相关的 ：(</p>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513015901872.png" alt="image-20230513015901872"></p>
+<h3 id="下载完成后保存配置退出容器"><a class="markdownIt-Anchor" href="#下载完成后保存配置退出容器"></a> 下载完成后，保存配置退出容器：</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<h2 id="打包方法一-将kubernetes容器打包为docker镜像"><a class="markdownIt-Anchor" href="#打包方法一-将kubernetes容器打包为docker镜像"></a> 打包方法一、将Kubernetes容器打包为Docker镜像</h2>
+<p>查看id号，创造镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps -a</span><br><span class="line">$ docker commit &lt;container <span class="built_in">id</span>&gt; twe1v3-k8s-image<span class="comment">#这里的id是ubuntu的id号重命名为twe1v3-k8s-image</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513021215073.png" alt="image-20230513021215073"></p>
+<p>使用以下命令将Kubernetes容器打包为Docker镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker save twe1v3-k8s-image &gt; twe1v3-k8s-image.tar</span><br></pre></td></tr></table></figure>
+<p>上传到镜像仓库：可以使用以下命令将Docker镜像上传到镜像仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker login</span><br><span class="line">$ docker tag twe1v3-k8s-image &lt;repo url&gt;/twe1v3-k8s-image</span><br><span class="line">$ docker push &lt;repo url&gt;/twe1v3-k8s-image</span><br></pre></td></tr></table></figure>
+<p>至此常规打包的方式已经完成，鼓掌撒花！！！</p>
+<p>下面的内容将是使用现行的方法使用<strong>Dockerfile</strong>的方式来打包镜像：</p>
+<h2 id="打包方法二-使用dockerfile的方式来封装k8s的docker镜像"><a class="markdownIt-Anchor" href="#打包方法二-使用dockerfile的方式来封装k8s的docker镜像"></a> 打包方法二、使用Dockerfile的方式来封装K8s的docker镜像</h2>
+<p>这里的所有前置步骤都可以相同，主要是使用<code>Dockerfile</code>来封装配置安装的过程，省去了后续新建时的复杂操作</p>
+<h3 id="编写dockerfile"><a class="markdownIt-Anchor" href="#编写dockerfile"></a> 编写Dockerfile</h3>
+<p><code>Dockerfile</code>中写入以下内容：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ubuntu:latest</span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get -y install gnupg apt-transport-https curl \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add - \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main&quot;</span> &gt; /etc/apt/sources.list.d/kubernetes.list \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get update \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get -y install kubectl kubeadm kubelet</span></span><br><span class="line">    &amp;&amp; systemctl enable kubelet</span><br><span class="line">    &amp;&amp; systemctl restart kubelet</span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;bash&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<p>这里的<code>Dockerfile</code>内容拉取的镜像请修改为自己先前拉取的ubuntu镜像，保存后退出，写入<code>Dockerfile</code>的时候记得把注释去掉嗷。</p>
+<h3 id="构建docker镜像"><a class="markdownIt-Anchor" href="#构建docker镜像"></a> 构建Docker镜像</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t twe1v3-df-k8s-image .</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513024522287.png" alt="image-20230513024522287"></p>
+<p>执行<code>docker imags</code>查看是否新建成功：</p>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513030659678.png" alt></p>
+<p>运行镜像，并进入容器内查看是否安装成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -it twe1v3-df-k8s-image bash</span><br><span class="line"></span><br><span class="line">kubectl</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/image-20230513032748974.png" alt="image-20230513032748974"></p>
+<p>至此已完成docker的ubuntu的k8s镜像的封装和打包。</p>
+<p><s>配置一个sh或许会更快键哈哈哈</s></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" rel="tag"># 技术学习</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/K8s/" rel="tag"># K8s</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/%E7%BA%A2%E6%98%8E%E8%B0%B7CTF-2023-%E4%B8%AA%E4%BA%BAWriteup/" rel="prev" title="红明谷CTF-2023--个人Writeup">
+                  <i class="fa fa-chevron-left"></i> 红明谷CTF-2023--个人Writeup
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TWe1v3</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">240k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:39</span>
+  </span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+    </div>
+  </footer>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.1.3/mermaid.min.js","integrity":"sha256-TIYL00Rhw/8WaoUhYTLX9SKIEFdXxg+yMWSLVUbhiLg="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.0/katex.min.css" integrity="sha256-uik/hNqHWZldXh/0K35nqOSCff9F61/ZOFReqNOBgB0=" crossorigin="anonymous">
+  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.0/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
+  <script src="/js/third-party/math/katex.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"80355aa1b174d1926079780262cdc80f1ca96516","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"5326554d2e1ebfeef1addb8455780e93"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+
+<script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>
