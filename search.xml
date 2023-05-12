@@ -40,7 +40,7 @@
   <entry>
     <title>Docker与K8S学习-1安装和配置</title>
     <url>/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p><img src="/2023/05/Docker%E4%B8%8EK8S%E5%AD%A6%E4%B9%A0-1%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/hutao2-16839208384154.png" alt="hutao2"></p>
+    <content><![CDATA[<p>Docker与K8s学习-1安装和配置</p>
 <span id="more"></span>
 <h1 id="docker与k8s学习-1安装和配置"><a class="markdownIt-Anchor" href="#docker与k8s学习-1安装和配置"></a> Docker与K8s学习-1安装和配置</h1>
 <h2 id="换源"><a class="markdownIt-Anchor" href="#换源"></a> 换源</h2>
@@ -837,8 +837,8 @@
       </categories>
       <tags>
         <tag>Writeup</tag>
-        <tag>web</tag>
         <tag>每日一题</tag>
+        <tag>web</tag>
       </tags>
   </entry>
   <entry>
