@@ -154,7 +154,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8neo-regeorgproxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA"><span class="nav-number">1.</span> <span class="nav-text"> 浅谈如何利用Neo-reGeorg+Proxifier做跳板机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#regeorgsocksproxy%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text"> reGeorgSocksProxy工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0neo-regeorg"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 简述Neo-reGeorg</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%A8%A1%E6%8B%9F%E6%8B%93%E6%89%91"><span class="nav-number">1.2.</span> <span class="nav-text"> 实验模拟拓扑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 主机配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%B8%97%E9%80%8F%E4%B8%BB%E6%9C%BA%E7%94%9F%E6%88%90shell%E8%84%9A%E6%9C%AC"><span class="nav-number">1.2.1.1.</span> <span class="nav-text"> 1、渗透主机生成shell脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.2.</span> <span class="nav-text"> 2、内网代理主机配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AE%E6%B8%97%E9%80%8F%E4%B8%BB%E6%9C%BA%E4%BB%A3%E7%90%86%E8%A7%84%E5%88%99profile-proxification-rules"><span class="nav-number">1.2.1.3.</span> <span class="nav-text"> 3、配置渗透主机代理规则：Profile-proxification Rules</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%B5%81%E9%87%8F%E4%BA%92%E9%80%9A"><span class="nav-number">1.2.1.4.</span> <span class="nav-text"> 3、流量互通</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E4%BB%A3%E7%90%86%E8%BF%9E%E6%8E%A5%E7%9B%AE%E6%A0%87%E4%B8%BB%E6%9C%BA3389%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 通过代理，连接目标主机3389端口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E7%99%BB%E5%BD%95"><span class="nav-number">1.2.2.1.</span> <span class="nav-text"> 1、远程桌面登录。</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">浅谈如何利用Neo-reGeorg+Proxifier做跳板机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#reGeorgSocksProxy%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">reGeorgSocksProxy工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0Neo-reGeorg"><span class="nav-number">1.1.1.</span> <span class="nav-text">简述Neo-reGeorg</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%A8%A1%E6%8B%9F%E6%8B%93%E6%89%91"><span class="nav-number">1.2.</span> <span class="nav-text">实验模拟拓扑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.</span> <span class="nav-text">主机配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E6%B8%97%E9%80%8F%E4%B8%BB%E6%9C%BA%E7%94%9F%E6%88%90shell%E8%84%9A%E6%9C%AC"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1、渗透主机生成shell脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2、内网代理主机配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E9%85%8D%E7%BD%AE%E6%B8%97%E9%80%8F%E4%B8%BB%E6%9C%BA%E4%BB%A3%E7%90%86%E8%A7%84%E5%88%99%EF%BC%9AProfile-proxification-Rules"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">3、配置渗透主机代理规则：Profile-proxification Rules</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E6%B5%81%E9%87%8F%E4%BA%92%E9%80%9A"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">3、流量互通</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E4%BB%A3%E7%90%86%EF%BC%8C%E8%BF%9E%E6%8E%A5%E7%9B%AE%E6%A0%87%E4%B8%BB%E6%9C%BA3389%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.2.2.</span> <span class="nav-text">通过代理，连接目标主机3389端口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E7%99%BB%E5%BD%95%E3%80%82"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">1、远程桌面登录。</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -304,13 +304,13 @@
     <div class="post-body" itemprop="articleBody">
         <p>突发奇想的内网穿透学习外加好大哥的指导，主要是老大哥的手把手指导！！非常感谢Orz。</p>
 <span id="more"></span>
-<h1 id="浅谈如何利用neo-regeorgproxifier做跳板机"><a class="markdownIt-Anchor" href="#浅谈如何利用neo-regeorgproxifier做跳板机"></a> 浅谈如何利用Neo-reGeorg+Proxifier做跳板机</h1>
-<h2 id="regeorgsocksproxy工作原理"><a class="markdownIt-Anchor" href="#regeorgsocksproxy工作原理"></a> reGeorgSocksProxy工作原理</h2>
+<h1>浅谈如何利用Neo-reGeorg+Proxifier做跳板机</h1>
+<h2 id="reGeorgSocksProxy工作原理">reGeorgSocksProxy工作原理</h2>
 <p>在渗透过程中，进入到内网之后，由于防火墙的存在，致使我们无法直接从外网主机直接访问到内网主机，发起链接，因此就需要设置端口反弹，如果要对内网中的其他主机进行渗透攻击，就需要通过内网的代理，来对其他主机进行渗透攻击。</p>
 <p>例如这里我们发现了一个内网的靶机，但是没法直接链接，就可以通过<code>Neo-reGeorg+Proxifier</code>构建的内网代理隧道<code>Tunnel.php</code>做一个跳板，使用代理主机的内网流量访问其他内网主机，以此来做到一个初步横向和攻击隐藏。</p>
 <p><strong>原理图：</strong></p>
 <p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230413220538532.png" alt></p>
-<h3 id="简述neo-regeorg"><a class="markdownIt-Anchor" href="#简述neo-regeorg"></a> 简述Neo-reGeorg</h3>
+<h3 id="简述Neo-reGeorg">简述Neo-reGeorg</h3>
 <p><code>Neo-reGeorg</code> 是<code>reGeorg</code>的重构版，其目的是：</p>
 <ul>
 <li>提高可用性，避免特征检测</li>
@@ -320,34 +320,34 @@
 </ul>
 <p>主要是把内网服务器的端口通过 <code>http/https</code> 隧道转发到本机，形成一个回路。用于目标服务器在内网或做了端口策略的情况下连接目标服务器内部开放端口。它利用<code> webshell</code> 建立一个 <code>socks</code> 代理进行内网穿透，服务器必须支持<code>php</code>、<code>aspx</code>、<code>ashx</code>、<code>jsp</code>、<code>go</code>这些 web 程序中的一种。</p>
 <p><code>reGeorgSocksProxy</code>由服务端和客户端两部分组成。服务端有<code>php</code>、<code>aspx</code>、<code>ashx</code>、<code>jsp</code>、<code>go</code>等多个版本，客户端则由python编写。其工作原理可简单描述为python客户端在本地监听一个端口，提供socks服务，并将数据通过<code>http/https</code>协议发送到服务端上，并从服务端上用socket实现转发。</p>
-<h2 id="实验模拟拓扑"><a class="markdownIt-Anchor" href="#实验模拟拓扑"></a> 实验模拟拓扑</h2>
+<h2 id="实验模拟拓扑">实验模拟拓扑</h2>
 <p>拓扑图如下：</p>
 <p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/%E5%AE%9E%E9%AA%8C%E6%8B%93%E6%89%91%E5%9B%BE1.png" alt="实验拓扑图1"></p>
 <p>由于内容仅供讲解笔记使用，IP皆为举例IP，是无效地址，具体搭建参考拓扑图。</p>
 <p>**外网渗透主机：**192.0.0.1</p>
 <p>**目标主机：**外网vmnet0网卡模拟，IP地址为192.0.0.1，内网vmnet8模拟，内网地址为192.0.253.123</p>
 <p>**内网主机：**网卡为vmnet8模式，IP地址为192.0.253.123，可与目标主机192.0.253.123实现网络互通，但不对外网暴露。通过以上方式模拟内网结构。</p>
-<h3 id="主机配置"><a class="markdownIt-Anchor" href="#主机配置"></a> 主机配置</h3>
-<h4 id="1-渗透主机生成shell脚本"><a class="markdownIt-Anchor" href="#1-渗透主机生成shell脚本"></a> 1、渗透主机生成shell脚本</h4>
+<h3 id="主机配置">主机配置</h3>
+<h4 id="1、渗透主机生成shell脚本">1、渗透主机生成shell脚本</h4>
 <p>在Neo-reGeorg目录下打开powershell窗口，执行脚本：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python neoreg.py generate -k TWe1v3</span><br></pre></td></tr></table></figure>
 <p>图为Neo-reGeorg脚本执行：</p>
 <p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230421170513920.png" alt="image-20230421170513920"></p>
-<h4 id="2-内网代理主机配置"><a class="markdownIt-Anchor" href="#2-内网代理主机配置"></a> 2、内网代理主机配置</h4>
+<h4 id="2、内网代理主机配置">2、内网代理主机配置</h4>
 <p>这需要在内网主机中考虑启动一个web服务，我这里直接安装phpstudy，详细安装使用教程请自行google，当然其他的方法也可以。只要能启动web服务用于上传tunnel.php文件就行。</p>
 <p>访问上传成功的tunnel.php:</p>
 <p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230421173359868.png" alt="image-20230421173359868"></p>
 <p>直接将生成的webshell脚本放到phpstudy的根目录即可，我这里更改了一下webshell给的访问成功的输出。</p>
-<h4 id="3-配置渗透主机代理规则profile-proxification-rules"><a class="markdownIt-Anchor" href="#3-配置渗透主机代理规则profile-proxification-rules"></a> 3、配置渗透主机代理规则：<code>Profile-proxification Rules</code></h4>
+<h4 id="3、配置渗透主机代理规则：Profile-proxification-Rules">3、配置渗透主机代理规则：<code>Profile-proxification Rules</code></h4>
 <p>代理规则其实就相当于指定那个软件的流量经过代理，哪些不经过代理，一般情况下我们需要使用浏览器访问内网的网页，所以就需要给浏览器配置经过代理，其他不需要代理的软件就这设为direct模式（不经过代理）</p>
 <p>127.0.0.1 为socks5 ，python脚本为direct</p>
-<h4 id="3-流量互通"><a class="markdownIt-Anchor" href="#3-流量互通"></a> 3、流量互通</h4>
+<h4 id="3、流量互通">3、流量互通</h4>
 <p><a target="_blank" rel="noopener" href="http://xn--neoreg-2y7im02o05mm1tsw8bw3sqxa.py">运行渗透主机的neoreg.py</a><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230421201640081.png" alt="image-20230421201640081"></p>
 <p>这里需要设置一下渗透主机的代理，使用Proxifier代理：</p>
 <p><img src="/2023/04/%E6%B5%85%E8%B0%88%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8Neo-reGeorg+Proxifier%E5%81%9A%E8%B7%B3%E6%9D%BF%E6%9C%BA/image-20230425020828636.png" alt="image-20230425020828636"></p>
 <p>设置1080端口。</p>
-<h3 id="通过代理连接目标主机3389端口"><a class="markdownIt-Anchor" href="#通过代理连接目标主机3389端口"></a> 通过代理，连接目标主机3389端口</h3>
-<h4 id="1-远程桌面登录"><a class="markdownIt-Anchor" href="#1-远程桌面登录"></a> 1、远程桌面登录。</h4>
+<h3 id="通过代理，连接目标主机3389端口">通过代理，连接目标主机3389端口</h3>
+<h4 id="1、远程桌面登录。">1、远程桌面登录。</h4>
 <p>打开本地远程桌面，右击mstsc.exe用Proxifier中的<code>Proxy SOCKS 5 127.0.0.1</code>打开。</p>
 
     </div>
