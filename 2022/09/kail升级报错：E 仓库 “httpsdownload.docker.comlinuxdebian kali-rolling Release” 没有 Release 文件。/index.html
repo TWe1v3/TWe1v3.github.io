@@ -144,14 +144,14 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text"> 问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text"> 解决办法</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">解决办法</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="TWe1v3"
-      src="/images/twe1v3.gif">
+      src="/images/twe1v3.jpg">
   <p class="site-author-name" itemprop="name">TWe1v3</p>
   <div class="site-description" itemprop="description">TWe1v3的博客</div>
 </div>
@@ -222,7 +222,7 @@
     <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2022/09/kail%E5%8D%87%E7%BA%A7%E6%8A%A5%E9%94%99%EF%BC%9AE%20%E4%BB%93%E5%BA%93%20%E2%80%9Chttpsdownload.docker.comlinuxdebian%20kali-rolling%20Release%E2%80%9D%20%E6%B2%A1%E6%9C%89%20Release%20%E6%96%87%E4%BB%B6%E3%80%82/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/twe1v3.gif">
+      <meta itemprop="image" content="/images/twe1v3.jpg">
       <meta itemprop="name" content="TWe1v3">
     </span>
 
@@ -288,9 +288,9 @@
     <div class="post-body" itemprop="articleBody">
         <p>写在前面，这是我在使用kali的过程中遇到的问题</p>
 <span id="more"></span>
-<h4 id="问题"><a class="markdownIt-Anchor" href="#问题"></a> 问题</h4>
+<h4 id="问题">问题</h4>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root<span class="keyword">@root</span>:~# sudo apt <span class="attribute">update</span> 命中:<span class="number">1</span> <span class="attribute">http</span>://mirrors.ustc.edu.cn/kali kali-rolling InRelease 忽略:<span class="number">2</span> <span class="attribute">https</span>://download.docker.com/linux/debian kali-rolling InRelease 错误:<span class="number">3</span> <span class="attribute">https</span>://download.docker.com/linux/debian kali-rolling Release  <span class="number">404</span>  <span class="keyword">Not</span> Found [<span class="attribute">IP</span>: <span class="number">65.8</span>.<span class="number">85.83</span> <span class="number">443</span>] 正在读取软件包列表... 完成 <span class="attribute">E</span>: 仓库 “<span class="attribute">https</span>://download.docker.com/linux/debian kali-rolling Release” 没有 Release 文件。 <span class="attribute">N</span>: 无法安全地用该源进行更新，所以默认禁用该源。 <span class="attribute">N</span>: 参见 apt-secure(<span class="number">8</span>) 手册以了解仓库创建和用户配置方面的细节。</span><br></pre></td></tr></table></figure>
-<h4 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h4>
+<h4 id="解决办法">解决办法</h4>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@root</span><span class="symbol">:~</span><span class="comment"># cd /etc/apt/sources.list.d</span></span><br><span class="line">root<span class="variable">@root</span><span class="symbol">:/etc/apt/sources</span>.list.d<span class="comment"># ls</span></span><br><span class="line">docker.list</span><br><span class="line">root<span class="variable">@root</span><span class="symbol">:/etc/apt/sources</span>.list.d<span class="comment"># rm docker.list </span></span><br><span class="line">root<span class="variable">@root</span><span class="symbol">:/etc/apt/sources</span>.list.d<span class="comment"># apt-get update &amp;&amp; apt-get upgrade</span></span><br></pre></td></tr></table></figure>
 <p>好耶散花！QWQ</p>
 
