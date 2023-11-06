@@ -148,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">目录遍历(Directory traversal)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E5%85%B3%EF%BC%9AFile-path-traversal-simple-case"><span class="nav-number">1.1.</span> <span class="nav-text">第一关：File path traversal, simple case</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E5%85%B3%EF%BC%9AFile-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass"><span class="nav-number">1.2.</span> <span class="nav-text">第二关：File path traversal, traversal sequences blocked with absolute path bypass</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86directory-traversal"><span class="nav-number">1.</span> <span class="nav-text"> 目录遍历(Directory traversal)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E5%85%B3file-path-traversal-simple-case"><span class="nav-number">1.1.</span> <span class="nav-text"> 第一关：File path traversal, simple case</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E5%85%B3file-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass"><span class="nav-number">1.2.</span> <span class="nav-text"> 第二关：File path traversal, traversal sequences blocked with absolute path bypass</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -298,12 +298,12 @@
     <div class="post-body" itemprop="articleBody">
         <p>PortSwigger靶场练习(一):目录遍历(Directory traversal)</p>
 <span id="more"></span>
-<h1>目录遍历(Directory traversal)</h1>
-<h2 id="第一关：File-path-traversal-simple-case">第一关：File path traversal, simple case</h2>
+<h1 id="目录遍历directory-traversal"><a class="markdownIt-Anchor" href="#目录遍历directory-traversal"></a> 目录遍历(Directory traversal)</h1>
+<h2 id="第一关file-path-traversal-simple-case"><a class="markdownIt-Anchor" href="#第一关file-path-traversal-simple-case"></a> 第一关：File path traversal, simple case</h2>
 <p>直接抓取获取图片的包，构造<code>filename=../../../../etc/passwd/</code></p>
 <p><img src="/2023/06/PortSwigger%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0-%E4%B8%80-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86-Directory-traversal/image-20230602232404266.png" alt="image-20230602232404266"></p>
 <p>简单说一下：首先可以猜测图片的存储路径为：<code>/var/www/images/x.jpg</code>，使用<code>../../../../ect/passwd</code>能够直接目录穿越到<code>/etc/passwd</code>，并读取相关内容。</p>
-<h2 id="第二关：File-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass">第二关：File path traversal, traversal sequences blocked with absolute path bypass</h2>
+<h2 id="第二关file-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass"><a class="markdownIt-Anchor" href="#第二关file-path-traversal-traversal-sequences-blocked-with-absolute-path-bypass"></a> 第二关：File path traversal, traversal sequences blocked with absolute path bypass</h2>
 <p>首先试了一下<code>../../../etc/passwd</code>，回显提示<code>&quot;No such file&quot;</code>，考虑到靶场描述<code>absolute path</code>，</p>
 <p>直接构造<code>filename=/etc/passwd/</code></p>
 <p><img src="/2023/06/PortSwigger%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0-%E4%B8%80-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86-Directory-traversal/image-20230602235352211.png" alt="image-20230602235352211"></p>
@@ -366,14 +366,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">289k</span>
+    <span title="站点总字数">293k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:23</span>
+    <span title="站点阅读时长">4:26</span>
   </span>
 </div>
 

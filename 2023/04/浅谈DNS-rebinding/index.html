@@ -148,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">DNS Rebinding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-%E6%94%BB%E5%87%BB%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">0x01 攻击简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Web%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text">Web同源策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">0x02 攻击原理：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-%E6%94%BB%E5%87%BB%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">0x03 攻击机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-%E6%94%BB%E5%87%BB%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text">0x04 攻击示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-%E6%94%BB%E5%87%BB%E5%8D%B1%E5%AE%B3"><span class="nav-number">1.5.</span> <span class="nav-text">0x05 攻击危害</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-1-%E9%80%9A%E8%BF%87-DNS-%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E6%94%BB%E5%87%BB%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%EF%BC%9A"><span class="nav-number">1.5.1.</span> <span class="nav-text">0x04-1 通过 DNS 重新绑定攻击进行网络渗透测试：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x06-%E5%B0%86DNS-Rebinding%E5%BA%94%E7%94%A8%E5%88%B0%E5%AE%9E%E9%99%85%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="nav-number">1.6.</span> <span class="nav-text">0x06 将DNS Rebinding应用到实际漏洞挖掘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CVE-2022-4096"><span class="nav-number">1.6.1.</span> <span class="nav-text">CVE-2022-4096</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CVE-2023-26492"><span class="nav-number">1.6.2.</span> <span class="nav-text">CVE-2023-26492</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CVE-2022-43548"><span class="nav-number">1.6.3.</span> <span class="nav-text">CVE-2022-43548</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x07-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">1.7.</span> <span class="nav-text">0x07 参考链接</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dns-rebinding"><span class="nav-number">1.</span> <span class="nav-text"> DNS Rebinding</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-%E6%94%BB%E5%87%BB%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text"> 0x01 攻击简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text"> Web同源策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text"> 0x02 攻击原理：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-%E6%94%BB%E5%87%BB%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text"> 0x03 攻击机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-%E6%94%BB%E5%87%BB%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text"> 0x04 攻击示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x05-%E6%94%BB%E5%87%BB%E5%8D%B1%E5%AE%B3"><span class="nav-number">1.5.</span> <span class="nav-text"> 0x05 攻击危害</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x04-1-%E9%80%9A%E8%BF%87-dns-%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E6%94%BB%E5%87%BB%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"><span class="nav-number">1.5.1.</span> <span class="nav-text"> 0x04-1 通过 DNS 重新绑定攻击进行网络渗透测试：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x06-%E5%B0%86dns-rebinding%E5%BA%94%E7%94%A8%E5%88%B0%E5%AE%9E%E9%99%85%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="nav-number">1.6.</span> <span class="nav-text"> 0x06 将DNS Rebinding应用到实际漏洞挖掘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cve-2022-4096"><span class="nav-number">1.6.1.</span> <span class="nav-text"> CVE-2022-4096</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cve-2023-26492"><span class="nav-number">1.6.2.</span> <span class="nav-text"> CVE-2023-26492</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cve-2022-43548"><span class="nav-number">1.6.3.</span> <span class="nav-text"> CVE-2022-43548</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x07-%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">1.7.</span> <span class="nav-text"> 0x07 参考链接</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -163,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -174,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -298,18 +298,18 @@
     <div class="post-body" itemprop="articleBody">
         <p>为啥突然要总结一下这个很老的知识点，我也不知道，可能太菜了，闲下来总得学点什么~</p>
 <span id="more"></span>
-<h1>DNS Rebinding</h1>
-<h2 id="0x01-攻击简介">0x01 攻击简介</h2>
+<h1 id="dns-rebinding"><a class="markdownIt-Anchor" href="#dns-rebinding"></a> DNS Rebinding</h1>
+<h2 id="0x01-攻击简介"><a class="markdownIt-Anchor" href="#0x01-攻击简介"></a> 0x01 攻击简介</h2>
 <p><strong>DNS Rebinding</strong>也叫做DNS重绑定攻击或者DNS重定向攻击。在这种攻击中，恶意网页会导致访问者运行客户端脚本，攻击网络上其他地方的计算机。</p>
 <p>在介绍DNS Rebinding攻击机制之前我们先了解一下Web同源策略，</p>
-<h3 id="Web同源策略">Web同源策略</h3>
+<h3 id="web同源策略"><a class="markdownIt-Anchor" href="#web同源策略"></a> Web同源策略</h3>
 <p><strong>同源策略</strong>（英语：Same-origin policy）是指在Web浏览器中，允许某个网页脚本访问另一个网页的数据，但前提是这两个网页必须有相同的URL、主机名和端口号，一旦两个网站满足上述条件，这两个网站就被认定为具有相同来源。此策略可防止某个网页上的恶意脚本通过该页面的文档对象模型访问另一网页上的敏感数据，比如<code>XSS，XXE，SSRF</code>等基于网页上的恶意脚本攻击。</p>
 <p>**同源的定义：**如果两个 URL 的 协议、域名、端口都相同的话，则这两个 URL 是<em>同源</em>。</p>
 <p>同源策略对Web应用程序具有特殊意义，因为Web应用程序广泛依赖于HTTP cookie来维持用户会话(session)，所以必须将不相关网站严格分隔，以防止丢失数据泄露。</p>
 <p>值得注意的是同源策略仅适用于脚本，这意味着某网站可以通过相应的HTML标签访问不同来源网站上的图像、CSS和动态加载 脚本等资源。而跨站请求伪造(CSRF)就是利用同源策略不适用于HTML标签的缺陷。</p>
 <p><strong>所以从理论上来讲，同源策略是能够有效的保证：客户端脚本只能访问为脚本提供服务的同一主机上的内容。</strong></p>
 <p>至此如何绕过Web同源策略也成了众多hacker研究的地方。</p>
-<h2 id="0x02-攻击原理：">0x02 攻击原理：</h2>
+<h2 id="0x02-攻击原理"><a class="markdownIt-Anchor" href="#0x02-攻击原理"></a> 0x02 攻击原理：</h2>
 <p>这里说一下利用的TTL是什么：</p>
 <blockquote>
 <p>TTL是英语Time-To-Live的简称，意思为一条域名解析记录在DNS服务器中的存留时间。当各地的DNS服务器接受到解析请求时，就会向域名指定的NS服务器发出解析请求从而获得解析记录；在获得这个记录之后，记录会在DNS服务器中保存一段时间，这段时间内如果再接到这个域名的解析请求，DNS服务器将不再向NS服务器发出请求，而是直接返回刚才获得的记录；而这个记录在DNS服务器上保留的时间，就是TTL值。</p>
@@ -321,10 +321,10 @@
 <p>接下来，我们测试一下：</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">192.168.32.10</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">192.168.32.10</span></span><br><span class="line"># host <span class="number">7f000001</span>.c0a8200a.rbndr.us</span><br><span class="line"><span class="number">7f000001</span>.c0a8200a.rbndr.us has address <span class="number">127.0.0.1</span>                                                   </span><br></pre></td></tr></table></figure>
 <p>由此就达到了一个DNS 重绑定的效果。</p>
-<h2 id="0x03-攻击机制">0x03 攻击机制</h2>
+<h2 id="0x03-攻击机制"><a class="markdownIt-Anchor" href="#0x03-攻击机制"></a> 0x03 攻击机制</h2>
 <p>攻击者无法控制名称服务器的载体，所有解析主机名（或 IP 地址，仍然是有效主机名）的请求都被重定向到由攻击者控制和操作的备用名称服务器。例如，如果我们有一个网址为 <a target="_blank" rel="noopener" href="http://www.example-a.com">www.example-a.com</a> 的网站，并且我们想要访问私有内部域邮件服务器或只能通过该特定私有 IP 地址访问的其他服务，则可以使用 DNS 重新绑定攻击来伪造这些地址之一。</p>
 <p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/image-20230404221756020.png" alt="image-20230404221756020"></p>
-<h2 id="0x04-攻击示例">0x04 攻击示例</h2>
+<h2 id="0x04-攻击示例"><a class="markdownIt-Anchor" href="#0x04-攻击示例"></a> 0x04 攻击示例</h2>
 <ol>
 <li>攻击者注册一个域名，例如 IP 地址为 1.3.5.7 的 <a target="_blank" rel="noopener" href="http://www.evil.com">www.evil.com</a>，将其委托给自己的 DNS 服务器（1.3.5.4），并使用钓鱼链接或电子邮件获取 HTTP 流量。</li>
 <li>DNS 服务器没有发送正常的 TTL 记录，而是发送了一个非常短的 TTL 记录（例如，1 秒），防止条目 [<a target="_blank" rel="noopener" href="http://www.evil.com">www.evil.com</a>, 1.3.5.7] 的 DNS 响应被缓存在受害者的（192.168.1.10 ) 浏览器。</li>
@@ -335,30 +335,30 @@
 <li>由于同一个名称解析为这两个 IP 地址，浏览器会将这两个 IP 地址（1.3.5.7 和 192.168.1.2）置于同一安全区域并允许信息在地址之间流动。</li>
 <li>此外，攻击者可以通过发送多个短期IP地址来实现扫描和访问受害者本地网络（192.168.XX）中的所有内部主机。</li>
 </ol>
-<h2 id="0x05-攻击危害">0x05 攻击危害</h2>
+<h2 id="0x05-攻击危害"><a class="markdownIt-Anchor" href="#0x05-攻击危害"></a> 0x05 攻击危害</h2>
 <p>DNS Rebinding可以通过让受害者的Web浏览器访问专用IP地址的机器并将结果返回给攻击者来破坏专用网络。 它也可以用于使用受害者机器发送垃圾邮件，分布式拒绝服务攻击（DDOS）或其他恶意活动，也就是我们常听说的肉机和僵尸机。</p>
 <p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/DDOS.png" alt="DDOS"></p>
-<h3 id="0x04-1-通过-DNS-重新绑定攻击进行网络渗透测试：">0x04-1 通过 DNS 重新绑定攻击进行网络渗透测试：</h3>
+<h3 id="0x04-1-通过-dns-重新绑定攻击进行网络渗透测试"><a class="markdownIt-Anchor" href="#0x04-1-通过-dns-重新绑定攻击进行网络渗透测试"></a> 0x04-1 通过 DNS 重新绑定攻击进行网络渗透测试：</h3>
 <p>在某些情况下，用户会被诱骗使用这些网（例如，私人电子邮件服务器）创建网络钓鱼网站。由于发送到被劫持 URL 的所有流量现在都被发送回原始服务器，因此它变得完全混乱并迫使用户安装网络钓鱼页面。 以此来达到获取用户信息或者是用户权限的作用。</p>
 <p><img src="/2023/04/%E6%B5%85%E8%B0%88DNS-rebinding/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220923151414-1024x576.jpg" alt="网络钓鱼"></p>
-<h2 id="0x06-将DNS-Rebinding应用到实际漏洞挖掘">0x06 将DNS Rebinding应用到实际漏洞挖掘</h2>
-<h3 id="CVE-2022-4096"><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-4096">CVE-2022-4096</a></h3>
+<h2 id="0x06-将dns-rebinding应用到实际漏洞挖掘"><a class="markdownIt-Anchor" href="#0x06-将dns-rebinding应用到实际漏洞挖掘"></a> 0x06 将DNS Rebinding应用到实际漏洞挖掘</h2>
+<h3 id="cve-2022-4096"><a class="markdownIt-Anchor" href="#cve-2022-4096"></a> <a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-4096">CVE-2022-4096</a></h3>
 <blockquote>
 <p>漏洞描述：1.8.2 之前的 GitHub 存储库 appsmithorg/appsmith 中的服务器端请求伪造 (SSRF)</p>
 <p>复现链接：<a target="_blank" rel="noopener" href="https://infosecwriteups.com/ssrf-via-dns-rebinding-cve-2022-4096-b7bf75928bb2">https://infosecwriteups.com/ssrf-via-dns-rebinding-cve-2022-4096-b7bf75928bb2</a></p>
 </blockquote>
-<h3 id="CVE-2023-26492">CVE-2023-26492</h3>
+<h3 id="cve-2023-26492"><a class="markdownIt-Anchor" href="#cve-2023-26492"></a> CVE-2023-26492</h3>
 <blockquote>
 <p>漏洞描述：Directus 是用于管理 SQL 数据库内容的实时 API 和应用程序仪表板。当从远程 Web 服务器导入文件（POST 到 <code>/files/import</code>）时，Directus 容易受到服务器端请求伪造 (SSRF) 的攻击。攻击者可以通过执行 DNS 重新绑定攻击并查看来自内部服务器的敏感数据或执行本地端口扫描来绕过安全控制。攻击者可以利用此漏洞访问高度敏感的内部服务器并窃取敏感信息。此问题已在版本 9.23.0 中修复。</p>
 <p>CVE链接：<a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-26492">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-26492</a></p>
 </blockquote>
-<h3 id="CVE-2022-43548">CVE-2022-43548</h3>
+<h3 id="cve-2022-43548"><a class="markdownIt-Anchor" href="#cve-2022-43548"></a> CVE-2022-43548</h3>
 <blockquote>
 <p>漏洞描述：由于 IsAllowedHost 检查不充分，Node.js 版本 &lt;14.21.1、&lt;16.18.1、&lt;18.12.1、&lt;19.0.1 中存在操作系统命令注入漏洞，该漏洞很容易被绕过，因为 IsIPAddress 没有正确检查 IP在发出允许重新绑定攻击的 DBS 请求之前地址无效。<a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32212">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32212</a> 中针对此问题的修复不完整，这个新的 CVE 是为了完成修复。</p>
 <p>CVE链接：<a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-43548">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-43548</a></p>
 </blockquote>
 <p>针对<code>CVE-2022-43548</code>和<code>CVE-2023-26492</code>后续会有完整的复现过程文章，期待一下~</p>
-<h2 id="0x07-参考链接">0x07 参考链接</h2>
+<h2 id="0x07-参考链接"><a class="markdownIt-Anchor" href="#0x07-参考链接"></a> 0x07 参考链接</h2>
 <blockquote>
 <p>[Web同源策略] <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5">https://zh.wikipedia.org/wiki/同源策略</a>)</p>
 <p>[DNS Rebinding] (<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/DNS_rebinding">https://en.wikipedia.org/wiki/DNS_rebinding</a>)</p>
@@ -423,14 +423,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">289k</span>
+    <span title="站点总字数">293k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:23</span>
+    <span title="站点阅读时长">4:26</span>
   </span>
 </div>
 

