@@ -20,13 +20,14 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"twe1v3.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一次魔改蚁剑bypass_disable_functions插件的打靶记录  一、解题过程  ①：尝试通用payload url：http:&#x2F;&#x2F;1.117.101.154:30080&#x2F; 源码：http:&#x2F;&#x2F;1.117.101.154:30080&#x2F;thinkphp_5.0.22_with_extend.zip 已知： 读phpinfo()： tk5.x通用payload： ?s&#x3D;Index&#x2F;\th">
+    <meta name="description" content="简单但是需要细心的打靶记录哈哈，蛮有趣的大佬轻点锤">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一次魔改蚁剑bypass_disable_functions插件的打靶记录">
 <meta property="og:url" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="TWe1v3">
-<meta property="og:description" content="一次魔改蚁剑bypass_disable_functions插件的打靶记录  一、解题过程  ①：尝试通用payload url：http:&#x2F;&#x2F;1.117.101.154:30080&#x2F; 源码：http:&#x2F;&#x2F;1.117.101.154:30080&#x2F;thinkphp_5.0.22_with_extend.zip 已知： 读phpinfo()： tk5.x通用payload： ?s&#x3D;Index&#x2F;\th">
+<meta property="og:description" content="简单但是需要细心的打靶记录哈哈，蛮有趣的大佬轻点锤">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107035636001.png">
 <meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182714323.png">
 <meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182820721.png">
 <meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201016733.png">
@@ -49,14 +50,14 @@
 <meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033445350.png">
 <meta property="og:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033803884.png">
 <meta property="article:published_time" content="2023-11-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-11-06T19:50:03.804Z">
+<meta property="article:modified_time" content="2023-11-06T19:56:56.623Z">
 <meta property="article:author" content="TWe1v3">
 <meta property="article:tag" content="渗透">
 <meta property="article:tag" content="web">
 <meta property="article:tag" content="靶场">
 <meta property="article:tag" content="bypass">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182714323.png">
+<meta name="twitter:image" content="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107035636001.png">
 
 
 <link rel="canonical" href="http://twe1v3.github.io/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/">
@@ -280,7 +281,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-11-07 03:50:03" itemprop="dateModified" datetime="2023-11-07T03:50:03+08:00">2023-11-07</time>
+      <time title="修改时间：2023-11-07 03:56:56" itemprop="dateModified" datetime="2023-11-07T03:56:56+08:00">2023-11-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -317,7 +318,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="一次魔改蚁剑bypass_disable_functions插件的打靶记录"><a class="markdownIt-Anchor" href="#一次魔改蚁剑bypass_disable_functions插件的打靶记录"></a> 一次魔改蚁剑bypass_disable_functions插件的打靶记录</h1>
+        <p>简单但是需要细心的打靶记录哈哈，蛮有趣的大佬轻点锤<img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107035636001.png" alt="image-20231107035636001"></p>
+<span id="more"></span>
+<h1 id="一次魔改蚁剑bypass_disable_functions插件的打靶记录"><a class="markdownIt-Anchor" href="#一次魔改蚁剑bypass_disable_functions插件的打靶记录"></a> 一次魔改蚁剑bypass_disable_functions插件的打靶记录</h1>
 <h2 id="一-解题过程"><a class="markdownIt-Anchor" href="#一-解题过程"></a> 一、解题过程</h2>
 <h3 id="1尝试通用payload"><a class="markdownIt-Anchor" href="#1尝试通用payload"></a> ①：尝试通用payload</h3>
 <p>url：<a target="_blank" rel="noopener" href="http://1.117.101.154:30080/">http://1.117.101.154:30080/</a></p>

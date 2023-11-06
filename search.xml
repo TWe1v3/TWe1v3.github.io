@@ -32,7 +32,9 @@
   <entry>
     <title>一次魔改蚁剑bypass_disable_functions插件的打靶记录</title>
     <url>/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="一次魔改蚁剑bypass_disable_functions插件的打靶记录"><a class="markdownIt-Anchor" href="#一次魔改蚁剑bypass_disable_functions插件的打靶记录"></a> 一次魔改蚁剑bypass_disable_functions插件的打靶记录</h1>
+    <content><![CDATA[<p>简单但是需要细心的打靶记录哈哈，蛮有趣的大佬轻点锤<img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107035636001.png" alt="image-20231107035636001"></p>
+<span id="more"></span>
+<h1 id="一次魔改蚁剑bypass_disable_functions插件的打靶记录"><a class="markdownIt-Anchor" href="#一次魔改蚁剑bypass_disable_functions插件的打靶记录"></a> 一次魔改蚁剑bypass_disable_functions插件的打靶记录</h1>
 <h2 id="一-解题过程"><a class="markdownIt-Anchor" href="#一-解题过程"></a> 一、解题过程</h2>
 <h3 id="1尝试通用payload"><a class="markdownIt-Anchor" href="#1尝试通用payload"></a> ①：尝试通用payload</h3>
 <p>url：<a href="http://1.117.101.154:30080/">http://1.117.101.154:30080/</a></p>
@@ -621,10 +623,10 @@ dl()：通过加载自定义php扩展突破 disable_fucnitons指令的限制   x
       </categories>
       <tags>
         <tag>Web</tag>
-        <tag>Misc</tag>
-        <tag>CTF</tag>
         <tag>Crypto</tag>
         <tag>Reverse</tag>
+        <tag>Misc</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -794,10 +796,10 @@ dl()：通过加载自定义php扩展突破 disable_fucnitons指令的限制   x
       </categories>
       <tags>
         <tag>Web</tag>
-        <tag>Misc</tag>
         <tag>Crypto</tag>
         <tag>Reverse</tag>
         <tag>Pwn</tag>
+        <tag>Misc</tag>
         <tag>Writeup</tag>
       </tags>
   </entry>
@@ -1696,8 +1698,8 @@ dl()：通过加载自定义php扩展突破 disable_fucnitons指令的限制   x
       </categories>
       <tags>
         <tag>Web</tag>
-        <tag>Misc</tag>
         <tag>Crypto</tag>
+        <tag>Misc</tag>
       </tags>
   </entry>
   <entry>
@@ -2940,9 +2942,9 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Web</tag>
-        <tag>Misc</tag>
         <tag>Crypto</tag>
         <tag>Pwn</tag>
+        <tag>Misc</tag>
         <tag>Re</tag>
       </tags>
   </entry>
@@ -3155,10 +3157,10 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Web</tag>
-        <tag>Misc</tag>
         <tag>Crypto</tag>
         <tag>Reverse</tag>
         <tag>Pwn</tag>
+        <tag>Misc</tag>
         <tag>Writeup</tag>
       </tags>
   </entry>
@@ -3688,9 +3690,9 @@ private：私有的</p>
       </categories>
       <tags>
         <tag>Web</tag>
+        <tag>Crypto</tag>
         <tag>Misc</tag>
         <tag>CTF</tag>
-        <tag>Crypto</tag>
       </tags>
   </entry>
   <entry>

