@@ -1,8 +1,87 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
 const postModules = import.meta.glob('./posts/*.{astro,md}', { eager: true });
 const posts = Object.values(postModules)
   .map((mod) => mod.postMeta ?? mod.frontmatter)
   .filter(Boolean)
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
-<html lang="zh-CN"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>TWe1v3</title><meta name="description" content="能力沉淀、个人思考、自动化实验与安全研究。" /><style>:root{color-scheme:dark}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b1020;color:#e8ecf3}main{max-width:860px;margin:0 auto;padding:64px 24px}.tag{display:inline-block;margin-top:18px;padding:6px 10px;border:1px solid #2d3a57;border-radius:999px;color:#9cc0ff}h1{font-size:56px;margin:12px 0}.sub{font-size:20px;color:#aab6c8;max-width:700px;line-height:1.7}.grid{display:grid;gap:16px;margin-top:40px}.card{display:block;text-decoration:none;color:inherit;padding:20px;border:1px solid #25314a;border-radius:18px;background:#11182b}.card:hover{border-color:#4e75c9}.section-title{margin-top:52px;font-size:22px}.about{margin-top:20px;line-height:1.8;color:#c7d2e3}.date{color:#7f8da3;font-size:14px}.desc{margin:0;color:#c7d2e3}.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.pill{padding:4px 8px;border:1px solid #2d3a57;border-radius:999px;color:#9cc0ff;font-size:12px}</style></head><body><main><div class="tag">Public layer · Astro · GitHub Pages</div><h1>TWe1v3</h1><p class="sub">这里是前台展示层。后台知识库继续沉淀，前台只放打磨后的内容：能力沉淀、个人思考、自动化实验与安全研究。</p><h2 class="section-title">最新内容</h2><div class="grid">{posts.map((post) => (<a class="card" href={post.href}><div class="date">{post.date}</div><h3>{post.title}</h3><p class="desc">{post.desc}</p>{post.tags?.length ? <div class="meta">{post.tags.map((tag) => <span class="pill">{tag}</span>)}</div> : null}</a>))}</div><h2 class="section-title">关于这个站</h2><div class="about"><p>这个站不会把所有原始草稿直接公开。更像一层筛选后的门面：把真正值得展示的研究、观点、流程和作品整理出来。</p><p>简单说，飞书和本地笔记负责沉淀，博客负责表达。</p></div></main></body></html>
+<BaseLayout title="TWe1v3" description="能力沉淀、个人思考、自动化实验与安全研究。">
+  <div class="shell">
+    <nav class="site-nav">
+      <a class="brand" href="/">
+        <span class="brand-mark"></span>
+        <span>TWe1v3</span>
+      </a>
+      <div class="nav-note">Public layer for refined notes, research and operator-grade workflows.</div>
+    </nav>
+
+    <header class="hero">
+      <div class="eyebrow">Independent notes on AI, security and leverage</div>
+      <div class="hero-grid">
+        <div>
+          <h1>把能力、判断和系统感，慢慢堆成作品。</h1>
+          <p>这里不是流水账，也不是草稿垃圾桶。它更像一层公开展示面：把后台知识库里真正值得拿出来的研究、方法论、自动化实验和思考，整理成能被阅读、能被验证、也能代表审美的东西。</p>
+        </div>
+        <div class="hero-side">
+          <div class="note-card">
+            <p class="note-label">Current focus</p>
+            <p>AI agent 边界、工作流自动化、安全研究与个人 operator discipline。</p>
+          </div>
+          <div class="note-card">
+            <p class="note-label">Publishing rule</p>
+            <p>原始笔记留在私域；只有打磨过、结构清楚、能对外代表水准的内容，才会放到这里。</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Latest writing</h2>
+          <p class="section-copy">偏长期、可复用、能沉淀。不是追热闹，而是筛出真正值得留下的判断。</p>
+        </div>
+      </div>
+
+      <div class="post-grid">
+        {posts.map((post) => (
+          <a class="post-card" href={post.href}>
+            <div>
+              <p class="post-meta">{post.date}</p>
+              <h3>{post.title}</h3>
+              <p>{post.desc}</p>
+              {post.tags?.length ? (
+                <div class="pill-row" style="margin-top: 16px;">
+                  {post.tags.map((tag) => <span class="pill">{tag}</span>)}
+                </div>
+              ) : null}
+            </div>
+            <div class="post-arrow">↗</div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="about-grid">
+        <div class="note-card about-card">
+          <p class="note-label">What this site is for</p>
+          <p>它服务三个目标：对外表达、能力沉淀、以及逼自己把模糊判断写成清楚结构。好看的页面只是门面，更重要的是内容背后的方法感和筛选标准。</p>
+          <ul>
+            <li>能力沉淀：把会做的东西整理成能被看懂的作品</li>
+            <li>研究表达：把安全和自动化里的真问题讲清楚</li>
+            <li>公开信用：让站点能代表品味、判断和执行力</li>
+          </ul>
+        </div>
+        <div class="note-card about-card">
+          <p class="note-label">Style direction</p>
+          <p>这次重做刻意走克制路线：暖白纸感、弱对比边框、宽留白、强排版，不做廉价赛博感，也不做模板味太重的产品页。</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">TWe1v3 · GitHub Pages · Refined in public, drafted in private</footer>
+  </div>
+</BaseLayout>
