@@ -14,25 +14,25 @@ const posts = Object.values(postModules)
         <span class="brand-mark"></span>
         <span>TWe1v3</span>
       </a>
-      <div class="nav-note">Public layer for refined notes, research and operator-grade workflows.</div>
+      <div class="nav-note">A restrained public notebook for refined work.</div>
     </nav>
 
-    <header class="hero">
-      <div class="eyebrow">Independent notes on AI, security and leverage</div>
-      <div class="hero-grid">
-        <div>
-          <h1>把能力、判断和系统感，慢慢堆成作品。</h1>
-          <p>这里不是流水账，也不是草稿垃圾桶。它更像一层公开展示面：把后台知识库里真正值得拿出来的研究、方法论、自动化实验和思考，整理成能被阅读、能被验证、也能代表审美的东西。</p>
+    <div class="divider"></div>
+
+    <header class="home-intro">
+      <div>
+        <div class="kicker">Public writing</div>
+        <h1>把判断、作品和系统感，慢慢写成可见的东西。</h1>
+        <p class="lede">这里放的不是所有草稿，而是筛过之后值得公开的内容：安全研究、自动化实验、AI 工作流、以及一些关于 operator discipline 的长期笔记。目标不是堆信息密度，而是让每一篇都像真的作品。</p>
+      </div>
+      <div class="intro-side">
+        <div class="intro-note">
+          <div class="meta-kicker">Focus</div>
+          <p>AI agent 边界、自动化系统、安全研究、以及个人工作台的可持续设计。</p>
         </div>
-        <div class="hero-side">
-          <div class="note-card">
-            <p class="note-label">Current focus</p>
-            <p>AI agent 边界、工作流自动化、安全研究与个人 operator discipline。</p>
-          </div>
-          <div class="note-card">
-            <p class="note-label">Publishing rule</p>
-            <p>原始笔记留在私域；只有打磨过、结构清楚、能对外代表水准的内容，才会放到这里。</p>
-          </div>
+        <div class="intro-note">
+          <div class="meta-kicker">Rule</div>
+          <p>原始素材先留在私域；只有结构够清楚、观点够稳、能代表水准的内容，才会进入这里。</p>
         </div>
       </div>
     </header>
@@ -40,48 +40,36 @@ const posts = Object.values(postModules)
     <section class="section">
       <div class="section-head">
         <div>
-          <h2 class="section-title">Latest writing</h2>
-          <p class="section-copy">偏长期、可复用、能沉淀。不是追热闹，而是筛出真正值得留下的判断。</p>
+          <div class="section-kicker">Latest</div>
+          <h2>Recent writing</h2>
         </div>
+        <p class="section-copy">参考了 GitHub 上做得好的 Astro 博客方向后，这里会更偏 typography-first：少装饰、强排版、重阅读，不做廉价模板感。</p>
       </div>
 
-      <div class="post-grid">
+      <div class="post-list">
         {posts.map((post) => (
-          <a class="post-card" href={post.href}>
+          <a class="post-row" href={post.href}>
+            <div class="post-date">{post.date}</div>
             <div>
-              <p class="post-meta">{post.date}</p>
               <h3>{post.title}</h3>
               <p>{post.desc}</p>
               {post.tags?.length ? (
-                <div class="pill-row" style="margin-top: 16px;">
+                <div class="pill-row">
                   {post.tags.map((tag) => <span class="pill">{tag}</span>)}
                 </div>
               ) : null}
             </div>
-            <div class="post-arrow">↗</div>
+            <div class="post-link-mark">↗</div>
           </a>
         ))}
       </div>
     </section>
 
-    <section class="section">
-      <div class="about-grid">
-        <div class="note-card about-card">
-          <p class="note-label">What this site is for</p>
-          <p>它服务三个目标：对外表达、能力沉淀、以及逼自己把模糊判断写成清楚结构。好看的页面只是门面，更重要的是内容背后的方法感和筛选标准。</p>
-          <ul>
-            <li>能力沉淀：把会做的东西整理成能被看懂的作品</li>
-            <li>研究表达：把安全和自动化里的真问题讲清楚</li>
-            <li>公开信用：让站点能代表品味、判断和执行力</li>
-          </ul>
-        </div>
-        <div class="note-card about-card">
-          <p class="note-label">Style direction</p>
-          <p>这次重做刻意走克制路线：暖白纸感、弱对比边框、宽留白、强排版，不做廉价赛博感，也不做模板味太重的产品页。</p>
-        </div>
-      </div>
+    <section class="about-block">
+      <div class="section-kicker">Why this exists</div>
+      <p>这站应该像一个有判断的人写出来的技术博客，而不是“我也搭了个站”的完成任务页面。所以后面我会继续清理语言、减少装饰、增强文章页的可读性，把它往更成熟的个人写作者站点推进。</p>
     </section>
 
-    <footer class="site-footer">TWe1v3 · GitHub Pages · Refined in public, drafted in private</footer>
+    <footer class="site-footer">TWe1v3 · Built with Astro · Taste first, then automation</footer>
   </div>
 </BaseLayout>

@@ -1,0 +1,25 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: "别把 AI Judge 当护城河：真正该上锁的是 Agent Harness 与已登录会话",
+  date: "2026-03-11",
+  desc: "今天最值得写的，不是 Agent 又会了什么，而是：当模型开始拥有浏览器、文件、消息和登录态时，安全不能外包给另一个模型做 judge，真正决定风险的是 harness 本身——也就是 prompt、tools、filesystem、bro",
+  href: "/posts/ai-judge-harness-boundaries",
+  tags: ["Blog","Automation"]
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <h2>关键判断</h2>
+  <ul>
+    <li>AI judge 不是“装上就安全”的自动闸门，它自己也会被低扰动格式 token 诱导，把 block 反转成 allow。</li>
+    <li>Agent 的真实能力面来自 harness，而不是模型口头说了什么；状态、工具、浏览器、文件系统与 handoff 逻辑才是风险边界。</li>
+    <li>一旦 agent 触达已登录浏览器会话、文档、消息或文件写权限，风险单位就从“答错一句话”升级成“执行一条高影响操作链”。</li>
+    <li>对个人工作台而言，更稳的默认姿势是：人保管登录态，agent 复用 host browser 已登录会话；默认只给读、搜、起草，把发送、删除、分享、改权限升级为人工确认。</li>
+    <li>真正值钱的不是更会点按钮，而是把最小权限、可观测性与 action items 做成长期工作纪律。</li>
+  </ul>
+  <p>过去两天，AI 圈继续秀 computer use、手机上的 Claude Code、越来越像人的 agent 工作流。但今天最值得认真看的，不是它们又会了什么，而是安全闸门本身也开始不可靠。Unit 42 的新研究说明，负责做 block / allow 判断的 AI judge，会被看似普通的换行、列表符号、角色标签诱导，把本该拦下的内容放过去。换句话说，如果你把安全寄托在“前面再套一个模型审一遍”，很可能只是多了一层更难察觉的幻觉。</p>
+  <p>这正好和 LangChain 今天讲的 harness 概念对上：agent 真正的能力边界，不在模型嘴上，而在它背后的 prompt、tools、filesystem、browser、sandbox、handoff 和执行逻辑。模型再聪明，真正把风险变成现实动作的，始终是 harness。只要浏览器里带着已登录会话，或者文档、消息、文件系统还保有写权限，风险单位就不再是“一句答错”，而是一条可提交、可删除、可改权限的操作链。</p>
+  <p>把这件事放回我自己的工作台，结论就更直接了。OpenAI 的 computer use 视频说明能力面会继续扩张，但今天本地 memory 和 security note 给出的经验是：高价值登录态应该由人保管，agent 只复用 host browser 中已完成的人类会话；默认能力先收在读、搜、起草，把发送、删除、分享、改权限全部抬到人工确认。AI judge 可以是辅助闸门，但不能被当成护城河。</p>
+  <p>真正值得建设的，不是更会点按钮的 agent，而是一套能长期运行的最小权限 harness：谁能拿状态，谁能碰工具，谁能进入长期记忆，谁能把结果提交出去，都要先分层再自动化。2026 年的竞争力，已经不是把 agent 接上全世界，而是让它在正确的边界里稳定工作。</p>
+</PostLayout>

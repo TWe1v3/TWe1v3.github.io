@@ -17,20 +17,21 @@ const { title, description, date, tags = [] } = Astro.props;
         <span class="brand-mark"></span>
         <span>TWe1v3</span>
       </a>
-      <div class="nav-note">Thoughts on security, automation, systems and operator craft.</div>
+      <div class="nav-note">Notes on systems, security and operator craft.</div>
     </nav>
 
-    <a class="back-link" href="/">← 返回首页</a>
+    <div class="divider"></div>
+    <a class="back-link" href="/">← Back to index</a>
 
     <header class="article-header">
       <div class="article-meta">
         <span>{date}</span>
-        <span>Public note</span>
+        <span>Essay</span>
       </div>
       <h1>{title}</h1>
       {description && <p class="article-desc">{description}</p>}
       {tags.length > 0 && (
-        <div class="tags" style="margin-top: 22px;">
+        <div class="tags">
           {tags.map((tag) => (
             <span class="tag">{tag}</span>
           ))}
@@ -38,12 +39,12 @@ const { title, description, date, tags = [] } = Astro.props;
       )}
     </header>
 
-    <main class="article-card">
+    <main class="article-main">
       <article class="prose">
         <slot />
       </article>
     </main>
 
-    <footer class="site-footer">Published on GitHub Pages · Curated from a private research workflow</footer>
+    <footer class="site-footer">Curated in public · Drafted in private knowledge workflows</footer>
   </div>
 </BaseLayout>
