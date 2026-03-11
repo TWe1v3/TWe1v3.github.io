@@ -1,1 +1,16 @@
-<html lang="zh-CN"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>这个站会写什么 - TWe1v3</title><style>body{max-width:760px;margin:0 auto;padding:48px 24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.8;background:#fff;color:#111}a{color:#2563eb}</style></head><body><p><a href="/">← 返回首页</a></p><h1>这个站会写什么</h1><p>主要会写四类内容：能力沉淀、个人思考、自动化实验、安全研究。</p><p>目的不是刷存在感，而是把可验证的能力和可复用的方法慢慢堆出来。</p><p>以后会继续补：案例、方法论、工具链、观察笔记，以及能对外展示的成果页。</p></body></html>
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: '这个站会写什么',
+  date: '2026-03-11',
+  desc: '能力沉淀、个人思考、自动化实验与安全研究。',
+  href: '/posts/what-this-site-is-about',
+  tags: ['About']
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <p>主要会写四类内容：能力沉淀、个人思考、自动化实验、安全研究。</p>
+  <p>目的不是刷存在感，而是把可验证的能力和可复用的方法慢慢堆出来。</p>
+  <p>以后会继续补：案例、方法论、工具链、观察笔记，以及能对外展示的成果页。</p>
+</PostLayout>

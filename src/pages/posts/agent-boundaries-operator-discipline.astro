@@ -1,0 +1,38 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: '别急着把 Agent 接上全世界：AI 工作台真正缺的不是能力，而是权限边界',
+  date: '2026-03-10',
+  desc: '2026 年更稀缺的，不是让 agent 多会一点，而是把浏览器、文件、聊天和执行权限放进清晰的信任区。',
+  href: '/posts/agent-boundaries-operator-discipline',
+  tags: ['AI Agent', 'Security', 'Automation']
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <p>过去一年，大家谈 AI agent 时最兴奋的，往往是它终于能点按钮、开网页、调工具、跑脚本了。但到 2026 年，真正值得写的主题已经不是能力秀，而是边界治理。</p>
+
+  <p>今天从 Unit 42、Trail of Bits、Krebs，到 OpenAI 和 Claude Code 这类产品演示，所有信号都在指向同一个现实：一旦模型不只是回答问题，而是同时拥有浏览器、文件、聊天和执行权限，风险单位就不再是一句幻觉，而是一条能够真实落地的操作链。网页里的隐藏指令、被污染的上下文、过宽的插件权限、暴露的控制面，都会把“聪明”放大成“危险”。</p>
+
+  <h2>风险单位已经变了</h2>
+  <p>对个人 AI 工作台来说，这个变化尤其关键。很多人还在追问怎样让 agent 更像人，却忽略了一个更实的问题：谁在持有登录态，谁能读历史消息，谁能调用 shell，谁能把结果发出去。今天看到的野外网页间接提示注入、Comet 的数据外传 PoC，以及本地控制面的暴露风险，其实都在提醒同一件事——不是所有自动化都该被默认打开，更不是所有已经接入的能力都该被长期信任。</p>
+
+  <h2>三个更该优先看的现实证据</h2>
+  <ul>
+    <li>网页间接提示注入（IDPI）已经不是纸面问题，网页内容本身就是 agent 输入链路的攻击面。</li>
+    <li>浏览器登录态不该默认交给模型，<strong>host browser 人工登录 + agent 复用已登录会话</strong> 往往比自动登录稳得多。</li>
+    <li>本地控制面、插件能力和宽松工具策略，会把“模型能力”直接放大成真实系统风险。</li>
+  </ul>
+
+  <blockquote>真正决定 AI 工作台能不能长期可用的，不是它会不会点更多按钮，而是它到底被放进了怎样的权限边界里。</blockquote>
+
+  <h2>对个人工作台的可执行启发</h2>
+  <p>有意思的是，今天的视频信号和安全博客并不矛盾。OpenAI 在展示 computer use 和前端 UI，NetworkChuck 在把 Claude Code 带到手机上，这说明 agent 的产品化速度只会越来越快；但越是这样，越需要把安全策略设计成默认姿势，而不是上线后的补丁。未来的内容工作流、研究工作流、个人助手，都会变成“多工具、长上下文、跨权限”的系统，真正的竞争力不会是谁把按钮点得最多，而是谁能在不失控的前提下持续运行。</p>
+
+  <p>所以我越来越认同一种工作法：让人保管高价值登录态，让 host browser 承担已登录会话，让主助手负责前台收口，把真正的重活交给隔离的 subagent 去跑，并且用内容分拣流水线决定什么值得进入长期上下文。</p>
+
+  <h2>2026 年更值钱的是节制</h2>
+  <p>能力当然重要，但 2026 年更值钱的是节制：最小权限、最短链路、最清晰的信任区。谁先把这件事做明白，谁的 AI 工作台才能真正从“能用”走到“可持续地用”。</p>
+
+  <p><strong>参考线索：</strong>Unit 42 的网页间接提示注入、Trail of Bits 对 agentic browser 的隔离审计、Krebs 对 AI assistant 安全边界的长期观察，以及我自己这两天在 OpenClaw 工作台上的实操结论。</p>
+</PostLayout>

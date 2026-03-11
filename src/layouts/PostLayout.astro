@@ -1,0 +1,116 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  date: string;
+  tags?: string[];
+}
+
+const { title, description, date, tags = [] } = Astro.props;
+---
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} - TWe1v3</title>
+    <meta name="description" content={description ?? title} />
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.85;
+        background: #0b1020;
+        color: #e8ecf3;
+      }
+      main {
+        max-width: 780px;
+        margin: 0 auto;
+        padding: 48px 24px 80px;
+      }
+      a {
+        color: #8fb5ff;
+      }
+      .back {
+        display: inline-block;
+        margin-bottom: 20px;
+        text-decoration: none;
+      }
+      .meta {
+        color: #7f8da3;
+        font-size: 14px;
+        margin: 0 0 8px;
+      }
+      h1 {
+        font-size: 42px;
+        line-height: 1.2;
+        margin: 0;
+      }
+      .lede {
+        margin-top: 18px;
+        font-size: 19px;
+        color: #c8d3e5;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 18px 0 32px;
+      }
+      .tag {
+        padding: 6px 10px;
+        border: 1px solid #2d3a57;
+        border-radius: 999px;
+        color: #9cc0ff;
+        font-size: 13px;
+      }
+      article {
+        border-top: 1px solid #1d2740;
+        padding-top: 28px;
+      }
+      h2 {
+        margin-top: 34px;
+        font-size: 24px;
+      }
+      p, li {
+        color: #d7deea;
+      }
+      ul {
+        padding-left: 22px;
+      }
+      blockquote {
+        margin: 20px 0;
+        padding: 14px 18px;
+        border-left: 4px solid #4e75c9;
+        background: #11182b;
+        color: #d6e2ff;
+      }
+      .footer {
+        margin-top: 36px;
+        color: #8d9bb1;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="back" href="/">← 返回首页</a>
+      <p class="meta">{date}</p>
+      <h1>{title}</h1>
+      {description && <p class="lede">{description}</p>}
+      {tags.length > 0 && (
+        <div class="tags">
+          {tags.map((tag) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )}
+      <article>
+        <slot />
+      </article>
+      <p class="footer">Published on GitHub Pages · TWe1v3</p>
+    </main>
+  </body>
+</html>
