@@ -1,0 +1,25 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: "把 AI 自动化包装成服务前，先上两把锁：身份暴露分层与提交权限分层",
+  date: "2026-03-12",
+  desc: "今天最值得写的，不是 agent 又会了什么，而是：当 AI 能更贴近真实 UI、浏览器和工作流时，真正该先补的不是演示视频，而是两把锁——对外上场时把身份暴露拆成公开展示层与受控验证层；对内工作台把能力拆成读/搜/起草与提交/删除/改权限",
+  href: "/posts/ai-service-low-exposure-permission-layering",
+  tags: ["Blog","Automation"]
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <h2>关键判断</h2>
+  <ul>
+    <li>对外卖 AI 自动化服务时，最先该做的不是海投，而是把“公开展示层”和“受控验证层”拆开，避免把主邮箱、实名资料、联系方式和敏感案例一次性裸露出去。</li>
+    <li>Unit 42 与 LangChain 今天共同提醒：安全不能外包给 AI judge，真正决定风险面的，是 harness 给了 agent 哪些状态、工具、文件和提交能力。</li>
+    <li>当 agent 越来越贴近真实 UI 和移动端时，默认“可起草但不可自动提交”会比默认全放行稳得多。</li>
+    <li>补丁、密钥、2FA、案例去敏这些基础卫生，看起来不酷，却直接决定你能不能安全地长期上场。</li>
+    <li>Cloudflare 式 action-items 思路值得借来做个人工作流：不是堆更多素材，而是把高价值风险与下一步动作收进统一闭环。</li>
+  </ul>
+  <p>这两天最容易让人兴奋的内容，是 computer use、手机上的 Claude Code、越来越像真人操作员的 agent。但如果你真的准备把 AI 自动化包装成服务，对外接单、做项目、跑工作流，今天更该先补的不是 demo，而是两把锁。</p>
+  <p>第一把锁是身份暴露分层。今天的外包平台研究和安全笔记已经把结论说得很清楚：公开资料页不等于把真实身份一次性摊开。更稳的做法，是把资料拆成“公开展示层”和“受控验证层”。公开层只放头像策略、能力标签、去敏案例、服务范围和报价区间；实名材料、核心联系方式、收款信息和更细的客户上下文，尽量留在平台验证或明确合作之后再给。这样做不是保守，而是避免在冷启动阶段把主邮箱、主身份和敏感案例一起裸露出去。</p>
+  <p>第二把锁是提交权限分层。Unit 42 证明，连负责 allow / block 的 AI judge 都可能被普通格式扰动带偏；LangChain 进一步点明，真正决定 agent 风险面的不是模型嘴上说什么，而是 harness 给了它哪些 prompt、tools、filesystem、browser 和 orchestration。再叠加今天视频里的 UI agent 趋势，结论很直接：默认“可读、可搜、可起草”，但“不可自动发送、删除、分享、改权限、最终提交”，会比默认全放行稳得多。</p>
+  <p>这两把锁其实是一回事：一把保护你作为服务提供者别过早裸奔，另一把保护工作台别因为一次判断失误就变成真实高影响动作。补丁、密钥、2FA、案例去敏、action-items 闭环这些基础卫生，看着不酷，却决定了你能不能长期上场。真正值钱的，不是更会点按钮的 agent，而是一个既能交付、又不会把自己和客户一起暴露出去的最小权限工作系统。</p>
+</PostLayout>
