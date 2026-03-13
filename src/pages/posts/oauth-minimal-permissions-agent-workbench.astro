@@ -1,0 +1,25 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: "别把 OAuth 当成小弹窗：AI 工作台真正该补的是最小授权包",
+  date: "2026-03-13",
+  desc: "今天最值得写的，不是 agent 又能替你点多少按钮，而是：当 AI 越来越贴近真实 UI、真实登录态和真实业务系统时，真正该先设计的不是更花的交互，而是一份最小授权包——把 OAuth scope、refresh token、已登录浏览器",
+  href: "/posts/oauth-minimal-permissions-agent-workbench",
+  tags: ["Blog","Automation"]
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <h2>关键判断</h2>
+  <ul>
+    <li>OAuth 的真实风险不只是 token 泄露，而是用户在伪装或过宽的授权页上，主动把高权限交出去。</li>
+    <li>权限不能只按“应用”分层，更要按“动作”分层：读、搜、起草可以先开；发送、删除、分享、改权限、最终提交必须单独上锁。</li>
+    <li>长期 refresh token、offline access 和已登录浏览器会话一旦叠到同一工作台，会把一次普通误判放大成持续、真实的代用户执行风险。</li>
+    <li>LangChain、OpenAI UI agent 视频和本地 browser boundary 检查共同说明：真正危险的不是模型嘴上说错一句，而是 harness 背后到底连了哪些状态和权限。</li>
+    <li>Cloudflare 式 action-items 视角值得引入到 AI 工作台设计：别只问“能不能接”，更要问“今天先收哪组权限、谁批准、多久复查一次”。</li>
+  </ul>
+  <p>这两天最容易让人兴奋的，是 computer use、手机上的 Claude Code、越来越像真人操作员的 UI agent。但如果你真的准备把 AI 接进浏览器、飞书、文档、日历和云盘，今天更该先补的不是再多一个 demo，而是一份最小授权包。真正危险的，从来不只是“模型会不会说错话”，而是它背后到底连了哪些 scope、哪些登录态、哪些可持续使用的 token。</p>
+  <p>很多团队把 OAuth 当成一个顺手点掉的同意弹窗，这是最大的误区。OAuth 的风险不只在 token 泄露，还在用户可能主动把高权限授给错误主体，或者把本来只该短期使用的读取能力，一次性升级成长期 refresh token、offline access、跨数据域联动。尤其当 IM、云文档、日历、云盘和浏览器会话都被挂到同一工作台上时，一次错误授权，影响的不再是一条摘要，而是可能变成持续的代用户执行。</p>
+  <p>所以权限设计不能只按“接了哪个应用”来分，而要按“能做什么动作”来分。读、搜、起草，可以作为默认能力；发送、删除、分享、改权限、最终提交，必须单独上锁。再往前一步，已登录浏览器会话和 OAuth 长期授权也不该被视为同一种东西：前者是现场态，后者是可带走的长期能力；两者一旦叠在一起，就会把普通误判放大成高影响动作。LangChain 对 harness 的拆解、OpenAI 的 UI agent 演示，以及今天本地对 host browser 边界的检查，讲的其实都是同一件事：真正的边界不在模型嘴上，而在控制面背后。</p>
+  <p>如果你正在做 AI 工作台，最值得补的不是“还能再接几个系统”，而是先设计好一份最小授权包：默认只开读、搜、起草；写入与最终提交单独审批；长期授权定期盘点和撤销；应用主体、回调域名和 scope 描述保持透明。会做事的 agent 很多，但会收权限、敢交付、出了问题还能快速收口的工作台，才真正值钱。</p>
+</PostLayout>
