@@ -1,0 +1,26 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: "别让 AI judge 一个人守门：AI 工作台真正值钱的是提交闸门",
+  date: "2026-03-14",
+  desc: "今天最值得写的，不是 agent 又学会了多少新动作，而是：当 AI 越来越像真正的操作员时，真正该先产品化的不是更多能力，而是一道清晰的提交闸门。AI judge 可以参与判断，但绝不能单独当最后一道门；真正可靠的设计，是把读 / 搜 /",
+  href: "/posts/ai-judge-submit-gate-workbench",
+  tags: ["Blog","Automation"]
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <h2>关键判断</h2>
+  <ul>
+    <li>Unit42 的研究提醒得很直接：把 AI judge 当最终安全闸门，本身就是新的攻击面。</li>
+    <li>LangChain 对 harness 的拆解说明，风险从来不只在模型输出，而在 tools、filesystem、browser、sandbox、orchestration 和 constraints 这一整套控制面。</li>
+    <li>Cloudflare 的 `Security Action Items` 值得借到 AI 工作台里：别只做可见性，要把高风险动作压成 owner、priority 和 next action。</li>
+    <li>当 OpenAI、手机端 Claude Code、浏览器自动化都在降低操作门槛时，“起草自动化、提交人工确认”会从安全建议变成产品基本盘。</li>
+    <li>真正值钱的 AI 工作台，不是最会点按钮的那个，而是最会收权限、收动作、收责任边界的那个。</li>
+  </ul>
+  <p>这两天最容易让人上头的，是 agent 越来越像真人操作员：能接 skills、能调 API、能进浏览器，甚至开始往手机端走。可如果你真的在做 AI 工作台，今天最不该继续神化的，反而是“AI 自己会判断风险”。因为当能力开始贴近真实 UI、真实登录态和真实提交动作时，真正决定风险上限的，不是模型会不会说漂亮话，而是最后一道门到底由谁来守。</p>
+  <p>Unit42 今天那篇关于 AI judge 的研究很值得警醒：他们证明，连负责做安全判断的 LLM gatekeeper，也可能被看起来很普通的格式符号和输入序列影响，原本该 block 的东西，最后被翻成 allow。这个提醒很重要，因为很多团队现在的隐含前提是：只要前面再放一个 AI judge，系统就安全了。但现实更像是，你只是把“单点失败”从主模型转移到了另一个模型。</p>
+  <p>这也是为什么 LangChain 那篇 harness 文章特别对味。agent 从来不只是模型本身，而是 model 加上 tools、filesystem、browser、sandbox、orchestration 和 constraints 的整套控制面。真正会造成高影响后果的，通常也不是一句回答偏了，而是模型背后的 harness 真的有权去点 Send、删文档、改权限、发消息。换句话说，风险不在嘴上，在手上。</p>
+  <p>所以今天更值得产品化的，不是“让 agent 更敢做”，而是把提交闸门设计清楚。Cloudflare 提到的 `Security Action Items` 给了一个很好的借法：别只给团队更多可见性，而要明确“什么需要现在处理”。放到 AI 工作台里，就是把读、搜、起草默认放行，把 Send、Submit、Delete、Share、Permission Change 统一抬升，再配上人工确认、目标对象回显和审计日志三件套。AI judge 可以参与分流、预判和排序，但不能一个人守最后一道门。</p>
+  <p>真正值钱的 AI 工作台，不会只强调自己多会点按钮，而会先证明自己知道哪些按钮不该自动点。接下来真正的竞争力，可能不是谁最像全自动操作员，而是谁能把授权、动作和责任边界收得最稳。</p>
+</PostLayout>
