@@ -1,0 +1,26 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: "会做事的 agent 不稀缺，会闭嘴的 agent 才能进真实工作流",
+  date: "2026-03-15",
+  desc: "今天最值得写的，不是 agent 又学会了多少动作，而是：当 agent 越来越贴近手机、浏览器、企业聊天和真实工作流时，真正该被单独上锁的，已经不只是 `Submit`，还包括 `Notify`。成熟的 agent 不只是会做事，更要知道",
+  href: "/posts/when-agents-should-stay-quiet",
+  tags: ["Blog","Automation"]
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <h2>关键判断</h2>
+  <ul>
+    <li>Simon Willison 对 “nobody reads any code” 的警惕，和 LangChain 对 harness 的拆解，其实都在说明：风险不在模型嘴上，而在控制面背后的动作链。</li>
+    <li>当 OpenAI 的 skills / Codex、手机端 Claude Code 这类入口越来越低摩擦时，agent 已经不只是“帮你起草”，而是在逼近真实通知流与真实操作流。</li>
+    <li>`Notify` 不该继续被当成低风险附属动作；它会占用用户注意力、放大误报，并直接影响用户是否还信任真正重要的提醒。</li>
+    <li>更稳的默认策略是把动作拆成 `读 / 搜 / 起草 / 通知 / 提交 / 删除 / 改权限` 七层：前几层可以更自动，后几层必须更克制。</li>
+    <li>真正能进真实工作流的 agent，不是最吵、最全自动的那个，而是最会控制打扰半径、最会留下审计痕迹的那个。</li>
+  </ul>
+  <p>这两天最容易让人上头的，是 agent 越来越像真人操作员：能接 skills、能调 API、能进浏览器，甚至开始往手机端走。但如果你真的在做 AI 工作台，今天更该先补的，已经不只是提交闸门，而是通知边界。会做事的 agent 不稀缺，会闭嘴的 agent 才能进真实工作流。</p>
+  <p>Simon Willison 在谈 agentic engineering 时警惕 “nobody reads any code”，LangChain 则把问题说得更结构化：Agent = Model + Harness。真正决定风险的，不是模型嘴上多自信，而是它背后到底连了哪些状态、工具、浏览器、记忆和动作链。过去大家更容易盯着 `Send`、`Submit`、`Delete` 这些高风险动作，但今天我越来越觉得，`Notify` 也该被单独拎出来上锁。</p>
+  <p>原因很简单：通知不是中性的。它会直接占用用户注意力，还会训练用户对提醒系统形成新的信任模型。如果后台整理、学习笔记、索引更新、普通摘要，最后都自动跳成一条消息，那真正重要的日程提醒、安全异常、权限风险和阻塞告警，反而会被淹没。表面上看，你是在提高主动性；实际上，你是在把“高价值提醒”和“低价值产出”塞进同一条通道，慢慢透支系统信用。</p>
+  <p>这也是为什么今天更稳的动作分层，应该从 `读 / 搜 / 起草 / 提交 / 删除 / 改权限`，再往前补上一层 `通知`。读、搜、起草、后台整理，可以更自动；通知则至少要看时效性、紧急程度、是否阻塞用户当前流程；至于提交、删除、改权限、外发，则继续维持人工确认、目标对象回显和审计日志三件套。手机端 Claude Code、OpenAI skills 这些新入口都在说明，agent 会越来越贴近日常工作流；越是这样，越不能把“能发出来”误当成“该发出来”。</p>
+  <p>真正能进真实工作流的 agent，不是最会刷存在感的那个，而是最会控制打扰半径的那个。2026 年更值钱的，也许不是更像人，而是更懂节制。</p>
+</PostLayout>
