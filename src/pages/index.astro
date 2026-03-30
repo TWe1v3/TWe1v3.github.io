@@ -14,36 +14,46 @@ const posts = Object.values(postModules)
         <span class="brand-mark"></span>
         <span>TWe1v3</span>
       </a>
-      <div class="nav-note">A restrained public notebook for refined work.</div>
+      <div class="nav-note">A research-flavoured notebook for systems, security and operator craft.</div>
     </nav>
 
     <div class="divider"></div>
 
     <header class="home-intro">
-      <div>
+      <section class="hero-panel">
         <div class="kicker">Public writing</div>
-        <h1>把判断、作品和系统感，慢慢写成可见的东西。</h1>
-        <p class="lede">这里放的不是所有草稿，而是筛过之后值得公开的内容：安全研究、自动化实验、AI 工作流、以及一些关于 operator discipline 的长期笔记。目标不是堆信息密度，而是让每一篇都像真的作品。</p>
-      </div>
-      <div class="intro-side">
+        <h1>把研究感、系统感和作品感，写成一套能被看见的长期资产。</h1>
+        <p class="lede">这里不是流水账，也不是为了凑更新频率。它更像一个持续公开的研究工作台：筛选值得沉淀的判断，把安全、自动化、AI 工作流与 operator discipline 写成真正可读、可复用、可代表水准的东西。</p>
+        <div class="pill-row">
+          <span class="pill">Security research</span>
+          <span class="pill">Operator systems</span>
+          <span class="pill">Automation craft</span>
+        </div>
+      </section>
+
+      <aside class="intro-side">
         <div class="intro-note">
-          <div class="meta-kicker">Focus</div>
-          <p>AI agent 边界、自动化系统、安全研究、以及个人工作台的可持续设计。</p>
+          <div class="meta-kicker">Operating mode</div>
+          <p>先在私域里打磨：验证判断、清理表达、补证据链。只有结构够稳、观点够清楚、能代表长期方向的内容，才会放进这里。</p>
         </div>
         <div class="intro-note">
-          <div class="meta-kicker">Rule</div>
-          <p>原始素材先留在私域；只有结构够清楚、观点够稳、能代表水准的内容，才会进入这里。</p>
+          <div class="meta-kicker">Signal focus</div>
+          <p>AI agent 边界、自动化系统、安全研究、个人工作台设计，以及那些影响实际执行质量的细节与约束。</p>
         </div>
-      </div>
+        <div class="intro-note">
+          <div class="meta-kicker">Editorial rule</div>
+          <p>少一点模板感，多一点判断；少一点热闹特效，多一点阅读层次、排版张力和真正留得住的内容密度。</p>
+        </div>
+      </aside>
     </header>
 
     <section class="section">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Latest</div>
+          <div class="section-kicker">Latest archive</div>
           <h2>Recent writing</h2>
         </div>
-        <p class="section-copy">参考了 GitHub 上做得好的 Astro 博客方向后，这里会更偏 typography-first：少装饰、强排版、重阅读，不做廉价模板感。</p>
+        <p class="section-copy">整体风格改成偏深色、编辑感、研究型的阅读界面：保留技术博客的克制，但把层次、版式、卡片感和文章页的阅读体验拉到更像一个成熟的个人研究站。</p>
       </div>
 
       <div class="post-list">
@@ -67,9 +77,9 @@ const posts = Object.values(postModules)
 
     <section class="about-block">
       <div class="section-kicker">Why this exists</div>
-      <p>这站应该像一个有判断的人写出来的技术博客，而不是“我也搭了个站”的完成任务页面。所以后面我会继续清理语言、减少装饰、增强文章页的可读性，把它往更成熟的个人写作者站点推进。</p>
+      <p>我希望这个 blog 最后呈现出来的气质，不像“把博客系统搭起来了”，而像“一个长期做判断和做系统的人，把值得公开的部分慢慢写出来”。所以后面我会继续推进：更好的文章页节奏、更稳的视觉语言、更强的成果页和专题页。</p>
     </section>
 
-    <footer class="site-footer">TWe1v3 · Built with Astro · Taste first, then automation</footer>
+    <footer class="site-footer">TWe1v3 · Taste, structure, and operator-grade clarity</footer>
   </div>
 </BaseLayout>

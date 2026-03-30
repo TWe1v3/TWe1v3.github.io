@@ -17,7 +17,7 @@ const { title, description, date, tags = [] } = Astro.props;
         <span class="brand-mark"></span>
         <span>TWe1v3</span>
       </a>
-      <div class="nav-note">Notes on systems, security and operator craft.</div>
+      <div class="nav-note">Security notes · operator systems · public research log</div>
     </nav>
 
     <div class="divider"></div>
@@ -27,6 +27,7 @@ const { title, description, date, tags = [] } = Astro.props;
       <div class="article-meta">
         <span>{date}</span>
         <span>Essay</span>
+        <span>Field Notes</span>
       </div>
       <h1>{title}</h1>
       {description && <p class="article-desc">{description}</p>}
@@ -45,6 +46,6 @@ const { title, description, date, tags = [] } = Astro.props;
       </article>
     </main>
 
-    <footer class="site-footer">Curated in public · Drafted in private knowledge workflows</footer>
+    <footer class="site-footer">TWe1v3 · Curated in public · Built for long-form technical reading</footer>
   </div>
 </BaseLayout>
