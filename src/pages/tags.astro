@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const postModules = import.meta.glob('./posts/*.{astro,md}', { eager: true });
+const posts = Object.values(postModules)
+  .map((mod) => mod.postMeta ?? mod.frontmatter)
+  .filter(Boolean);
+
+const tagMap = posts.reduce((acc, post) => {
+  for (const tag of post.tags ?? []) {
+    acc[tag] ??= [];
+    acc[tag].push(post);
+  }
+  return acc;
+}, {});
+
+const tags = Object.entries(tagMap).sort((a, b) => b[1].length - a[1].length);
+---
+<BaseLayout title="Tags - TWe1v3" description="按主题浏览公开写作。">
+  <div class="page-shell">
+    <nav class="site-nav">
+      <a class="brand" href="/">
+        <span class="brand-mark"></span>
+        <span>TWe1v3</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="/archive">Archive</a>
+        <a class="nav-link" href="/cve">CVE</a>
+        <a class="nav-link" href="/updates">Updates</a>
+        <a class="nav-link" href="/about">About</a>
+      </div>
+    </nav>
+
+    <div class="divider"></div>
+
+    <section class="page-panel">
+      <div class="page-kicker">Tags</div>
+      <h1 class="page-title">按主题而不是按时间浏览。</h1>
+      <p class="page-lede">这些标签会逐步变成长期研究的公开入口。现在先从已有文章里自动聚合，后面再扩展成真正的专题页。</p>
+    </section>
+
+    <div class="page-grid">
+      {tags.map(([tag, items]) => (
+        <section class="page-panel">
+          <div class="section-kicker">{items.length} entries</div>
+          <h2>{tag}</h2>
+          <div class="page-tag-row">
+            <span class="page-tag">{tag}</span>
+          </div>
+          <div class="page-grid">
+            {items.map((post) => (
+              <a class="mini-card" href={post.href}>
+                <div class="meta-kicker">{post.date}</div>
+                <h3>{post.title}</h3>
+                <p>{post.desc}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <footer class="site-footer">TWe1v3 · Theme index</footer>
+  </div>
+</BaseLayout>

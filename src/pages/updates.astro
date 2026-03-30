@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const updates = [
+  {
+    source: 'OpenAI',
+    title: '关注 browser / computer use / tool use 相关演进',
+    desc: '重点不只是能力更强，而是这些能力如何改变浏览器边界、提交动作和 agent harness 的默认风险面。'
+  },
+  {
+    source: 'Anthropic / Claude',
+    title: '跟踪 Claude Code / tools / automation 方向',
+    desc: '这些更新会持续影响个人工作台设计：哪些动作能自动、哪些能力该默认上锁。'
+  },
+  {
+    source: 'Ecosystem',
+    title: '盯住 agent、OAuth、judge、security signal',
+    desc: '把官方更新、工程实践和安全研究串起来，而不是把它们拆成互不相干的碎片。'
+  }
+];
+---
+<BaseLayout title="Updates - TWe1v3" description="OpenAI / Claude / agent ecosystem 更新流。">
+  <div class="page-shell">
+    <nav class="site-nav">
+      <a class="brand" href="/">
+        <span class="brand-mark"></span>
+        <span>TWe1v3</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="/archive">Archive</a>
+        <a class="nav-link" href="/tags">Tags</a>
+        <a class="nav-link" href="/cve">CVE</a>
+        <a class="nav-link" href="/about">About</a>
+      </div>
+    </nav>
+
+    <div class="divider"></div>
+
+    <section class="page-panel">
+      <div class="page-kicker">Signals</div>
+      <h1 class="page-title">把 OpenAI、Claude 和 agent 生态的更新，整理成可持续返回的动态流。</h1>
+      <p class="page-lede">这页后面会承载官方更新、能力演进和我的简短判断。重点不是做新闻搬运，而是把“哪些变化真的值得看”明确标出来。</p>
+      <div class="page-tag-row">
+        <span class="page-tag">OpenAI</span>
+        <span class="page-tag">Claude</span>
+        <span class="page-tag">Agent Signals</span>
+      </div>
+    </section>
+
+    <section class="list-panel">
+      {updates.map((item) => (
+        <div class="list-item">
+          <div class="list-meta">{item.source}</div>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+          <div class="post-link-mark">↗</div>
+        </div>
+      ))}
+    </section>
+
+    <footer class="site-footer">TWe1v3 · Official updates and ecosystem signals</footer>
+  </div>
+</BaseLayout>

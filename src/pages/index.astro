@@ -6,6 +6,24 @@ const posts = Object.values(postModules)
   .map((mod) => mod.postMeta ?? mod.frontmatter)
   .filter(Boolean)
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const featured = posts.slice(0, 3);
+const recent = posts.slice(3);
+
+const signals = [
+  {
+    title: 'CVE 挖掘工作流启动',
+    desc: '从目标池、patch diff、variant analysis 到 disclosure 模板，开始建立一条长期可跑的研究线路。',
+    href: '/cve',
+    meta: 'Research'
+  },
+  {
+    title: 'AI agent 边界持续跟踪',
+    desc: '围绕 browser、OAuth、judge、harness、notify / submit boundary 做连续观察与输出。',
+    href: '/updates',
+    meta: 'Signals'
+  }
+];
 ---
 <BaseLayout title="TWe1v3" description="能力沉淀、个人思考、自动化实验与安全研究。">
   <div class="shell">
@@ -14,52 +32,143 @@ const posts = Object.values(postModules)
         <span class="brand-mark"></span>
         <span>TWe1v3</span>
       </a>
-      <div class="nav-note">A research-flavoured notebook for systems, security and operator craft.</div>
+      <div class="nav-links">
+        <a class="nav-link" href="/archive">Archive</a>
+        <a class="nav-link" href="/tags">Tags</a>
+        <a class="nav-link" href="/cve">CVE</a>
+        <a class="nav-link" href="/updates">Updates</a>
+        <a class="nav-link" href="/about">About</a>
+      </div>
     </nav>
 
     <div class="divider"></div>
 
     <header class="home-intro">
       <section class="hero-panel">
-        <div class="kicker">Public writing</div>
-        <h1>把研究感、系统感和作品感，写成一套能被看见的长期资产。</h1>
-        <p class="lede">这里不是流水账，也不是为了凑更新频率。它更像一个持续公开的研究工作台：筛选值得沉淀的判断，把安全、自动化、AI 工作流与 operator discipline 写成真正可读、可复用、可代表水准的东西。</p>
+        <div class="kicker">Public research hub</div>
+        <h1>把研究、监控、写作和长期判断，收敛成一个公开可见的工作台。</h1>
+        <p class="lede">这里不只是博客，也不只是文章归档。它会逐步变成一个持续更新的研究入口：一边发布正式写作，一边展示 CVE 挖掘、AI agent 边界、安全信号与自动化系统的长期观察。</p>
         <div class="pill-row">
           <span class="pill">Security research</span>
-          <span class="pill">Operator systems</span>
-          <span class="pill">Automation craft</span>
+          <span class="pill">CVE hunting</span>
+          <span class="pill">AI systems</span>
+          <span class="pill">Operator craft</span>
         </div>
       </section>
 
       <aside class="editorial-rail">
-        <div class="rail-kicker">Editorial note</div>
-        <p class="rail-lede">这不是一个靠“信息量”取胜的站，而是一个靠筛选、结构和判断感建立长期气质的公开写作空间。</p>
+        <div class="rail-kicker">Operating posture</div>
 
         <div class="rail-block">
-          <span class="rail-label">What gets published</span>
-          <p>原始素材先在私域里验证、裁剪、补证据链。只有逻辑够稳、表达够清楚、能代表长期方向的内容，才会进入这里。</p>
+          <span class="rail-label">Publication rule</span>
+          <p>原始素材先留在私域验证，只有观点够稳、结构够清楚、能代表长期方向的内容，才进入公开层。</p>
         </div>
 
         <div class="rail-block">
-          <span class="rail-label">Current focus</span>
-          <p>AI agent 边界、自动化系统、安全研究、个人工作台设计，以及那些真正影响执行质量的约束和方法。</p>
+          <span class="rail-label">Research focus</span>
+          <p>当前核心主题：AI agent 边界、自动化系统、CVE 挖掘、安全研究方法，以及实际工作流里的权限与控制面设计。</p>
         </div>
 
-        <div class="rail-rule">Less dashboard, more publication.</div>
+        <div class="rail-block">
+          <span class="rail-label">Site direction</span>
+          <p>从静态文章站升级成 research publication + watchboard，既能发长文，也能放长期跟踪与高价值信号。</p>
+        </div>
+
+        <div class="rail-rule">Less blogging, more ongoing research.</div>
       </aside>
     </header>
 
     <section class="section">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Latest archive</div>
-          <h2>Recent writing</h2>
+          <div class="section-kicker">Core surfaces</div>
+          <h2>What this site is becoming</h2>
         </div>
-        <p class="section-copy">整体风格改成偏深色、编辑感、研究型的阅读界面：保留技术博客的克制，但把层次、版式、卡片感和文章页的阅读体验拉到更像一个成熟的个人研究站。</p>
+        <p class="section-copy">v2 的核心不是继续抠样式，而是把文章、更新流、研究看板和长期主题拆开，形成真正可持续浏览的公开结构。</p>
+      </div>
+
+      <div class="feature-grid">
+        <a class="feature-card" href="/cve">
+          <div class="meta-kicker">Watchboard</div>
+          <h3>CVE Monitor</h3>
+          <p>追踪值得深挖的目标、近期信号和后续 patch diff 方向，让安全研究不只停留在文章层。</p>
+          <span class="feature-link">Open CVE board →</span>
+        </a>
+        <a class="feature-card" href="/updates">
+          <div class="meta-kicker">Signals</div>
+          <h3>OpenAI / Claude Updates</h3>
+          <p>把官方更新、agent 能力演进与安全边界变化整理成一个轻量、可持续返回的动态流。</p>
+          <span class="feature-link">Open updates feed →</span>
+        </a>
+        <a class="feature-card" href="/archive">
+          <div class="meta-kicker">Publication</div>
+          <h3>Archive & Themes</h3>
+          <p>按时间和主题回看站点产出，把公开写作从“文章堆积”变成可导航、可复用的知识入口。</p>
+          <span class="feature-link">Browse archive →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Featured writing</div>
+          <h2>Current essays</h2>
+        </div>
+        <p class="section-copy">先把最能代表判断边界与研究方向的文章放在前面。后续这里会继续变成 featured / signals / notes 的混合入口。</p>
       </div>
 
       <div class="post-list">
-        {posts.map((post) => (
+        {featured.map((post) => (
+          <a class="post-row" href={post.href}>
+            <div class="post-date">{post.date}</div>
+            <div>
+              <h3>{post.title}</h3>
+              <p>{post.desc}</p>
+              {post.tags?.length ? (
+                <div class="pill-row">
+                  {post.tags.map((tag) => <span class="pill">{tag}</span>)}
+                </div>
+              ) : null}
+            </div>
+            <div class="post-link-mark">↗</div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Current signals</div>
+          <h2>Live directions</h2>
+        </div>
+        <p class="section-copy">这里不是新闻位，而是“我现在正在持续看的东西”。后面会逐步从静态内容升级成半自动更新流。</p>
+      </div>
+
+      <div class="mini-card-grid">
+        {signals.map((signal) => (
+          <a class="mini-card" href={signal.href}>
+            <div class="meta-kicker">{signal.meta}</div>
+            <h3>{signal.title}</h3>
+            <p>{signal.desc}</p>
+            <span class="feature-link">Open →</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Archive</div>
+          <h2>Recent writing</h2>
+        </div>
+        <p class="section-copy">完整文章仍然保留，但它们现在属于更大结构的一部分，不再独自扛整站定位。</p>
+      </div>
+
+      <div class="post-list">
+        {recent.map((post) => (
           <a class="post-row" href={post.href}>
             <div class="post-date">{post.date}</div>
             <div>
@@ -79,9 +188,9 @@ const posts = Object.values(postModules)
 
     <section class="about-block">
       <div class="section-kicker">Why this exists</div>
-      <p>我希望这个 blog 最后呈现出来的气质，不像“把博客系统搭起来了”，而像“一个长期做判断和做系统的人，把值得公开的部分慢慢写出来”。所以后面我会继续推进：更好的文章页节奏、更稳的视觉语言、更强的成果页和专题页。</p>
+      <p>目标不是做一个“也有博客”的站，而是把它逐步推成一个公开的 research publication：既承载正式写作，也承载你长期在做的监控、研究线索和方法论沉淀。后面我会继续补专题页、信号流、搜索与 feed，把这个入口真正做厚。</p>
     </section>
 
-    <footer class="site-footer">TWe1v3 · Taste, structure, and operator-grade clarity</footer>
+    <footer class="site-footer">TWe1v3 · Research, signals, and operator-grade clarity</footer>
   </div>
 </BaseLayout>

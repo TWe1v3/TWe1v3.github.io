@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const postModules = import.meta.glob('./posts/*.{astro,md}', { eager: true });
+const posts = Object.values(postModules)
+  .map((mod) => mod.postMeta ?? mod.frontmatter)
+  .filter(Boolean)
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const grouped = Object.entries(
+  posts.reduce((acc, post) => {
+    const key = String(post.date).slice(0, 7);
+    acc[key] ??= [];
+    acc[key].push(post);
+    return acc;
+  }, {})
+);
+---
+<BaseLayout title="Archive - TWe1v3" description="按时间浏览公开写作。">
+  <div class="page-shell">
+    <nav class="site-nav">
+      <a class="brand" href="/">
+        <span class="brand-mark"></span>
+        <span>TWe1v3</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="/tags">Tags</a>
+        <a class="nav-link" href="/cve">CVE</a>
+        <a class="nav-link" href="/updates">Updates</a>
+        <a class="nav-link" href="/about">About</a>
+      </div>
+    </nav>
+
+    <div class="divider"></div>
+
+    <section class="page-panel">
+      <div class="page-kicker">Archive</div>
+      <h1 class="page-title">按时间回看公开输出。</h1>
+      <p class="page-lede">把文章按月份聚拢，方便持续回看站点的判断演进，而不只是浏览一串散乱列表。</p>
+    </section>
+
+    <div class="page-grid">
+      {grouped.map(([month, items]) => (
+        <section class="list-panel">
+          <div class="about-block">
+            <div class="section-kicker">{month}</div>
+          </div>
+          {items.map((post) => (
+            <a class="list-item" href={post.href}>
+              <div class="list-meta">{post.date}</div>
+              <div>
+                <h3>{post.title}</h3>
+                <p>{post.desc}</p>
+              </div>
+              <div class="post-link-mark">↗</div>
+            </a>
+          ))}
+        </section>
+      ))}
+    </div>
+
+    <footer class="site-footer">TWe1v3 · Archive of public writing</footer>
+  </div>
+</BaseLayout>

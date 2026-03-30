@@ -123,6 +123,23 @@ const {
         text-transform: uppercase;
       }
 
+      .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: color 160ms ease;
+      }
+
+      .nav-link:hover { color: var(--accent); }
+
       .divider {
         height: 1px;
         background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
@@ -137,12 +154,15 @@ const {
       }
 
       .hero-panel,
-      .intro-side,
       .post-list,
       .about-block,
       .article-header,
       .article-main,
-      .site-footer {
+      .site-footer,
+      .feature-grid,
+      .page-panel,
+      .list-panel,
+      .mini-card-grid {
         background: linear-gradient(180deg, rgba(13, 22, 39, 0.88), rgba(9, 16, 28, 0.94));
         border: 1px solid var(--line);
         box-shadow: var(--shadow);
@@ -153,7 +173,11 @@ const {
       .article-header,
       .article-main,
       .site-footer,
-      .about-block {
+      .about-block,
+      .feature-grid,
+      .page-panel,
+      .list-panel,
+      .mini-card-grid {
         border-radius: var(--radius);
       }
 
@@ -187,7 +211,8 @@ const {
 
       .kicker,
       .section-kicker,
-      .meta-kicker {
+      .meta-kicker,
+      .page-kicker {
         color: var(--accent);
         font-size: 11px;
         letter-spacing: 0.22em;
@@ -195,7 +220,8 @@ const {
       }
 
       .home-intro h1,
-      .article-header h1 {
+      .article-header h1,
+      .page-title {
         margin: 12px 0 0;
         font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
         font-weight: 700;
@@ -209,7 +235,13 @@ const {
         font-size: clamp(48px, 7vw, 84px);
       }
 
-      .lede {
+      .page-title {
+        font-size: clamp(34px, 5vw, 60px);
+        max-width: 14ch;
+      }
+
+      .lede,
+      .page-lede {
         margin: 24px 0 0;
         max-width: 44rem;
         color: var(--text-dim);
@@ -231,16 +263,6 @@ const {
         font-size: 11px;
         letter-spacing: 0.22em;
         text-transform: uppercase;
-      }
-
-      .rail-lede {
-        margin: 0;
-        color: var(--paper);
-        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-        font-size: clamp(24px, 2.8vw, 32px);
-        line-height: 1.18;
-        letter-spacing: -0.035em;
-        text-wrap: balance;
       }
 
       .rail-block {
@@ -298,12 +320,63 @@ const {
         line-height: 1.85;
       }
 
-      .post-list {
+      .feature-grid,
+      .mini-card-grid {
+        padding: 18px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .feature-card,
+      .mini-card,
+      .list-item {
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(18, 29, 50, 0.72), rgba(10, 18, 30, 0.88));
+      }
+
+      .feature-card {
+        padding: 18px;
+      }
+
+      .feature-card h3,
+      .mini-card h3,
+      .list-item h3 {
+        margin: 10px 0 0;
+        font-size: 20px;
+        letter-spacing: -0.03em;
+      }
+
+      .feature-card p,
+      .mini-card p,
+      .list-item p,
+      .page-copy,
+      .page-panel p {
+        color: var(--muted);
+        line-height: 1.85;
+      }
+
+      .feature-link {
+        display: inline-flex;
+        margin-top: 16px;
+        color: var(--accent);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .post-list,
+      .list-panel {
         border-radius: var(--radius);
         overflow: hidden;
       }
 
-      .post-row {
+      .post-row,
+      .list-item {
         display: grid;
         grid-template-columns: 132px minmax(0, 1fr) auto;
         gap: 24px;
@@ -313,9 +386,11 @@ const {
         transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
       }
 
-      .post-row:last-child { border-bottom: none; }
+      .post-row:last-child,
+      .list-item:last-child { border-bottom: none; }
 
-      .post-row::before {
+      .post-row::before,
+      .list-item::before {
         content: "";
         position: absolute;
         inset: 0;
@@ -325,15 +400,18 @@ const {
         pointer-events: none;
       }
 
-      .post-row:hover {
+      .post-row:hover,
+      .list-item:hover {
         transform: translateY(-2px);
         background: rgba(15, 27, 45, 0.74);
         border-color: var(--line-strong);
       }
 
-      .post-row:hover::before { opacity: 1; }
+      .post-row:hover::before,
+      .list-item:hover::before { opacity: 1; }
 
-      .post-date {
+      .post-date,
+      .list-meta {
         color: var(--soft);
         font-size: 12px;
         letter-spacing: 0.14em;
@@ -341,21 +419,22 @@ const {
         padding-top: 6px;
       }
 
-      .post-row h3 {
+      .post-row h3,
+      .list-item h3 {
         margin: 0;
         font-size: clamp(24px, 3vw, 34px);
         letter-spacing: -0.04em;
         line-height: 1.16;
       }
 
-      .post-row p {
+      .post-row p,
+      .list-item p {
         margin: 12px 0 0;
-        color: var(--muted);
-        line-height: 1.82;
       }
 
       .pill-row,
-      .tags {
+      .tags,
+      .page-tag-row {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
@@ -363,7 +442,8 @@ const {
       }
 
       .pill,
-      .tag {
+      .tag,
+      .page-tag {
         display: inline-flex;
         align-items: center;
         min-height: 28px;
@@ -383,15 +463,10 @@ const {
         padding-top: 4px;
       }
 
-      .about-block {
-        max-width: 64rem;
+      .about-block,
+      .page-panel {
+        max-width: 100%;
         padding: 26px 26px 30px;
-      }
-
-      .about-block p {
-        margin: 12px 0 0;
-        color: var(--muted);
-        line-height: 1.95;
       }
 
       .site-footer {
@@ -403,12 +478,15 @@ const {
         text-transform: uppercase;
       }
 
-      .article-shell {
+      .article-shell,
+      .page-shell {
         width: min(calc(100% - 40px), 980px);
         margin: 0 auto;
         position: relative;
         z-index: 1;
       }
+
+      .page-shell { padding-bottom: 40px; }
 
       .back-link {
         display: inline-flex;
@@ -421,13 +499,15 @@ const {
         text-transform: uppercase;
       }
 
-      .article-header {
+      .article-header,
+      .page-panel {
         margin-top: 18px;
-        padding: 34px 30px 28px;
-        border-radius: var(--radius);
-        border: 1px solid var(--line);
         position: relative;
         overflow: hidden;
+      }
+
+      .article-header {
+        padding: 34px 30px 28px;
       }
 
       .article-header h1 {
@@ -456,6 +536,22 @@ const {
       .article-main {
         margin-top: 18px;
         padding: 30px;
+      }
+
+      .page-grid {
+        display: grid;
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .mini-card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .mini-card {
+        padding: 16px;
       }
 
       .prose {
@@ -535,18 +631,26 @@ const {
         font-weight: 600;
       }
 
+      @media (max-width: 960px) {
+        .feature-grid,
+        .mini-card-grid { grid-template-columns: 1fr; }
+      }
+
       @media (max-width: 900px) {
         .home-intro,
         .section-head,
-        .post-row {
+        .post-row,
+        .list-item {
           grid-template-columns: 1fr;
         }
-        .post-row { gap: 14px; }
+        .post-row,
+        .list-item { gap: 14px; }
       }
 
       @media (max-width: 640px) {
         .shell,
-        .article-shell {
+        .article-shell,
+        .page-shell {
           width: min(calc(100% - 24px), var(--page-width));
         }
         .site-nav {
@@ -557,16 +661,20 @@ const {
         .article-header,
         .article-main,
         .about-block,
-        .site-footer {
+        .site-footer,
+        .feature-grid,
+        .page-panel,
+        .list-panel,
+        .mini-card-grid {
           padding-left: 18px;
           padding-right: 18px;
         }
-        .editorial-rail {
-          padding: 0;
-        }
+        .editorial-rail { padding: 0; }
         .home-intro h1 { font-size: 44px; }
-        .post-row { padding: 18px; }
-        .post-row h3 { font-size: 24px; }
+        .post-row,
+        .list-item { padding: 18px; }
+        .post-row h3,
+        .list-item h3 { font-size: 24px; }
         .prose { font-size: 17px; }
       }
     </style>

@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="About - TWe1v3" description="关于这个公开研究站。">
+  <div class="page-shell">
+    <nav class="site-nav">
+      <a class="brand" href="/">
+        <span class="brand-mark"></span>
+        <span>TWe1v3</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="/archive">Archive</a>
+        <a class="nav-link" href="/tags">Tags</a>
+        <a class="nav-link" href="/cve">CVE</a>
+        <a class="nav-link" href="/updates">Updates</a>
+      </div>
+    </nav>
+
+    <div class="divider"></div>
+
+    <section class="page-panel">
+      <div class="page-kicker">About</div>
+      <h1 class="page-title">一个公开的研究入口，而不只是文章容器。</h1>
+      <p class="page-lede">这个站用来发布经过筛选和打磨后的公开输出。原始草稿、实验过程、零碎记录，会先留在私域知识库里；公开层只保留真正能代表长期方向的内容。</p>
+      <div class="page-tag-row">
+        <span class="page-tag">Security</span>
+        <span class="page-tag">Automation</span>
+        <span class="page-tag">CVE</span>
+        <span class="page-tag">AI Agent</span>
+      </div>
+    </section>
+
+    <div class="page-grid">
+      <section class="page-panel">
+        <div class="section-kicker">What gets published</div>
+        <p>这里会放四类内容：能力沉淀、个人判断、自动化实验、安全研究。目标不是刷频率，而是把值得长期保留的判断和方法论写成公开资产。</p>
+      </section>
+
+      <section class="page-panel">
+        <div class="section-kicker">Current themes</div>
+        <p>当前重点关注：AI agent 边界、browser / OAuth / harness / judge / notify / submit boundary、CVE 挖掘工作流、以及个人工作台的长期可持续设计。</p>
+      </section>
+    </div>
+
+    <footer class="site-footer">TWe1v3 · Public research layer</footer>
+  </div>
+</BaseLayout>
