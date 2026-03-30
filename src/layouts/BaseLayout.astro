@@ -217,25 +217,60 @@ const {
         line-height: 1.95;
       }
 
-      .intro-side {
-        display: grid;
-        gap: 14px;
-        padding: 14px;
-        border-radius: var(--radius);
+      .editorial-rail {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 18px;
+        padding: 18px 0 8px 18px;
+        align-self: stretch;
       }
 
-      .intro-note {
-        padding: 18px 18px 16px;
-        border-radius: 18px;
-        border: 1px solid var(--line);
-        background: linear-gradient(180deg, rgba(18, 29, 50, 0.72), rgba(10, 18, 30, 0.88));
+      .rail-kicker {
+        color: var(--accent);
+        font-size: 11px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
       }
 
-      .intro-note p {
+      .rail-lede {
+        margin: 0;
+        color: var(--paper);
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+        font-size: clamp(24px, 2.8vw, 32px);
+        line-height: 1.18;
+        letter-spacing: -0.035em;
+        text-wrap: balance;
+      }
+
+      .rail-block {
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+      }
+
+      .rail-label {
+        display: inline-block;
+        color: var(--soft);
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .rail-block p {
         margin: 10px 0 0;
         color: var(--muted);
         font-size: 15px;
-        line-height: 1.85;
+        line-height: 1.9;
+      }
+
+      .rail-rule {
+        margin-top: auto;
+        padding-top: 16px;
+        border-top: 1px solid var(--line-strong);
+        color: rgba(237, 244, 255, 0.42);
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
       }
 
       .section {
@@ -526,7 +561,9 @@ const {
           padding-left: 18px;
           padding-right: 18px;
         }
-        .intro-side { padding: 0; background: transparent; border: none; box-shadow: none; }
+        .editorial-rail {
+          padding: 0;
+        }
         .home-intro h1 { font-size: 44px; }
         .post-row { padding: 18px; }
         .post-row h3 { font-size: 24px; }
