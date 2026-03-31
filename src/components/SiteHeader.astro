@@ -1,0 +1,39 @@
+---
+import { navLinks, siteMeta } from '../data/site';
+
+interface Props {
+  note?: string;
+}
+
+const { note = siteMeta.headerNote } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string) {
+  if (href === '/') return currentPath === '/';
+  if (href === '/archive' && currentPath.startsWith('/posts/')) return true;
+  return currentPath === href || currentPath.startsWith(`${href}/`);
+}
+---
+<header class="site-header">
+  <div class="site-header__meta">
+    <a class="brand" href="/">
+      <span class="brand-mark"></span>
+      <span class="brand-copy">
+        <strong>{siteMeta.name}</strong>
+        <small>lab notebook / public edition</small>
+      </span>
+    </a>
+    <p class="site-header__note">{note}</p>
+  </div>
+
+  <nav class="site-nav" aria-label="Primary">
+    {navLinks.map((item) => (
+      <a class:list={['site-nav__link', { 'is-active': isActive(item.href) }]} href={item.href}>
+        {item.label}
+      </a>
+    ))}
+    <a class="site-nav__ghost" href="https://github.com/TWe1v3" rel="noreferrer" target="_blank">
+      GitHub
+    </a>
+  </nav>
+</header>

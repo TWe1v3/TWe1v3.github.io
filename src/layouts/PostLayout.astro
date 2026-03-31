@@ -1,5 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 interface Props {
   title: string;
@@ -12,27 +14,19 @@ const { title, description, date, tags = [] } = Astro.props;
 ---
 <BaseLayout title={`${title} - TWe1v3`} description={description ?? title}>
   <div class="article-shell">
-    <nav class="site-nav">
-      <a class="brand" href="/">
-        <span class="brand-mark"></span>
-        <span>TWe1v3</span>
-      </a>
-      <div class="nav-note">Security notes · operator systems · public research log</div>
-    </nav>
-
-    <div class="divider"></div>
+    <SiteHeader note="Long-form essays, field notes, and security/operator writing." />
     <a class="back-link" href="/">← Back to index</a>
 
-    <header class="article-header">
+    <header class="article-hero animate-rise">
       <div class="article-meta">
         <span>{date}</span>
         <span>Essay</span>
         <span>Field Notes</span>
       </div>
-      <h1>{title}</h1>
-      {description && <p class="article-desc">{description}</p>}
+      <h1 class="article-title">{title}</h1>
+      {description && <p class="article-lede">{description}</p>}
       {tags.length > 0 && (
-        <div class="tags">
+        <div class="tag-row">
           {tags.map((tag) => (
             <span class="tag">{tag}</span>
           ))}
@@ -40,12 +34,12 @@ const { title, description, date, tags = [] } = Astro.props;
       )}
     </header>
 
-    <main class="article-main">
+    <main class="prose-card animate-rise">
       <article class="prose">
         <slot />
       </article>
     </main>
 
-    <footer class="site-footer">TWe1v3 · Curated in public · Built for long-form technical reading</footer>
+    <SiteFooter label="Curated in public. Built for long-form technical reading." />
   </div>
 </BaseLayout>

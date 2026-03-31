@@ -1,196 +1,471 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { getAllPosts, getTagGroups } from '../lib/posts';
 
-const postModules = import.meta.glob('./posts/*.{astro,md}', { eager: true });
-const posts = Object.values(postModules)
-  .map((mod) => mod.postMeta ?? mod.frontmatter)
-  .filter(Boolean)
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
+const posts = getAllPosts();
+const tagGroups = getTagGroups();
 const featured = posts.slice(0, 3);
-const recent = posts.slice(3);
+const lead = featured[0];
+const secondary = featured.slice(1);
+const recent = posts.slice(3, 9);
 
-const signals = [
+const metrics = [
+  { label: 'Published essays', value: String(posts.length).padStart(2, '0'), copy: '公开文章，覆盖 agent、安全、自动化和方法论。' },
+  { label: 'Tracked themes', value: String(tagGroups.length).padStart(2, '0'), copy: '从已有标签里沉淀出的长期主题入口。' },
+  { label: 'Live surfaces', value: '03', copy: 'Archive、CVE、Updates 三条公开入口同步展开。' },
+  { label: 'Mode', value: 'Lab', copy: '不是流水线博客，而是持续更新的公开研究层。' }
+];
+
+const tracks = [
   {
-    title: 'CVE 挖掘工作流启动',
-    desc: '从目标池、patch diff、variant analysis 到 disclosure 模板，开始建立一条长期可跑的研究线路。',
-    href: '/cve',
-    meta: 'Research'
+    eyebrow: 'Track 01',
+    title: 'Agent systems',
+    desc: '跟踪 browser、OAuth、judge 和 submit boundary 的真实系统变化。',
+    href: '/updates',
+    link: 'Open the updates surface'
   },
   {
-    title: 'AI agent 边界持续跟踪',
-    desc: '围绕 browser、OAuth、judge、harness、notify / submit boundary 做连续观察与输出。',
-    href: '/updates',
-    meta: 'Signals'
+    eyebrow: 'Track 02',
+    title: 'CVE hunting',
+    desc: '维护目标池、patch diff 和 disclosure 节奏，不再把漏洞研究做成零散笔记。',
+    href: '/cve',
+    link: 'Open the CVE board'
+  },
+  {
+    eyebrow: 'Track 03',
+    title: 'Publication archive',
+    desc: '让正式文章、归档和标签形成长期回看入口，而不是只按时间滚动消失。',
+    href: '/archive',
+    link: 'Browse the archive'
   }
 ];
+
 ---
 <BaseLayout title="TWe1v3" description="能力沉淀、个人思考、自动化实验与安全研究。">
-  <div class="shell">
-    <nav class="site-nav">
-      <a class="brand" href="/">
-        <span class="brand-mark"></span>
-        <span>TWe1v3</span>
-      </a>
-      <div class="nav-links">
-        <a class="nav-link" href="/archive">Archive</a>
-        <a class="nav-link" href="/tags">Tags</a>
-        <a class="nav-link" href="/cve">CVE</a>
-        <a class="nav-link" href="/updates">Updates</a>
-        <a class="nav-link" href="/about">About</a>
-      </div>
-    </nav>
+  <div class="page-shell page-shell--wide">
+    <SiteHeader note="Editorial front page for security research, agent systems, CVE tracking, and operator notes." />
 
-    <div class="divider"></div>
-
-    <header class="home-intro">
-      <section class="hero-panel">
-        <div class="kicker">Public research hub</div>
-        <h1>把研究、监控、写作和长期判断，收敛成一个公开可见的工作台。</h1>
-        <p class="lede">这里不只是博客，也不只是文章归档。它会逐步变成一个持续更新的研究入口：一边发布正式写作，一边展示 CVE 挖掘、AI agent 边界、安全信号与自动化系统的长期观察。</p>
-        <div class="pill-row">
-          <span class="pill">Security research</span>
-          <span class="pill">CVE hunting</span>
-          <span class="pill">AI systems</span>
-          <span class="pill">Operator craft</span>
-        </div>
-      </section>
-
-      <aside class="editorial-rail">
-        <div class="rail-kicker">Operating posture</div>
-
-        <div class="rail-block">
-          <span class="rail-label">Publication rule</span>
-          <p>原始素材先留在私域验证，只有观点够稳、结构够清楚、能代表长期方向的内容，才进入公开层。</p>
+    <section class="hero hero--home animate-rise" style="display: block; padding: 36px 40px;">
+      <div class="hero-copy hero-copy--home" style="max-width: 100%;">
+        <div class="hero-topline">
+          <div class="eyebrow">Public edition</div>
+          <span class="hero-topline-copy">TWe1v3 / research journal</span>
         </div>
 
-        <div class="rail-block">
-          <span class="rail-label">Research focus</span>
-          <p>当前核心主题：AI agent 边界、自动化系统、CVE 挖掘、安全研究方法，以及实际工作流里的权限与控制面设计。</p>
+        <h1
+          class="hero-title hero-title--home"
+          style="font-size: clamp(28px, 3.4vw, 50px); line-height: 1.05; max-width: none; width: 100%; letter-spacing: -0.04em; margin-top: 18px; text-wrap: pretty;"
+        >
+          安全研究、agent 观察与公开写作的持续更新入口。
+        </h1>
+
+        <p class="hero-lede">一个持续更新的公开入口。</p>
+        <p class="hero-meta">文章负责输出判断，CVE / Updates / Tags 负责承接后续浏览。</p>
+
+        <div class="hero-actions">
+          <a class="hero-action" href="/archive">Read the archive ↗</a>
+          <a class="hero-inline" href="/about">Why this publication exists ↗</a>
         </div>
-
-        <div class="rail-block">
-          <span class="rail-label">Site direction</span>
-          <p>从静态文章站升级成 research publication + watchboard，既能发长文，也能放长期跟踪与高价值信号。</p>
-        </div>
-
-        <div class="rail-rule">Less blogging, more ongoing research.</div>
-      </aside>
-    </header>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Core surfaces</div>
-          <h2>What this site is becoming</h2>
-        </div>
-        <p class="section-copy">v2 的核心不是继续抠样式，而是把文章、更新流、研究看板和长期主题拆开，形成真正可持续浏览的公开结构。</p>
-      </div>
-
-      <div class="feature-grid">
-        <a class="feature-card" href="/cve">
-          <div class="meta-kicker">Watchboard</div>
-          <h3>CVE Monitor</h3>
-          <p>追踪值得深挖的目标、近期信号和后续 patch diff 方向，让安全研究不只停留在文章层。</p>
-          <span class="feature-link">Open CVE board →</span>
-        </a>
-        <a class="feature-card" href="/updates">
-          <div class="meta-kicker">Signals</div>
-          <h3>OpenAI / Claude Updates</h3>
-          <p>把官方更新、agent 能力演进与安全边界变化整理成一个轻量、可持续返回的动态流。</p>
-          <span class="feature-link">Open updates feed →</span>
-        </a>
-        <a class="feature-card" href="/archive">
-          <div class="meta-kicker">Publication</div>
-          <h3>Archive & Themes</h3>
-          <p>按时间和主题回看站点产出，把公开写作从“文章堆积”变成可导航、可复用的知识入口。</p>
-          <span class="feature-link">Browse archive →</span>
-        </a>
       </div>
     </section>
 
-    <section class="section">
-      <div class="section-head">
+    <section class="surface-strip animate-rise" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 20px;">
+      {tracks.map((track) => (
+        <a
+          class="surface-link"
+          href={track.href}
+          style="position: relative; overflow: hidden; padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--line); background: linear-gradient(180deg, rgba(255, 251, 244, 0.88), rgba(253, 248, 239, 0.8)); box-shadow: var(--shadow-soft);"
+        >
+          <div class="card-eyebrow">{track.eyebrow}</div>
+          <h2>{track.title}</h2>
+          <p>{track.desc}</p>
+          <span class="story-link">{track.link} ↗</span>
+        </a>
+      ))}
+    </section>
+
+    <section class="section-block section-block--feature animate-rise">
+      <div class="feature-intro">
         <div>
-          <div class="section-kicker">Featured writing</div>
-          <h2>Current essays</h2>
+          <div class="eyebrow">Lead essays</div>
+          <h2 class="section-title">先把最能代表判断边界和研究方向的文章放到前台。</h2>
         </div>
-        <p class="section-copy">先把最能代表判断边界与研究方向的文章放在前面。后续这里会继续变成 featured / signals / notes 的混合入口。</p>
+        <div class="feature-note">
+          <p>首页不再把文章堆成一个长列表，而是把一篇主打文章和两篇并列焦点拆开，让入口像封面页，而不是像数据库输出。</p>
+          <a class="inline-link" href="/archive">Browse full archive ↗</a>
+        </div>
       </div>
 
-      <div class="post-list">
-        {featured.map((post) => (
-          <a class="post-row" href={post.href}>
-            <div class="post-date">{post.date}</div>
-            <div>
+      <div class="feature-story-grid">
+        {lead && (
+          <a class="lead-story" href={lead.href}>
+            <div class="story-meta">{lead.date}</div>
+            <h2 class="story-title">{lead.title}</h2>
+            <p>{lead.desc}</p>
+            <div class="tag-row">
+              {lead.tags.map((tag) => <span class="tag">{tag}</span>)}
+            </div>
+            <span class="story-link">Read the lead essay ↗</span>
+          </a>
+        )}
+
+        <div class="story-stack">
+          {secondary.map((post) => (
+            <a class="compact-card" href={post.href}>
+              <div class="story-meta">{post.date}</div>
               <h3>{post.title}</h3>
               <p>{post.desc}</p>
-              {post.tags?.length ? (
-                <div class="pill-row">
-                  {post.tags.map((tag) => <span class="pill">{tag}</span>)}
-                </div>
-              ) : null}
-            </div>
-            <div class="post-link-mark">↗</div>
-          </a>
-        ))}
+              <div class="tag-row">
+                {post.tags.map((tag) => <span class="tag">{tag}</span>)}
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Current signals</div>
-          <h2>Live directions</h2>
-        </div>
-        <p class="section-copy">这里不是新闻位，而是“我现在正在持续看的东西”。后面会逐步从静态内容升级成半自动更新流。</p>
-      </div>
-
-      <div class="mini-card-grid">
-        {signals.map((signal) => (
-          <a class="mini-card" href={signal.href}>
-            <div class="meta-kicker">{signal.meta}</div>
-            <h3>{signal.title}</h3>
-            <p>{signal.desc}</p>
-            <span class="feature-link">Open →</span>
-          </a>
-        ))}
-      </div>
+    <section class="metric-grid home-metrics animate-rise">
+      {metrics.map((metric) => (
+        <article class="metric-card">
+          <div class="metric-label">{metric.label}</div>
+          <strong>{metric.value}</strong>
+          <p>{metric.copy}</p>
+        </article>
+      ))}
     </section>
 
-    <section class="section">
-      <div class="section-head">
+    <section class="section-block section-block--notebook animate-rise">
+      <div class="notebook-header">
         <div>
-          <div class="section-kicker">Archive</div>
-          <h2>Recent writing</h2>
+          <div class="eyebrow">Fresh from the notebook</div>
+          <h2 class="section-title">最近写作仍然保留，但它们现在属于一个更清楚的出版界面。</h2>
         </div>
-        <p class="section-copy">完整文章仍然保留，但它们现在属于更大结构的一部分，不再独自扛整站定位。</p>
+        <p class="notebook-copy">每篇文章都以卡片形式露出标题、摘要和标签，避免旧版那种一条条密集列表把内容压得过于窄和重。</p>
       </div>
 
-      <div class="post-list">
+      <div class="story-grid">
         {recent.map((post) => (
-          <a class="post-row" href={post.href}>
-            <div class="post-date">{post.date}</div>
-            <div>
-              <h3>{post.title}</h3>
-              <p>{post.desc}</p>
-              {post.tags?.length ? (
-                <div class="pill-row">
-                  {post.tags.map((tag) => <span class="pill">{tag}</span>)}
-                </div>
-              ) : null}
+          <a class="story-card" href={post.href}>
+            <div class="story-meta">{post.date}</div>
+            <h3 class="story-title">{post.title}</h3>
+            <p>{post.desc}</p>
+            <div class="tag-row">
+              {post.tags.map((tag) => <span class="tag">{tag}</span>)}
             </div>
-            <div class="post-link-mark">↗</div>
+            <span class="inline-link">Open essay ↗</span>
           </a>
         ))}
       </div>
     </section>
 
-    <section class="about-block">
-      <div class="section-kicker">Why this exists</div>
-      <p>目标不是做一个“也有博客”的站，而是把它逐步推成一个公开的 research publication：既承载正式写作，也承载你长期在做的监控、研究线索和方法论沉淀。后面我会继续补专题页、信号流、搜索与 feed，把这个入口真正做厚。</p>
+    <section class="section-block section-block--surfaces animate-rise">
+      <div class="surface-band">
+        <div class="eyebrow">Signal surfaces</div>
+        <p>回到站上时，应该先看到“我现在在持续看什么”，而不是先掉进一页又一页的时间流。</p>
+      </div>
+
+      <div class="signal-grid">
+        <a class="panel" href="/cve">
+          <div class="card-eyebrow">CVE board</div>
+          <h3>目标、工作流和近期信号放在一个地方看。</h3>
+          <p>把 watch targets、当前深挖对象、workflow stage 和后续 disclosure 节奏公开摆出来，方便持续累积研究状态。</p>
+          <span class="story-link">Open /cve ↗</span>
+        </a>
+        <a class="panel" href="/updates">
+          <div class="card-eyebrow">Updates</div>
+          <h3>跟踪真正会影响系统边界的 OpenAI / Claude 变化。</h3>
+          <p>只留下和 browser、tool use、submit boundary、OAuth、automation harness 相关的信号，不把页面做成新闻搬运。</p>
+          <span class="story-link">Open /updates ↗</span>
+        </a>
+        <a class="panel" href="/tags">
+          <div class="card-eyebrow">Themes</div>
+          <h3>按主题而不是按时间，把文章重新组织成长期入口。</h3>
+          <p>标签页不是单纯统计，而是从已有输出里抽出主题簇，逐步往专题页和专题索引演进。</p>
+          <span class="story-link">Open /tags ↗</span>
+        </a>
+      </div>
     </section>
 
-    <footer class="site-footer">TWe1v3 · Research, signals, and operator-grade clarity</footer>
+    <section class="manifesto-card animate-rise">
+      <div class="eyebrow">Why this front page exists</div>
+      <h2 class="section-title">目标不是“做一个更好看的博客”，而是把公开层做成真正有方向感的研究入口。</h2>
+      <p>这次重构的重点，是让首页像封面页、让专题页像工作面、让文章页像正式出版物。视觉会更鲜明，但真正重要的是结构更明确，信息不再互相稀释。</p>
+      <span class="story-link">Read the publication notes on /about ↗</span>
+    </section>
+
+    <SiteFooter label="Research, signals, and operator-grade clarity." />
   </div>
+
+  <style>
+    .hero--home {
+      padding: 36px 40px;
+    }
+
+    .hero-copy--home {
+      display: grid;
+      align-content: start;
+    }
+
+    .hero-topline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: center;
+    }
+
+    .hero-topline-copy {
+      color: var(--ink-muted);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .hero-title--home {
+      max-width: 11ch;
+      margin-top: 20px;
+      font-size: clamp(28px, 3.4vw, 50px);
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+    }
+
+    .hero-title--home em {
+      font-style: normal;
+      color: var(--accent-strong);
+    }
+
+    .hero-meta,
+    .feature-note p,
+    .notebook-copy,
+    .surface-band p {
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    .feature-note p {
+      margin: 0;
+    }
+
+    .hero-meta {
+      margin: 10px 0 0;
+      max-width: 36rem;
+      font-size: 15px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    .hero-action {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(196, 85, 50, 0.18);
+      background: rgba(196, 85, 50, 0.1);
+      color: var(--accent-strong);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        background-color 180ms ease;
+    }
+
+    .hero-action:hover {
+      transform: translateY(-1px);
+      border-color: rgba(196, 85, 50, 0.3);
+      background: rgba(196, 85, 50, 0.14);
+    }
+
+    .hero-inline {
+      color: var(--accent-2);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .hero-inline:hover {
+      color: var(--accent-2);
+    }
+
+    .surface-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .surface-link {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 251, 244, 0.88), rgba(253, 248, 239, 0.8));
+      box-shadow: var(--shadow-soft);
+      transition:
+        transform 200ms ease,
+        box-shadow 200ms ease,
+        border-color 200ms ease;
+    }
+
+    .surface-link:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: rgba(196, 85, 50, 0.22);
+    }
+
+    .surface-link::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(196, 85, 50, 0.1), transparent 72%);
+      pointer-events: none;
+    }
+
+    .surface-link > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .surface-link h2 {
+      margin: 8px 0 0;
+      font-family: var(--serif);
+      font-size: 24px;
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+    }
+
+    .surface-link p {
+      margin: 10px 0 0;
+      color: var(--ink-soft);
+      line-height: 1.7;
+    }
+
+    .home-metrics {
+      margin-top: 28px;
+    }
+
+    .home-metrics .metric-card {
+      padding: 16px 18px;
+      background: rgba(255, 251, 244, 0.62);
+      backdrop-filter: blur(10px);
+    }
+
+    .home-metrics .metric-card strong {
+      margin-top: 10px;
+      font-size: clamp(28px, 3vw, 42px);
+    }
+
+    .section-block--feature,
+    .section-block--notebook,
+    .section-block--surfaces {
+      padding-top: 28px;
+    }
+
+    .feature-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.7fr);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .feature-note {
+      display: grid;
+      gap: 12px;
+      padding-left: 18px;
+      border-left: 1px solid var(--line-strong);
+    }
+
+    .notebook-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px 28px;
+      margin-bottom: 18px;
+    }
+
+    .notebook-header > div {
+      max-width: 46rem;
+    }
+
+    .notebook-copy {
+      max-width: 24rem;
+      margin: 0;
+    }
+
+    .surface-band {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.38fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: center;
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 251, 244, 0.9), rgba(250, 243, 233, 0.84));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .surface-band p {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: clamp(24px, 3vw, 40px);
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+
+    @media (max-width: 960px) {
+      .surface-strip,
+      .feature-intro,
+      .surface-band {
+        grid-template-columns: 1fr;
+      }
+
+      .home-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .notebook-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero--home {
+        padding: 24px;
+      }
+
+      .hero-topline-copy {
+        font-size: 10px;
+      }
+
+      .home-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-action {
+        min-height: 40px;
+      }
+
+      .surface-band {
+        padding: 20px;
+      }
+    }
+  </style>
 </BaseLayout>

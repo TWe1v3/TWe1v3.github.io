@@ -1,64 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { getArchiveGroups } from '../lib/posts';
 
-const postModules = import.meta.glob('./posts/*.{astro,md}', { eager: true });
-const posts = Object.values(postModules)
-  .map((mod) => mod.postMeta ?? mod.frontmatter)
-  .filter(Boolean)
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-const grouped = Object.entries(
-  posts.reduce((acc, post) => {
-    const key = String(post.date).slice(0, 7);
-    acc[key] ??= [];
-    acc[key].push(post);
-    return acc;
-  }, {})
-);
+const grouped = getArchiveGroups();
 ---
 <BaseLayout title="Archive - TWe1v3" description="按时间浏览公开写作。">
   <div class="page-shell">
-    <nav class="site-nav">
-      <a class="brand" href="/">
-        <span class="brand-mark"></span>
-        <span>TWe1v3</span>
-      </a>
-      <div class="nav-links">
-        <a class="nav-link" href="/tags">Tags</a>
-        <a class="nav-link" href="/cve">CVE</a>
-        <a class="nav-link" href="/updates">Updates</a>
-        <a class="nav-link" href="/about">About</a>
-      </div>
-    </nav>
+    <SiteHeader note="Browse the publication by month, then jump into the essays that still matter." />
 
-    <div class="divider"></div>
-
-    <section class="page-panel">
-      <div class="page-kicker">Archive</div>
-      <h1 class="page-title">按时间回看公开输出。</h1>
+    <section class="page-hero animate-rise">
+      <div class="eyebrow">Archive</div>
+      <h1 class="page-title">按时间回看公开输出，但不要再像数据库列表那样读它们。</h1>
       <p class="page-lede">把文章按月份聚拢，方便持续回看站点的判断演进，而不只是浏览一串散乱列表。</p>
     </section>
 
-    <div class="page-grid">
+    <section class="archive-grid animate-rise">
       {grouped.map(([month, items]) => (
-        <section class="list-panel">
-          <div class="about-block">
-            <div class="section-kicker">{month}</div>
-          </div>
+        <section class="archive-group">
+          <div class="archive-month">{month}</div>
           {items.map((post) => (
-            <a class="list-item" href={post.href}>
-              <div class="list-meta">{post.date}</div>
-              <div>
-                <h3>{post.title}</h3>
-                <p>{post.desc}</p>
+            <a class="archive-entry" href={post.href}>
+              <div class="story-meta">{post.date}</div>
+              <h3>{post.title}</h3>
+              <p>{post.desc}</p>
+              <div class="tag-row">
+                {post.tags.map((tag) => <span class="tag">{tag}</span>)}
               </div>
-              <div class="post-link-mark">↗</div>
             </a>
           ))}
         </section>
       ))}
-    </div>
+    </section>
 
-    <footer class="site-footer">TWe1v3 · Archive of public writing</footer>
+    <SiteFooter label="Archive of public writing." />
   </div>
 </BaseLayout>

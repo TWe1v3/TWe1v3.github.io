@@ -1,0 +1,19 @@
+---
+import { siteMeta } from '../data/site';
+
+interface Props {
+  label?: string;
+}
+
+const { label = siteMeta.footerNote } = Astro.props;
+---
+<footer class="site-footer">
+  <div class="site-footer__copy">
+    <strong>{siteMeta.name}</strong>
+    <span>{label}</span>
+  </div>
+  <div class="site-footer__links">
+    <a href="https://github.com/TWe1v3/TWe1v3.github.io" rel="noreferrer" target="_blank">Source</a>
+    <a href="/about">About this publication</a>
+  </div>
+</footer>

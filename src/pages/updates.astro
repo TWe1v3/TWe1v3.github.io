@@ -1,65 +1,74 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 const updates = [
   {
     source: 'OpenAI',
-    title: '关注 browser / computer use / tool use 相关演进',
-    desc: '重点不只是能力更强，而是这些能力如何改变浏览器边界、提交动作和 agent harness 的默认风险面。'
+    title: 'Browser / computer use / tool use 相关演进',
+    desc: '重点不是模型更会点按钮，而是这些能力如何改变浏览器边界、提交动作和 harness 的默认风险面。'
   },
   {
     source: 'Anthropic / Claude',
-    title: '跟踪 Claude Code / tools / automation 方向',
-    desc: '这些更新会持续影响个人工作台设计：哪些动作能自动、哪些能力该默认上锁。'
+    title: 'Claude Code / tools / automation 方向',
+    desc: '这些更新会持续影响个人工作台设计：哪些动作可以交给 agent、哪些动作必须继续上锁。'
   },
   {
     source: 'Ecosystem',
-    title: '盯住 agent、OAuth、judge、security signal',
+    title: 'Agent、OAuth、judge、security signal',
     desc: '把官方更新、工程实践和安全研究串起来，而不是把它们拆成互不相干的碎片。'
   }
+];
+
+const watchRules = [
+  '优先记录会改变权限边界和默认风险面的变化。',
+  '不做新闻搬运，只保留值得继续跟踪的系统信号。',
+  '后续会逐步演进成半自动更新流，而不是继续手写静态段落。'
 ];
 ---
 <BaseLayout title="Updates - TWe1v3" description="OpenAI / Claude / agent ecosystem 更新流。">
   <div class="page-shell">
-    <nav class="site-nav">
-      <a class="brand" href="/">
-        <span class="brand-mark"></span>
-        <span>TWe1v3</span>
-      </a>
-      <div class="nav-links">
-        <a class="nav-link" href="/archive">Archive</a>
-        <a class="nav-link" href="/tags">Tags</a>
-        <a class="nav-link" href="/cve">CVE</a>
-        <a class="nav-link" href="/about">About</a>
-      </div>
-    </nav>
+    <SiteHeader note="The update stream keeps only the ecosystem changes that alter real system boundaries." />
 
-    <div class="divider"></div>
-
-    <section class="page-panel">
-      <div class="page-kicker">Signals</div>
-      <h1 class="page-title">把 OpenAI、Claude 和 agent 生态的更新，整理成可持续返回的动态流。</h1>
-      <p class="page-lede">这页后面会承载官方更新、能力演进和我的简短判断。重点不是做新闻搬运，而是把“哪些变化真的值得看”明确标出来。</p>
-      <div class="page-tag-row">
-        <span class="page-tag">OpenAI</span>
-        <span class="page-tag">Claude</span>
-        <span class="page-tag">Agent Signals</span>
+    <section class="page-hero animate-rise">
+      <div class="eyebrow">Signals</div>
+      <h1 class="page-title">把 OpenAI、Claude 和 agent 生态的变化，整理成值得反复回来的动态入口。</h1>
+      <p class="page-lede">这页后面会承载官方更新、能力演进和我的短判断。重点不是新闻感，而是把真正会改变浏览器边界、工具边界和权限设计的变化明确留下来。</p>
+      <div class="tag-row">
+        <span class="tag">OpenAI</span>
+        <span class="tag">Claude</span>
+        <span class="tag">Agent Signals</span>
       </div>
     </section>
 
-    <section class="list-panel">
-      {updates.map((item) => (
-        <div class="list-item">
-          <div class="list-meta">{item.source}</div>
-          <div>
-            <h3>{item.title}</h3>
-            <p>{item.desc}</p>
-          </div>
-          <div class="post-link-mark">↗</div>
+    <section class="split-grid animate-rise">
+      <section class="panel">
+        <div class="card-eyebrow">What belongs here</div>
+        <h3>只记录会改变默认操作面和默认风险面的更新。</h3>
+        <p>真正值得长期记录的，不是“又多了一个 feature”，而是这些 feature 如何改变浏览器自动化、授权流程、提交动作和系统边界。</p>
+        <div class="tag-row">
+          {watchRules.map((item) => <span class="tag">{item}</span>)}
         </div>
+      </section>
+
+      <section class="timeline-card">
+        <div class="card-eyebrow">Tracking lens</div>
+        <h3>每次看更新，我更关心它怎么影响真实工作流。</h3>
+        <p>如果某个变化会让 agent 更贴近已登录浏览器、更接近真实提交动作，或者更容易跨越对象边界，它就值得进这页。</p>
+      </section>
+    </section>
+
+    <section class="story-grid animate-rise">
+      {updates.map((item) => (
+        <article class="story-card">
+          <div class="story-meta">{item.source}</div>
+          <h3 class="story-title">{item.title}</h3>
+          <p>{item.desc}</p>
+        </article>
       ))}
     </section>
 
-    <footer class="site-footer">TWe1v3 · Official updates and ecosystem signals</footer>
+    <SiteFooter label="Official updates and ecosystem signals." />
   </div>
 </BaseLayout>

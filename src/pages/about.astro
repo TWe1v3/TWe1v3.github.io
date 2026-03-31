@@ -1,47 +1,116 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+const principles = [
+  {
+    eyebrow: 'Principle 01',
+    title: '先筛选，再公开',
+    desc: '原始草稿、实验记录和即时判断先留在私域知识库里。公开层只保留真正能代表长期方向、值得反复引用的内容。'
+  },
+  {
+    eyebrow: 'Principle 02',
+    title: '页面是工作面，不是装饰页',
+    desc: 'CVE、Updates、Tags 这些页面存在的价值，不是填满导航，而是承担持续观察和长期导航的角色。'
+  },
+  {
+    eyebrow: 'Principle 03',
+    title: '文章要能回看',
+    desc: '写作不是为了刷频率，而是为了让将来的自己和读者能回看判断怎么形成、怎么修正、怎么沉淀成方法。'
+  }
+];
+
+const surfaces = [
+  {
+    title: 'Essays',
+    desc: '正式文章，承载完整判断和方法论。',
+    href: '/archive'
+  },
+  {
+    title: 'Watchboards',
+    desc: '专题页，承载持续跟踪的对象和动态线索。',
+    href: '/cve'
+  },
+  {
+    title: 'Signals',
+    desc: '轻量更新流，记录值得继续观察的演进。',
+    href: '/updates'
+  }
+];
 ---
 <BaseLayout title="About - TWe1v3" description="关于这个公开研究站。">
   <div class="page-shell">
-    <nav class="site-nav">
-      <a class="brand" href="/">
-        <span class="brand-mark"></span>
-        <span>TWe1v3</span>
-      </a>
-      <div class="nav-links">
-        <a class="nav-link" href="/archive">Archive</a>
-        <a class="nav-link" href="/tags">Tags</a>
-        <a class="nav-link" href="/cve">CVE</a>
-        <a class="nav-link" href="/updates">Updates</a>
-      </div>
-    </nav>
+    <SiteHeader note="How the public layer is curated, what gets published, and why the site is structured this way." />
 
-    <div class="divider"></div>
-
-    <section class="page-panel">
-      <div class="page-kicker">About</div>
+    <section class="page-hero animate-rise">
+      <div class="eyebrow">About the publication</div>
       <h1 class="page-title">一个公开的研究入口，而不只是文章容器。</h1>
       <p class="page-lede">这个站用来发布经过筛选和打磨后的公开输出。原始草稿、实验过程、零碎记录，会先留在私域知识库里；公开层只保留真正能代表长期方向的内容。</p>
-      <div class="page-tag-row">
-        <span class="page-tag">Security</span>
-        <span class="page-tag">Automation</span>
-        <span class="page-tag">CVE</span>
-        <span class="page-tag">AI Agent</span>
+      <div class="tag-row">
+        <span class="tag">Security</span>
+        <span class="tag">Automation</span>
+        <span class="tag">CVE</span>
+        <span class="tag">AI Agent</span>
       </div>
     </section>
 
-    <div class="page-grid">
-      <section class="page-panel">
-        <div class="section-kicker">What gets published</div>
-        <p>这里会放四类内容：能力沉淀、个人判断、自动化实验、安全研究。目标不是刷频率，而是把值得长期保留的判断和方法论写成公开资产。</p>
-      </section>
+    <section class="section-block animate-rise">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Editorial rules</div>
+          <h2 class="section-title">公开层的标准，不是更勤奋地发，而是更清楚地筛。</h2>
+        </div>
+        <p class="section-copy">这页不是自我介绍简历，而是说明这个站为什么存在、怎么挑内容、以及为什么要把文章、看板和更新流分开做。</p>
+      </div>
 
-      <section class="page-panel">
-        <div class="section-kicker">Current themes</div>
-        <p>当前重点关注：AI agent 边界、browser / OAuth / harness / judge / notify / submit boundary、CVE 挖掘工作流、以及个人工作台的长期可持续设计。</p>
-      </section>
-    </div>
+      <div class="track-grid">
+        {principles.map((item) => (
+          <article class="track-card">
+            <div class="card-eyebrow">{item.eyebrow}</div>
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </article>
+        ))}
+      </div>
+    </section>
 
-    <footer class="site-footer">TWe1v3 · Public research layer</footer>
+    <section class="section-block animate-rise">
+      <div class="split-grid">
+        <article class="panel">
+          <div class="card-eyebrow">What gets published</div>
+          <h3>这里会放四类内容：能力沉淀、个人判断、自动化实验、安全研究。</h3>
+          <p>公开层不是工作日志，也不是灵感速记，而是把值得长期保留、值得被反复引用的判断和方法论打磨成公开资产。</p>
+        </article>
+
+        <article class="panel">
+          <div class="card-eyebrow">Current themes</div>
+          <h3>当前重点关注 agent 边界、CVE 挖掘工作流和个人工作台设计。</h3>
+          <p>核心关键词包括 browser、OAuth、judge、submit gate、notify boundary、patch diff、variant analysis，以及权限面设计。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-block animate-rise">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Site surfaces</div>
+          <h2 class="section-title">站点被拆成三种页面，是为了让不同类型的信息各自承担清晰职责。</h2>
+        </div>
+        <p class="section-copy">文章页负责完整表达，专题页负责长期跟踪，更新页负责保留轻量信号。三者混在一起时，站点只会越来越像一堵墙。</p>
+      </div>
+
+      <div class="signal-grid">
+        {surfaces.map((item) => (
+          <a class="panel" href={item.href}>
+            <div class="card-eyebrow">{item.title}</div>
+            <p>{item.desc}</p>
+            <span class="story-link">Open →</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <SiteFooter label="Public research layer." />
   </div>
 </BaseLayout>

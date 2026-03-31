@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 const watchTargets = [
   { name: 'Zammad', note: '当前首个实操目标，适合沿 IDOR / ticket ownership / query injection 做深入分析。', status: 'active' },
@@ -11,64 +13,81 @@ const latest = [
   { title: '建立 CVE 挖掘工作流', meta: 'Workflow', desc: '目标池、评分卡、漏洞笔记模板和 disclosure 路径已经开始落地，后续这里会接入更真实的 watchboard 数据。' },
   { title: 'Zammad 进入首轮深挖', meta: 'Current target', desc: '已完成代码热点初扫与 GHSL 线索收集，下一步围绕 ticket 与授权边界继续下钻。' }
 ];
+
+const workflow = [
+  'Target pool',
+  'Patch diff',
+  'Variant analysis',
+  'Write-up',
+  'Disclosure'
+];
 ---
 <BaseLayout title="CVE Monitor - TWe1v3" description="CVE 目标与研究信号看板。">
   <div class="page-shell">
-    <nav class="site-nav">
-      <a class="brand" href="/">
-        <span class="brand-mark"></span>
-        <span>TWe1v3</span>
-      </a>
-      <div class="nav-links">
-        <a class="nav-link" href="/archive">Archive</a>
-        <a class="nav-link" href="/tags">Tags</a>
-        <a class="nav-link" href="/updates">Updates</a>
-        <a class="nav-link" href="/about">About</a>
-      </div>
-    </nav>
+    <SiteHeader note="A watchboard for targets, workflow stages, and the current state of the CVE research line." />
 
-    <div class="divider"></div>
-
-    <section class="page-panel">
-      <div class="page-kicker">CVE watchboard</div>
-      <h1 class="page-title">把漏洞挖掘从想法，推成持续运行的研究线。</h1>
-      <p class="page-lede">这里后面会逐步承载值得深挖的项目、近期安全信号、patch diff 候选、watchlist 和我自己的简短判断。当前版本先把结构立起来。</p>
-      <div class="page-tag-row">
-        <span class="page-tag">CVE</span>
-        <span class="page-tag">Patch Diff</span>
-        <span class="page-tag">Variant Analysis</span>
+    <section class="page-hero animate-rise">
+      <div class="eyebrow">CVE watchboard</div>
+      <h1 class="page-title">把漏洞挖掘从“想做的事情”，推进成持续运行的研究线。</h1>
+      <p class="page-lede">这里后面会逐步承载值得深挖的项目、近期信号、patch diff 候选、watchlist 和简短判断。当前版本先把目标、流程和当前状态立清楚。</p>
+      <div class="tag-row">
+        <span class="tag">CVE</span>
+        <span class="tag">Patch Diff</span>
+        <span class="tag">Variant Analysis</span>
       </div>
     </section>
 
-    <div class="page-grid">
-      <section class="mini-card-grid">
+    <section class="story-grid animate-rise">
+      {latest.map((item) => (
+        <article class="story-card">
+          <div class="story-meta">{item.meta}</div>
+          <h3 class="story-title">{item.title}</h3>
+          <p>{item.desc}</p>
+        </article>
+      ))}
+    </section>
+
+    <section class="split-grid animate-rise">
+      <section class="panel">
+        <div class="card-eyebrow">Workflow</div>
+        <h3>当前工作流不是抽象概念，而是一条要不断循环的研究链。</h3>
+        <div class="tag-row">
+          {workflow.map((item) => <span class="tag">{item}</span>)}
+        </div>
+        <p>目标池负责筛候选，patch diff 找信号，variant analysis 做扩展验证，最终再沉淀成 write-up 和 disclosure 节奏。</p>
+      </section>
+
+      <section class="panel">
+        <div class="card-eyebrow">Operating rule</div>
+        <h3>先聚焦少量高价值目标，再把方法做厚。</h3>
+        <p>这页不会把目标池摊得很散。当前策略是先把少量高价值项目吃透，再把方法论复制到更多目标上。</p>
+      </section>
+    </section>
+
+    <section class="page-grid animate-rise">
+      <section class="panel">
+        <div class="card-eyebrow">Watch targets</div>
+        {watchTargets.map((item) => (
+          <article class="archive-entry">
+            <div class="story-meta">{item.status}</div>
+            <h3>{item.name}</h3>
+            <p>{item.note}</p>
+          </article>
+        ))}
+      </section>
+
+      <section class="panel">
+        <div class="card-eyebrow">Latest movement</div>
         {latest.map((item) => (
-          <div class="mini-card">
-            <div class="meta-kicker">{item.meta}</div>
+          <article class="archive-entry">
+            <div class="story-meta">{item.meta}</div>
             <h3>{item.title}</h3>
             <p>{item.desc}</p>
-          </div>
+          </article>
         ))}
       </section>
+    </section>
 
-      <section class="list-panel">
-        <div class="about-block">
-          <div class="section-kicker">Watch targets</div>
-          <p class="page-copy">先聚焦少量高价值目标，形成长期可复用的方法，而不是把目标池摊得太散。</p>
-        </div>
-        {watchTargets.map((item) => (
-          <div class="list-item">
-            <div class="list-meta">{item.status}</div>
-            <div>
-              <h3>{item.name}</h3>
-              <p>{item.note}</p>
-            </div>
-            <div class="post-link-mark">•</div>
-          </div>
-        ))}
-      </section>
-    </div>
-
-    <footer class="site-footer">TWe1v3 · CVE hunting board</footer>
+    <SiteFooter label="CVE hunting board." />
   </div>
 </BaseLayout>
