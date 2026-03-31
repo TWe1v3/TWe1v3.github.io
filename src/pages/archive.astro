@@ -16,7 +16,7 @@ const grouped = getArchiveGroups();
       <p class="page-lede">把文章按月份聚拢，方便持续回看站点的判断演进，而不只是浏览一串散乱列表。</p>
     </section>
 
-    <section class="archive-grid animate-rise">
+    <section class="archive-grid archive-grid--stack animate-rise">
       {grouped.map(([month, items]) => (
         <section class="archive-group">
           <div class="archive-month">{month}</div>
@@ -36,4 +36,14 @@ const grouped = getArchiveGroups();
 
     <SiteFooter label="Archive of public writing." />
   </div>
+
+  <style>
+    .archive-grid--stack {
+      grid-template-columns: 1fr;
+    }
+
+    .archive-grid--stack .archive-group {
+      width: 100%;
+    }
+  </style>
 </BaseLayout>
