@@ -1,0 +1,78 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: '别把 Prompt 当一整段字符串：真正值钱的是装配边界、运行期补料和 tool loop',
+  date: '2026-03-31',
+  desc: '这篇文章不再泛泛谈“提示词工程”，而是顺着一条真实 agent 调用链拆三件事：system prompt 怎么分层装配，运行期上下文怎么注入，tool_use 怎么闭环回流。真正可复用的不是某句文案，而是 prompt、context、attachments、tools、cache 各自的边界。',
+  href: '/posts/prompt-assembly-tool-loop-operator-view',
+  tags: ['Blog', 'Automation', 'AI']
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <h2>关键判断</h2>
+  <ul>
+    <li>模型真正吃到的从来不是“一整段 prompt”，而是 <code>systemPrompt + systemContext + userContext + messages + attachments</code> 的组合。</li>
+    <li><code>getSystemPrompt()</code> 只该负责骨架；真正发请求时，再把运行期上下文和本轮补料按不同通道塞进去。</li>
+    <li>提示词工程里最值钱的不是把文案写长，而是把<strong>缓存命中、动态项隔离、运行期补料、工具回流</strong>拆成不同层。</li>
+    <li><code>tool_use</code> 的重点也不是“能不能调起来”，而是有没有经过 schema、hooks、permission、telemetry，再把结果可靠回流给下一轮模型。</li>
+    <li>如果要把这套设计借到自己的 agent 框架里，最该先抄的是边界设计，不是提示词文案本身。</li>
+  </ul>
+
+  <p>最近我在顺着一份恢复出来的源码往下剖，重点只看三件事：system prompt 怎么拼，运行期上下文怎么补，tool_use 怎么形成闭环。看完之后最强烈的感受不是“这家 prompt 写得真长”，而是：成熟一点的 agent 框架，真正值钱的地方从来不是一大段华丽 system prompt，而是它怎么把 prompt、context、attachments、tools 和 cache 拆成可独立演进的层。</p>
+
+  <p>很多团队一聊 prompt 工程，注意力就会直接掉到文案上：第一句怎么写、语气怎么控、规则放前面还是后面。可一旦系统进入运行态，真正决定效果和稳定性的，通常不是哪一句更“聪明”，而是这条调用链有没有层次：哪些内容稳定可缓存，哪些是会话态动态信息，哪些属于本轮用户输入的补料，哪些是工具执行后的结果回流。如果这些边界没分开，再好的 prompt 最后也会被运行时拼接成一锅粥。</p>
+
+  <h2>主链路其实很清楚：装配、注入、调用、回流</h2>
+  <p>这条链路抽象起来并不复杂。入口先做 Prompt 装配：拿默认 system prompt、拿 userContext、拿 systemContext，再视情况叠自定义块。到了真正发请求之前，再把 <code>systemContext</code> 追加到 system prompt，把 <code>userContext</code> 包装成一条 meta user message 插入消息流最前面。模型一旦进入主循环，如果出现 <code>tool_use</code>，系统就转去工具编排与执行；工具执行完返回 <code>tool_result</code>，再和附件补料、relevant memory、skill discovery 一起回流到下一轮 query 里。</p>
+
+  <p>换句话说，模型吃到的不是一个静态大字符串，而是一个组合对象。system prompt 管规矩，systemContext 管环境态，userContext 管本轮前置提示，attachments 管即时补料，tool results 则负责把外部世界的变化带回来。把这五层揉成一层写当然也能跑，但会让缓存更脆、调试更难、运行期边界更糊。真正老练的实现，反而是有意识地让每一层只承担一种职责。</p>
+
+  <h2><code>getSystemPrompt()</code> 只该搭骨架，而且要为缓存让路</h2>
+  <p>这套实现里，一个很值得学的点是：<code>getSystemPrompt()</code> 并不是直接吐一大段字符串，而是先按 section 注册成数组。数组前半段是稳定、可复用、适合缓存的静态块；后半段才是和当前 session 条件相关的动态块。中间专门放一条动态边界，明确告诉系统：前缀适合命中 cache，后缀则可能随当前环境而变。</p>
+
+  <p>这比很多 agent 框架的写法成熟太多。后者常见的做法是一路 if / else 直接把 prompt 拼烂，最后一点点动态项都能把整个 system prompt 前缀击碎。看起来开发简单，代价却是：缓存命中率越来越差，定位某一段提示是哪里注入的越来越难，最后每次调试都像在翻一团湿纸。把动态边界显式化，本质上不是优化技巧，而是工程纪律。</p>
+
+  <p>另一个很关键的设计是 section 注册器。动态 section 不是散落在各处的条件分支，而是统一走一套注册接口。有的 section 默认可缓存，有的 section 明确被标成 uncached，并且会显式说明“这段会打破缓存”。这意味着作者从一开始就把提示词分成了两种资源：一种是高复用规则块，一种是会话时态块。很多人把 cache 当成上线后才补的性能活，但在 agent 场景里，最好是第一天就按 cache 边界来设计 prompt。</p>
+
+  <h2>运行期上下文不是一份，而是至少两条通道</h2>
+  <p>另一个特别容易被忽略的点是：运行期上下文并不只有一份。这里至少有两条来源完全不同的通道。</p>
+
+  <p>第一条是 <strong>userContext</strong>。它通常来自工作目录下的指令文件，比如 <code>CLAUDE.md</code> 一类，再补一条当前日期。它更像是面向模型的“前情提要”或“场景提醒”，和用户消息一起进入消息流。第二条是 <strong>systemContext</strong>。它更多承载环境态，例如当前目录是不是 git 仓库、开局时刻的 <code>git status</code>、最近提交、主分支名，或者某些显式 cache breaker。这类信息不会直接进入静态 system prompt，而是在真正发请求前附加到 system prompt 尾部。</p>
+
+  <p>为什么要拆成两条？因为它们语义上就不一样。userContext 更像给模型的“背景说明”，systemContext 则更像“执行环境快照”。如果把它们都糊进 system prompt，看起来省事，实际上会让规则、环境、用户态混在一起。现在这种拆法，至少让每类信息的定位都很清楚：system prompt 管长期规则，systemContext 管短期环境，userContext 管本轮前置提醒。这个边界一旦立住，调试和缓存都会轻松不少。</p>
+
+  <h2>memory 其实至少有两层：机制声明和本轮预抓</h2>
+  <p>memory 也是很多实现里最容易搅混的一块。成熟一点的做法，往往会把它拆成两层。第一层是“机制层”：通过 memory prompt 告诉模型，你有记忆能力、该怎么使用记忆、什么时候应该回忆。这一层进的是 system prompt 的动态 section，本质上是在建立行为规范。第二层是“补料层”：本轮 query 开始时，异步做 relevant memory prefetch，提前把和当前输入最可能相关的记忆片段抓出来，当作 attachments 或额外结果回流给模型。</p>
+
+  <p>这两层解决的是不同问题。前者解决“模型会不会用记忆”，后者解决“这轮该补哪段记忆”。把两件事混在一起，就很容易变成每一轮都把一大坨历史塞进 prompt，既慢，又浪费 token，还经常冲淡当前任务焦点。真正干净的方式，是先在 system prompt 里讲清楚记忆规则，再在运行期只喂与当前请求相关的少量材料。</p>
+
+  <h2>真正的模型调用发生在 <code>query()</code>，不是在 Prompt 组装阶段</h2>
+  <p>很多人容易把“Prompt 已经拼好”和“模型即将收到什么”混为一谈，但这两件事并不相同。真正关键的动作，发生在 <code>query()</code> 里：系统先把 <code>systemContext</code> 追加到 system prompt，得到最终的 <code>fullSystemPrompt</code>；再把 <code>userContext</code> 包装成一条特殊的前置用户消息，插进消息流最前面；最后才带着完整的 <code>messages</code>、<code>systemPrompt</code> 和本轮参数发给模型。</p>
+
+  <p>这一步的价值在于：它把“骨架”和“运行态”真正分开了。你可以把 <code>getSystemPrompt()</code> 看成一个稳定的提示词构造器，但别把它误以为就是模型看到的全部。模型最终看到的是经过运行时再装配后的产物。很多工程事故，其实就是因为团队误以为 prompt 在注册阶段已经是最终形态，结果后面 query 里又偷偷塞了一堆上下文进去，出了问题却不知道该去哪一层排查。</p>
+
+  <h2><code>tool_use</code> 的重点不是能调起来，而是要形成闭环</h2>
+  <p>工具链路也是同样的道理。多数 demo 喜欢展示“模型触发了工具”，但真正能撑起系统稳定性的，不是那个瞬间，而是后面的闭环。成熟一点的实现会先把工具按并发安全性分批：只读或声明了 concurrency-safe 的工具可以并行跑，其他的老老实实串行。这样既不激进到所有工具一起轰，也不保守到全部顺序执行。</p>
+
+  <p>更重要的是，每次工具调用并不会直接落地，而是至少要过几道关：先做工具定义与别名解析，再做 schema 和输入校验，再跑 <code>PreToolUse</code> hooks，然后才进入 permission 决策与 telemetry 记录。这里最值钱的一点是 permission 层不仅可以决定“让不让调”，还可能改写输入。也就是说，权限系统不是一个单纯的布尔开关，而是工具执行前的最后一道策略层。</p>
+
+  <p>如果一套 agent 工具链没有 schema、没有 hook、没有 permission，也没有 telemetry，它当然也能在 demo 里跑起来，但那只是“会调用”，不是“可执行系统”。一旦进入真实工作流，问题就会全部暴露出来：模型会不会乱写参数、工具会不会越权、执行后出了事能不能审计、用户事后能不能知道发生了什么。闭环的价值，不在于让 tool call 成功，而在于让 tool call 能在工程系统里长期存在。</p>
+
+  <h2>tool result 也不是终点，下一轮还会继续补料</h2>
+  <p>更进一步，工具结果通常还不是本轮的终点。在真正收尾之前，系统往往还会把附件补料、relevant memory、skill discovery，甚至 queued commands、date change 这些运行期附加信息，再一起塞回 <code>toolResults</code> 或下一轮 query 上下文里。换句话说，下一轮 assistant 看到的不是“工具输出完毕，世界静止”，而是“工具输出 + 这轮顺手补到的外部上下文”组成的新状态。</p>
+
+  <p>这一点很重要，因为它决定了 agent 是不是只会机械地“调工具—读结果—回答”，还是能够在工具回流后继续吸收环境变化。真正成熟的 agent，不应该把工具调用看成一条死路，而应该把它看成 query 主循环的一部分：每次 tool result 都可能带回新的附件、新的记忆、新的技能线索，继而影响下一轮推理。</p>
+
+  <h2>这套设计里，最值得借走的不是文案，而是分层方法</h2>
+  <p>如果让我总结这份源码里最有价值、也最适合借去自己框架里的东西，我会把优先级排成这样。</p>
+
+  <p>第一，先抄 system prompt 的<strong>分段注册 + 动态边界</strong>。因为这是最能直接改善缓存命中和可维护性的部分。第二，再抄 query 阶段的 <strong>user/system context 双通道注入</strong>，因为这能把“规则”和“环境”明确拆开。第三，再抄工具链的 <strong>schema → hooks → permission → telemetry → result 回流</strong> 闭环，因为这是从“能用”走向“工程可用”的关键。最后才轮到 relevant memory prefetch 和 skill discovery，这些更像第二阶段优化，而不是第一天就必须全有。</p>
+
+  <p>很多团队最容易犯的错误，是一上来就想复制别人的长 prompt，甚至连语气和措辞都一并抄走。可那往往是最不值钱的部分。真正值得学的，是它为什么把 cache、context、attachments 和 tools 拆在不同层；为什么有些内容必须进 system prompt，有些内容只能在 query 阶段注入；为什么 tool use 后面还需要 hooks、permission 和 telemetry。把这些边界搞清楚，比背十段提示词模板都更有复用价值。</p>
+
+  <h2>收口：Prompt 工程真正像工程的时刻，是它开始尊重边界</h2>
+  <p>到最后，这条调用链给我的最大启发反而很简单：别再把 Prompt 当成一整段越来越长的大字符串了。真正成熟的 agent 设计里，prompt 只是其中一层。system prompt 立规则，context 提供环境，attachments 提供本轮补料，tools 改变外部世界，再把结果回流给下一轮 query。缓存、记忆、权限和补料也都不该是“顺手塞点逻辑”，而该有自己的边界和职责。</p>
+
+  <p>一句话讲，就是：这套设计最强的地方，不是写出了一段很长的 prompt，而是把 prompt、上下文、工具、记忆、缓存都拆成了能独立演进的层。对任何真正想把 agent 做成长期系统的人来说，这比某一段漂亮文案重要得多。</p>
+</PostLayout>
