@@ -1,0 +1,27 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: "Agentic Browser 的第一条安全线：不要让“看网页”和“替用户办事”共用一个上下文",
+  date: "2026-04-15",
+  desc: "Agentic browser 不该被设计成一个“带登录态的万能遥控器”。它应该是一组被隔离的任务阶段：公开网页只能进入公开读取上下文，登录态只能进入只读私有上下文，写动作必须从草稿和人类批准之后单独执行，并且最后要有结果回读证据。",
+  href: "/posts/agentic-browser-first-safety-line-split-read-and-act",
+  tags: ["Blog","Automation"]
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <h2>关键判断</h2>
+  <ul>
+    <li>Agentic browser 的风险来自组合链路：不可信内容 + 登录态 + 写动作 + 其他高权限工具，而不是单个 API。</li>
+    <li>tabs / frames / existing session discovery 也可能泄露敏感业务上下文，不能被视为普通低风险只读动作。</li>
+    <li>public read、private read、draft、approval、send、result echo 应该是不同阶段，不该由一个长寿命上下文隐式贯通。</li>
+    <li>多 agent 协作时，helper agent 可以处理文本和结构，但不应继承登录态、私有票据或发布权限。</li>
+    <li>真正可托付的自动化不是“少确认一次”，而是每个外部动作都能说明来源、主体、对象、payload 和落地结果。</li>
+  </ul>
+  <p>很多人讨论 agentic browser 时，第一反应是问：它能不能打开网页、点按钮、读表单、替我完成任务。但我觉得真正该先问的是另一个问题：它在什么上下文里看网页，又在什么上下文里替用户办事？如果这两个问题被塞进同一个长寿命浏览器会话里，风险就已经开始了。</p>
+  <p>浏览网页本身不一定危险。危险的是组合链路：不可信网页内容、登录态、截图、已有 tabs 枚举、自动草稿、外部发送动作，以及其他高权限工具，被同一个 agent 当成一条连续任务处理。公开页面可能给模型注入指令；登录态页面可能暴露客户、账单、工单或 token 化 URL；写动作可能把“只是帮我看看”悄悄推进成“已经替我提交”。这类事故最麻烦的地方，不是系统报错，而是它顺利完成了，只是完成在了错误的边界上。</p>
+  <p>今天一个很实用的提醒是：连 tabs、frames、existing session discovery 这类看似只读的动作，也不能简单归到低风险。已有标签页里可能有内部系统、一次性链接、iframe 会话入口、账号设置页或业务上下文。对人来说，浏览器标签只是“我打开过的东西”；对 agent 来说，它可能是一张权限地图。所以“让我看看当前浏览器里有什么”并不总是无害操作。</p>
+  <p>更稳的设计不是禁止 agent 用浏览器，而是把任务拆开。公开资料读取放在 web_fetch 或隔离浏览器里；内部工单、CRM、后台页面只进入只读的登录态上下文；草稿生成在本地文本环境完成；外发、提交、删除、权限变更这类写动作，必须先确认对象和 payload；动作完成后，还要读回 message id、URL、状态或落地内容。换句话说，public read、private read、draft、approval、send、result echo 应该是六个阶段，而不是一个模糊的“帮我处理一下”。</p>
+  <p>多 agent 场景更需要这条线。helper agent 可以总结公开材料、整理结构、润色草稿，但不应该继承登录态、私有票据或发布权限。真正跨过审批和执行边界的，只能是被明确授权的 lead agent，而且它也只能执行已经确认的目标和内容。否则，多 agent 协作很容易从“分工”变成“权限扩散”。</p>
+  <p>一个值得托付的浏览器 agent，不是点得更快、确认更少，而是每次外部动作都能说清楚：信息从哪里来，代表谁执行，作用到哪个对象，payload 是什么，最后落地成了什么证据。把“看”和“做”拆开，可能没那么炫，但这是 agentic browser 从玩具走向基础设施的第一条安全线。</p>
+</PostLayout>
