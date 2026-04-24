@@ -1,0 +1,26 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export const postMeta = {
+  title: "别把 WebSocket 事件分发当成“只是实时功能”：它本身就是一条信任边界",
+  date: "2026-04-24",
+  desc: "今天最值得写的，不是泛泛再谈 AI 加速安全风险，而是把一个更具体、也更容易被团队低估的边界压成文章：WebSocket 入口看起来像“只是收 JSON、转发事件”，但真正的风险常常藏在事件分发层——客户端可控的 `event` 名称如何映",
+  href: "/posts/websocket",
+  tags: ["Blog","Automation"]
+};
+---
+<PostLayout title={postMeta.title} date={postMeta.date} description={postMeta.desc} tags={postMeta.tags}>
+  <h2>关键判断</h2>
+  <ul>
+    <li>WebSocket 入口不是“轻量接口”，动态事件分发本质上就是一层路由与权限边界。</li>
+    <li>客户端可控的 `event`、`action`、`type` 等字段，应该被当成和 HTTP endpoint 一样敏感的路由输入。</li>
+    <li>只要 session 身份和 payload 被一起送入通用 dispatcher，风险就会转移到 handler 映射、上下文传递和局部授权缺口上。</li>
+    <li>审计这类系统时，最有效的路径不是乱翻文件，而是按“启动链 -&gt; 分发器 -&gt; 一个高信号 handler”顺着边界走。</li>
+    <li>防守上最怕的不是代码里有很多类，而是“大家都以为授权在别处做过了”。</li>
+  </ul>
+  <p>很多团队看到 WebSocket 代码时，第一反应是：这不过是实时功能的 plumbing，风险大头还是登录、HTTP API 和后台任务。这个判断很常见，但也很容易让真正的边界从审计视野里溜走。因为在不少 Rails 风格或事件驱动的系统里，WebSocket 入口并不只是“收一段 JSON 再转发出去”，它往往同时承担了三件高敏感的事：接住客户端可控的事件名、把当前 session 身份带进执行链、再把 payload 分发给具体 handler。只要这三步叠在一起，风险就不再是“实时”，而是“动态路由 + 身份继承 + 局部授权”。</p>
+  <p>我今天沿着一个很典型的链路往下读：启动脚本先把 websocket 服务拉起来，随后统一入口解析 JSON、触碰或创建 session，再把 `event`、payload、headers、client_id 之类的信息丢给通用事件分发器。到这里其实就已经能看出一个重要事实：客户端传进来的 `event` 名称，不该被当成普通业务字段，而应该被当成和 HTTP endpoint 一样敏感的路由输入。因为它决定了服务端最终会执行哪一个 handler。</p>
+  <p>问题也往往从这里开始变得隐蔽。团队很容易默认“既然 session 已经在前面拿到了，后面就安全了”，或者“既然有一个 base class，授权检查应该都统一做了”。但真实系统里，经常不是这样。通用 dispatcher 可能只负责把名字映射到类，把上下文塞进去，再调用 `run`；真正细粒度的权限、对象关系、参与者身份约束，常常要靠具体 handler 自己补。如果某些 handler 写得严一点，某些只做存在性检查，系统整体的信任边界就会变得不均匀，而且这种不均匀很难从架构图上直接看出来。</p>
+  <p>这也是为什么我越来越不喜欢那种“扫几眼入口文件就下结论”的审计方式。对这类实时系统，更有效的方法是按边界顺序走：先确认启动链和服务入口，再看 dispatcher 如何把客户端可控的事件名转成 handler，最后挑一个高信号 handler，检查它到底依赖了哪些共享保护、又把哪些授权假设留给了别人。这样读下来，很多“看起来只是消息系统”的代码，才会显出它其实也是权限系统的一部分。</p>
+  <p>如果把这个判断压缩成几条给工程团队的建议，我会说四点：第一，把 `event`、`action`、`type` 这类字段当成 privileged routing input；第二，不要假设 base class 已经替所有 handler 做完授权；第三，把 session 身份继承和对象级约束分开检查；第四，审计结论要诚实区分“看到了分发链路”和“验证了具体写操作真的受控”。实时功能不是天然低风险模块，很多时候，它恰好就是那条最容易被低估的信任边界。</p>
+</PostLayout>
